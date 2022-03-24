@@ -1,5 +1,5 @@
-from modules.populationC import Population
-from modules.individualC import Individual
+from populationC import Population
+from individualC import Individual
 
 #se crea una nueva poblacion donde se especifican caracteristicas generales de esta
     #size es el numero de individuos

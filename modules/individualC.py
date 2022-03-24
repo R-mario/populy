@@ -9,7 +9,7 @@ import random
 class Individual():
 
     def __init__(self,nom,name,size,ploidy,gen1List,gen2List,
-                 vida_media,geneticPool):
+                 vida_media,geneticPool,gen=0):
         
         #quiza el "name"no sea necesario para nada
         self.spName = name
@@ -21,7 +21,7 @@ class Individual():
         self.geneticPool = geneticPool
         
         self.sex = self.sex()
-        self.ide = "id-"+str(nom)
+        self.ide = 'g'+str(gen)+".ID-"+str(nom)
         self.age = 0
         self.genotype = self.firstGenotipo() #or self.generateGen()
         
@@ -54,5 +54,8 @@ class Individual():
         return ("este individuo es {}, su sexo es {} y su genotipo es {}"
               .format(self.ide,self.sex,self.genotype))
     
-    def childrenGen(self,list_a,list_b):
+    def parentGenotype(self,):
+        '''
+        Metodo que guarda el genotipo de sus padres
+        '''
         pass

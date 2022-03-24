@@ -3,7 +3,7 @@ Clase Poblacion, permite crear una nueva poblacion, hacerla evolucionar
 y obtener resumen de sus caracteristicas.
 '''
 
-from modules.individualC import Individual
+from individualC import Individual
 
 import random
 import itertools
@@ -13,6 +13,7 @@ import itertools
 class Population:
     
     geneticPool = dict()
+
     
     def __init__(self,size = 100,name="Homo sapiens",ploidy = 2, vida_media=55,
                  R=0.1,mu = (1e-4,1e-4),freq={'A':(0.4,0.6),'B':(0.6,0.4)}):
@@ -27,6 +28,7 @@ class Population:
         self.mu = mu
         self.geneticPool = self.genotFreq()
         self.allGenotypes()
+        self.gen = 0
         
     def __str__(self):
         return ''.join([self.name])
@@ -62,6 +64,14 @@ class Population:
             show += -1
             if show == 0:
                 break
+    
+    def getInfo(poblacion):
+        '''Esta funcion recogera un resumen de la poblacion
+        y almacenara en un diccionario de clave 'generacion X' y valor una tupla
+        con la informacion de la frecuencia genotipica
+        '''
+        pass
+
                 
     #funcion que calcula las frecuencias genotipicas
     def genotFreq(self):
@@ -76,7 +86,7 @@ class Population:
         return self.geneticPool
         
     def getMeanAge(self):
-        #obtienes la edad media recorriendo la lista de individuos
+        '''obtienes la edad media recorriendo la lista de individuos'''
         try:
             meanAge = 0
             for obj in self.indiv:
@@ -101,24 +111,39 @@ class Population:
                     counter[key] += 1
         print(counter)
         
-    def evolvePop(self):
-        #crea lista vacia de individuos
-        self.childrenInd = []
-        #va introduciendo nuevos individuos hasta llegar al size de la poblacion
-        for x in range(self.size):
-            self.childrenInd.append(self.chooseMate())
+    def evolvePop(self,gens = 20,every=5):
+
+        for veces in range(gens):
+            #hacemos que poblacion apunte a la lista padre
+            poblacion = self.indiv
+            #vaciamos la lista individuos
+            self.childrenInd = []
+            #va introduciendo nuevos individuos hasta llegar al size de la poblacion
+            for x in range(self.size): 
+                self.childrenInd.append(self.chooseMate(x, poblacion))
+
+            #sobreescribimos la generacion padre por la hija
+            self.indiv = self.childrenInd
+
+            #cada x generaciones, printamos
+            if self.gen % every == 0:
+                #este print sera otro metodo para obtener un resumen de 
+                #la poblacion
+                self.printIndiv(show=5)
         
+            #aumentamos la generacion
+            self.gen += 1
         
-    def chooseMate(self):
+    def chooseMate(self,x,poblacion):
         #elige dos individuos de forma aleatoria
-        ind1,ind2 = random.choices(self.indiv,k=2)
-        print(f"Individuo 1: {ind1}\n Individuo 2: {ind2}")
+        ind1,ind2 = random.choices(poblacion,k=2)
+        #print(f"Individuo 1: {ind1}\n Individuo 2: {ind2}")
         #genera las frecuencias alelicas de ambos individuos
         self.findFreqAlleles(ind1,ind2)
         #genera las frecuencias genotipicas
         self.genotFreq()
         #nuevo nombre que se le pasara al Individual
-        Ind_Name = ind1.ide+ind2.ide
+        Ind_Name = x
         #genera un nuevo individuo y lo devuelve al metodo evolvePop
         return Individual(Ind_Name,
                          self.name,
@@ -127,7 +152,8 @@ class Population:
                          self.gen1List,
                          self.gen2List,
                          self.vida_media,
-                         self.geneticPool)
+                         self.geneticPool,
+                         self.gen)
     
     def findFreqAlleles(self,ind1,ind2):
         self.freq = dict()
@@ -141,4 +167,36 @@ class Population:
         freq_B = (ind1.genotype['gene_2'].count('B')+ind2.genotype['gene_2'].count('B'))/sizeB
         freq_b = (ind1.genotype['gene_2'].count('b')+ind2.genotype['gene_2'].count('b'))/sizeB
         self.freq['B']=(freq_B,freq_b)
+
+    def listIndividuals(self):
+        pass
+
+
+   
+if __name__ == '__main__':
+    #se crea una nueva poblacion donde se especifican caracteristicas generales de esta
+    #size es el numero de individuos
+    #name el nombre de la especie
+    #ploidy es la ploidia de la poblacion (haploide=1,diploide=2)
+    #vida media es la vida media
+    #freq son las frecuencias alelicas en cada locus, es una tupla de diccionarios
+    #mu es la tasa de mutacion de los alelos (de A a a y viceversa..)
     
+    shark = Population(size=100,
+                        name="Megadolon",
+                        ploidy=2,
+                        vida_media=23,
+                        freq={'A':(0.4,0.6),'B':(0.6,0.4)})
+
+    #se generan individuos en esa poblacion
+    shark.generateIndividuals()
+
+    #parametro opcional show, permite elegir cuantos elementos se muestran (por defecto se muestran 10)
+    shark.printIndiv(show=10)
+
+    shark.evolvePop()
+
+    shark.printIndiv(show=10)
+
+    #este metodo si lo llama el usuario te dara la info de la ultima generacion
+    #shark.getInfo(5)
