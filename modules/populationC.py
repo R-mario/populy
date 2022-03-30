@@ -12,7 +12,7 @@ import itertools
 #clase poblacion,atributos generales que heredara de los individuos
 class Population:
     
-    geneticPool = dict()
+    genotypeFreq = dict()
 
     
     def __init__(self,size = 100,name="Homo sapiens",ploidy = 2, vida_media=55,
@@ -21,13 +21,12 @@ class Population:
         self.name = name
         self.size = size
         self.ploidy = ploidy
-        self.gen1List = []
-        self.gen2List = []
         self.vida_media = vida_media
+
+        #frecuencia genotipica inicial
         self.freq = freq
         self.mu = mu
-        self.geneticPool = self.genotFreq()
-        self.allGenotypes()
+        self.genotypeFreq = self.genotFreq()
         self.gen = 0
         
     def __str__(self):
@@ -39,10 +38,8 @@ class Population:
         self.indiv = [Individual(i,self.name,
                                  self.size,
                                  self.ploidy,
-                                 self.gen1List,
-                                 self.gen2List,
                                  self.vida_media,
-                                 self.geneticPool) 
+                                 self.genotypeFreq) 
                       for i in range(self.size)]
         print("se han generado un total de {} individuos de la poblacion {}"
               .format(self.size,self.name))
@@ -73,17 +70,17 @@ class Population:
         pass
 
                 
-    #funcion que calcula las frecuencias genotipicas
+    #funcion que calcula las frecuencias genotipicas a partir de las alelicas
     def genotFreq(self):
         if self.ploidy == 2:
             for key,lista in self.freq.items():
-                self.geneticPool[key] = (lista[0]**2,
+                self.genotypeFreq[key] = (lista[0]**2,
                                          lista[0]*lista[1]*2,
                                          lista[1]**2)
-                self.geneticPool[key] = [x*self.size for x in self.geneticPool[key]]
+                self.genotypeFreq[key] = [x*self.size for x in self.genotypeFreq[key]]
         elif self.ploidy == 1:
-            self.geneticPool = self.freq
-        return self.geneticPool
+            self.genotypeFreq = self.freq
+        return self.genotypeFreq
         
     def getMeanAge(self):
         '''obtienes la edad media recorriendo la lista de individuos'''
@@ -96,11 +93,6 @@ class Population:
         except:
             print("No has inicializado la poblacion")
             
-    #esto quedara obsoleto       
-    def allGenotypes(self):
-       #genera una lista de tuplas(n=ploidy=2), cada tupla contiene un alelo
-        self.gen1List = [''.join(x) for x in itertools.combinations_with_replacement('Aa',2)]
-        self.gen2List = [''.join(x) for x in itertools.combinations_with_replacement('Bb',2)]
                 
     #muestra informacion genotipo
     def getGenotype(self):
@@ -110,10 +102,13 @@ class Population:
                 if individuo.genotype['gene_1'] == key or individuo.genotype['gene_2']==key:
                     counter[key] += 1
         print(counter)
-        
+
+
+
+      
     def evolvePop(self,gens = 20,every=5):
 
-        for veces in range(gens):
+        for veces in range(gens+1):
             #hacemos que poblacion apunte a la lista padre
             poblacion = self.indiv
             #vaciamos la lista individuos
@@ -130,6 +125,8 @@ class Population:
                 #este print sera otro metodo para obtener un resumen de 
                 #la poblacion
                 self.printIndiv(show=5)
+                self.getGenotype()
+                #self.printParentIndividuals(3)
         
             #aumentamos la generacion
             self.gen += 1
@@ -137,10 +134,11 @@ class Population:
     def chooseMate(self,x,poblacion):
         #elige dos individuos de forma aleatoria
         ind1,ind2 = random.choices(poblacion,k=2)
-        #print(f"Individuo 1: {ind1}\n Individuo 2: {ind2}")
-        #genera las frecuencias alelicas de ambos individuos
+        #guardamos los dos individuos en la variable parents
+        parents = ind1,ind2
+        #genera las ''frecuencias'' alelicas de ambos individuos
         self.findFreqAlleles(ind1,ind2)
-        #genera las frecuencias genotipicas
+        #genera las ''frecuencias'' genotipicas
         self.genotFreq()
         #nuevo nombre que se le pasara al Individual
         Ind_Name = x
@@ -149,15 +147,17 @@ class Population:
                          self.name,
                          self.size,
                          self.ploidy,
-                         self.gen1List,
-                         self.gen2List,
                          self.vida_media,
-                         self.geneticPool,
-                         self.gen)
+                         self.genotypeFreq,
+                         self.gen,
+                         parents)
     
     def findFreqAlleles(self,ind1,ind2):
+        '''vacia el diccionario freq y cuenta las A para ambos padres,las B para ambos...
+        esto lo almacena como freq (frecuencias alelicas)
+        esto hay que cambiarlo porque freq no puede variar con cada individuo'''
         self.freq = dict()
-        #debe haber alguna forma de hacerlo menos 'hard coded'
+        
         sizeA = len(ind1.genotype['gene_1'])+len(ind2.genotype['gene_1'])
         freq_A = (ind1.genotype['gene_1'].count('A')+ind2.genotype['gene_1'].count('A'))/sizeA
         freq_a = ind1.genotype['gene_1'].count('a')+ind1.genotype['gene_1'].count('a')/sizeA
@@ -171,6 +171,10 @@ class Population:
     def listIndividuals(self):
         pass
 
+    def printParentIndividuals(self,id=0):
+        print(self.indiv[id])
+        self.indiv[id].printParents()
+
 
    
 if __name__ == '__main__':
@@ -182,7 +186,7 @@ if __name__ == '__main__':
     #freq son las frecuencias alelicas en cada locus, es una tupla de diccionarios
     #mu es la tasa de mutacion de los alelos (de A a a y viceversa..)
     
-    shark = Population(size=100,
+    shark = Population(size=1000,
                         name="Megadolon",
                         ploidy=2,
                         vida_media=23,
@@ -198,5 +202,8 @@ if __name__ == '__main__':
 
     shark.printIndiv(show=10)
 
+    #printa el individuo que se quiere estudiar y sus padres
+    shark.printParentIndividuals(id=2)
+
     #este metodo si lo llama el usuario te dara la info de la ultima generacion
-    #shark.getInfo(5)
+    # shark.getInfo(5)
