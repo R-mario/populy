@@ -67,6 +67,8 @@ Lo siguiente a hacer es:
 Metodo que se llama dentro de *evolvePop*, toma como parametros x(se usara para formar su **ide**ntificador) y poblacion, que es la lista de **Individuals** de la cual escogeremos dos de ellos de forma aleatoria, despues guardamos ambos padres ind1,ind2 en una variable llamada parents que se pasara como atributo de clase a Individual, despues llamamos a findFreqAlleles() que modifica la variable freq ¡¡hay que cambiar esto!! para que sea la frecuencia alelica de los padres y genotFreq para que genere una nueva lista de frecuencias genotipicas ¡¡hay que cambiarlo tambien!!, despues se instancia un nuevo individuo que se devuelve a evolvePop
 
 ### findFreqAlleles(ind1,ind2)
+!!Ahora mismo sin usar por los problemas comentados abajo!!
+
 Se le pasan como atributos los dos individuos, de los cuales debera obtener las frecuencias alelicas sumando las ocurrencias de A,a y B,b para ambos. Estos valores sobreescribiran el antiguo diccionario freq, esto puede ser un poco confuso ya que antes freq indicaba una caractersitica de la poblacion y ahora indica la de dos individuos, quiza sea mejor crear un nuevo atributo llamado freqInd pero esto hara que sea necesario cambiar ligeramente el metodo genotFreq().
 
 
@@ -99,3 +101,5 @@ Elige un genotipo de forma aleatoria con pesos dados por **genotFreq**, solo se 
 Es un metodo dunder o magico que permite printar lo que indiques cuando escribas una instancia en lugar de darte la direccion de memoria
 ### printParents
 permite printar los padres del individudo
+### mating
+Obtiene el genotipo del hijo a partir de los padres, se hace de forma aleatoria de momento, y lo almacena en self.genotype.

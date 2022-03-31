@@ -33,10 +33,13 @@ class Individual():
         self.ide = 'g'+str(gen)+".ID-"+str(nom)
         self.age = 0
 
-        self.genotype = self.firstGenotype()
-    
-        # self.parentGenotype = {'ide1':'genotype1','ide2':'genotype2'}
         self.parents = parents
+        self.genotype = dict()
+        
+        self.firstGenotype()
+    
+        
+
         
     def sex(self):
         if randint(0,1)==0:
@@ -49,16 +52,20 @@ class Individual():
         pass
     
     def firstGenotype(self,homogeneous=False):
-
         genotype = {}
+        if self.parents == 0:
 
-        if homogeneous:
-            genotype = {'gene_1':'Aa','gene_2':'Bb'}
+            if homogeneous:
+                genotype = {'gene_1':'Aa','gene_2':'Bb'}
+            else:
+                genotype['gene_1']= ''.join(random.choices(Individual.gen1List,
+                                            weights=self.genotypeFreq['A'],k=1))
+                genotype['gene_2']= ''.join(random.choices(Individual.gen2List,
+                                            weights=self.genotypeFreq['B'],k=1))
+            print('hola')
+            self.genotype = genotype
         else:
-            genotype['gene_1']= ''.join(random.choices(Individual.gen1List,weights=self.genotypeFreq['A'],k=1))
-            genotype['gene_2']= ''.join(random.choices(Individual.gen2List,weights=self.genotypeFreq['B'],k=1))
-
-        return genotype
+            self.mating()
     
     #metodo dunder
     def __str__(self):
@@ -73,4 +80,41 @@ class Individual():
         con genotipo {self.parents[0].genotype}\n su madre es {self.parents[1].ide}
         con genotipo {self.parents[1].genotype}''')
         
-        pass
+    def mating(self):
+        '''Obtiene un genotipo a partir de los padres'''
+        p1_genotype = self.parents[0].genotype
+        p2_genotype = self.parents[1].genotype
+
+        if self.parents != 0:
+            # para el alelo A
+            if randint(0,1)==0:
+                aleloA_p1 = p1_genotype['gene_1'][0]
+                if randint(0,1)==0:
+                    aleloA_p2 = p2_genotype['gene_1'][0]
+                else:
+                    aleloA_p2 = p2_genotype['gene_1'][1]
+            else:
+                aleloA_p1 = p1_genotype['gene_1'][1]
+                if randint(0,1)==0:
+                    aleloA_p2 = p2_genotype['gene_1'][0]
+                else:
+                    aleloA_p2 = p2_genotype['gene_1'][1]
+            # para B
+            if randint(0,1)==0:
+                aleloB_p1 = p1_genotype['gene_2'][0]
+                if randint(0,1)==0:
+                    aleloB_p2 = p2_genotype['gene_2'][0]
+                else:
+                    aleloB_p2 = p2_genotype['gene_2'][1]
+            else:
+                aleloB_p1 = p1_genotype['gene_2'][1]
+                if randint(0,1)==0:
+                    aleloB_p2 = p2_genotype['gene_2'][0]
+                else:
+                    aleloB_p2 = p2_genotype['gene_2'][1]
+        
+            self.genotype['gene_1'] = aleloA_p1+aleloA_p2
+            self.genotype['gene_2'] = aleloB_p1+aleloB_p2
+
+            
+

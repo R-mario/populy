@@ -95,7 +95,7 @@ class Population:
             
                 
     #muestra informacion genotipo
-    def getGenotype(self):
+    def printGenotype(self):
         counter = {'AA':0,'Aa':0,'aa':0,'BB':0,'Bb':0,'bb':0}      
         for individuo in self.indiv:
             for key in counter:
@@ -108,7 +108,9 @@ class Population:
       
     def evolvePop(self,gens = 20,every=5):
 
-        for veces in range(gens+1):
+        for veces in range(0,gens):
+            #aumentamos la generacion
+            self.gen += 1
             #hacemos que poblacion apunte a la lista padre
             poblacion = self.indiv
             #vaciamos la lista individuos
@@ -125,24 +127,23 @@ class Population:
                 #este print sera otro metodo para obtener un resumen de 
                 #la poblacion
                 self.printIndiv(show=5)
-                self.getGenotype()
+                self.printGenotype()
                 #self.printParentIndividuals(3)
         
-            #aumentamos la generacion
-            self.gen += 1
         
     def chooseMate(self,x,poblacion):
-        #elige dos individuos de forma aleatoria
-        ind1,ind2 = random.choices(poblacion,k=2)
+        # elige dos individuos de forma aleatoria
+        ind1,ind2 = random.choices(poblacion,k=2) 
         #guardamos los dos individuos en la variable parents
         parents = ind1,ind2
-        #genera las ''frecuencias'' alelicas de ambos individuos
-        self.findFreqAlleles(ind1,ind2)
-        #genera las ''frecuencias'' genotipicas
-        self.genotFreq()
-        #nuevo nombre que se le pasara al Individual
+        # genera las ''frecuencias'' alelicas de ambos individuos, SIN USAR
+        #self.findFreqAlleles(ind1,ind2)
+        # genera las ''frecuencias'' genotipicas, NO ES NECESARIO AQUI
+        #self.genotFreq()
+        # nuevo nombre que se le pasara al Individual
+
         Ind_Name = x
-        #genera un nuevo individuo y lo devuelve al metodo evolvePop
+        # genera un nuevo individuo y lo devuelve al metodo evolvePop
         return Individual(Ind_Name,
                          self.name,
                          self.size,
@@ -152,6 +153,7 @@ class Population:
                          self.gen,
                          parents)
     
+    # SIN USAR: la eleccion de genotipo se hace ahora en la clae individual
     def findFreqAlleles(self,ind1,ind2):
         '''vacia el diccionario freq y cuenta las A para ambos padres,las B para ambos...
         esto lo almacena como freq (frecuencias alelicas)
@@ -186,7 +188,7 @@ if __name__ == '__main__':
     #freq son las frecuencias alelicas en cada locus, es una tupla de diccionarios
     #mu es la tasa de mutacion de los alelos (de A a a y viceversa..)
     
-    shark = Population(size=1000,
+    shark = Population(size=10,
                         name="Megadolon",
                         ploidy=2,
                         vida_media=23,
@@ -197,6 +199,9 @@ if __name__ == '__main__':
 
     #parametro opcional show, permite elegir cuantos elementos se muestran (por defecto se muestran 10)
     shark.printIndiv(show=10)
+
+    #muestra la cantidad de individuos con 'AA','aa'...
+    shark.printGenotype()
 
     shark.evolvePop()
 
