@@ -62,7 +62,7 @@ class Individual():
                                             weights=self.genotypeFreq['A'],k=1))
                 genotype['gene_2']= ''.join(random.choices(Individual.gen2List,
                                             weights=self.genotypeFreq['B'],k=1))
-            print('hola')
+
             self.genotype = genotype
         else:
             self.mating()
@@ -113,8 +113,11 @@ class Individual():
                 else:
                     aleloB_p2 = p2_genotype['gene_2'][1]
         
-            self.genotype['gene_1'] = aleloA_p1+aleloA_p2
-            self.genotype['gene_2'] = aleloB_p1+aleloB_p2
+            a = aleloA_p1+aleloA_p2
+            b = aleloB_p1+aleloB_p2
+            #se aplica esto para que todos los 'Aa' aparezcan asi en lugar de 'aA'
+            self.genotype['gene_1'] = ''.join(sorted(a))
+            self.genotype['gene_2'] = ''.join(sorted(b))
 
             
 

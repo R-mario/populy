@@ -28,13 +28,16 @@ class Population:
         self.mu = mu
         self.genotypeFreq = self.genotFreq()
         self.gen = 0
+
+        # igual a freq pero es una lista (se usara para printar)
+        self.alleleFreqs = {k: [v[0]] for k,v in freq.items()}
         
     def __str__(self):
         return ''.join([self.name])
     
-    #genera indivividuos
+    # genera indivividuos
     def generateIndividuals(self):
-        #ejecuta la funcion para crear las variables globales que contengan los genotipos posibles
+        # ejecuta la funcion para crear las variables globales que contengan los genotipos posibles
         self.indiv = [Individual(i,self.name,
                                  self.size,
                                  self.ploidy,
@@ -44,7 +47,7 @@ class Population:
         print("se han generado un total de {} individuos de la poblacion {}"
               .format(self.size,self.name))
         
-    #printa individuos        
+    # printa individuos        
     def printIndiv(self,show=5,children=True):
         show = abs(show)
         listaAtrib = ['ide','sex','genotype']
@@ -57,20 +60,27 @@ class Population:
             
         for x in objectList:
             print (*[getattr(x,y) for y in listaAtrib],sep="\t")
-            #contador inverso, si se han enseñado show elementos para la ejecucion
+            # contador inverso, si se han enseñado show elementos para la ejecucion
             show += -1
             if show == 0:
                 break
     
-    def getInfo(poblacion):
-        '''Esta funcion recogera un resumen de la poblacion
-        y almacenara en un diccionario de clave 'generacion X' y valor una tupla
-        con la informacion de la frecuencia genotipica
+    def plotInfo(self):
+        '''Esta funcion recogera un resumen del cambio en las frecuencias
+        alelicas a lo largo de las generaciones, tambien obtiene un grafico del
+        cambio. Se utilizan las librerias pandas y matplotlib
         '''
-        pass
+        import pandas as pd
+        import matplotlib.pyplot as plt
+        df = pd.DataFrame(self.alleleFreqs)
+        print(df)
+
+        df.plot()
+        plt.show()
+        
 
                 
-    #funcion que calcula las frecuencias genotipicas a partir de las alelicas
+    # funcion que calcula las frecuencias genotipicas a partir de las alelicas
     def genotFreq(self):
         if self.ploidy == 2:
             for key,lista in self.freq.items():
@@ -94,14 +104,42 @@ class Population:
             print("No has inicializado la poblacion")
             
                 
-    #muestra informacion genotipo
+    # muestra informacion genotipo
     def printGenotype(self):
-        counter = {'AA':0,'Aa':0,'aa':0,'BB':0,'Bb':0,'bb':0}      
+        
+        # calcula la frecuencia alelica a partir de la genotipica 
+        def aleleFreq():
+            popFreq = dict()
+            popFreq['A']= list()
+            popFreq['B']= list()
+            popFreq['A'].append((2*absFreq['AA']+absFreq['Aa'])/(2*self.size))
+            popFreq['A'].append((2*absFreq['aa']+absFreq['Aa'])/(2*self.size))
+
+            popFreq['B'].append((2*absFreq['BB']+absFreq['Bb'])/(2*self.size))
+            popFreq['B'].append((2*absFreq['bb']+absFreq['Bb'])/(2*self.size))
+
+            return popFreq
+        
+        absFreq = {'AA':0,'Aa':0,'aa':0,'BB':0,'Bb':0,'bb':0}    
+        # cuenta las ocurrencias en la poblacion de los distintos genotipos  
         for individuo in self.indiv:
-            for key in counter:
+            for key in absFreq:
                 if individuo.genotype['gene_1'] == key or individuo.genotype['gene_2']==key:
-                    counter[key] += 1
-        print(counter)
+                    absFreq[key] += 1
+
+        # relFreq = dict()
+        # for valores in absFreq.keys():
+        #     relFreq[valores+' %'] = round((absFreq[valores]/self.size)*100,2)
+
+        print(f'Generacion {self.gen}','frecuencia absoluta: ',absFreq,sep='\n')
+        # print('frecuencia relativa: ',relFreq,sep='\n')
+
+        alFreq = aleleFreq()
+        # metemos los valores de frecuencias alelicas en la variable      
+        for k in alFreq:
+            self.alleleFreqs[k].append(alFreq[k][0])
+
+        print('frecuencia alelica: ',self.alleleFreqs,sep='\n')
 
 
 
@@ -126,7 +164,7 @@ class Population:
             if self.gen % every == 0:
                 #este print sera otro metodo para obtener un resumen de 
                 #la poblacion
-                self.printIndiv(show=5)
+                #self.printIndiv(show=5)
                 self.printGenotype()
                 #self.printParentIndividuals(3)
         
@@ -180,15 +218,15 @@ class Population:
 
    
 if __name__ == '__main__':
-    #se crea una nueva poblacion donde se especifican caracteristicas generales de esta
-    #size es el numero de individuos
-    #name el nombre de la especie
-    #ploidy es la ploidia de la poblacion (haploide=1,diploide=2)
-    #vida media es la vida media
-    #freq son las frecuencias alelicas en cada locus, es una tupla de diccionarios
-    #mu es la tasa de mutacion de los alelos (de A a a y viceversa..)
+    # se crea una nueva poblacion donde se especifican caracteristicas generales de esta
+    # size es el numero de individuos
+    # name el nombre de la especie
+    # ploidy es la ploidia de la poblacion (haploide=1,diploide=2)
+    # vida media es la vida media
+    # freq son las frecuencias alelicas en cada locus, es una tupla de diccionarios
+    # mu es la tasa de mutacion de los alelos (de A a a y viceversa..)
     
-    shark = Population(size=10,
+    shark = Population(size=50,
                         name="Megadolon",
                         ploidy=2,
                         vida_media=23,
@@ -205,10 +243,10 @@ if __name__ == '__main__':
 
     shark.evolvePop()
 
-    shark.printIndiv(show=10)
+    shark.printIndiv(show=5)
 
     #printa el individuo que se quiere estudiar y sus padres
     shark.printParentIndividuals(id=2)
+    # obtiene un resumen del cambio en la frecuencia alelica
+    shark.plotInfo()
 
-    #este metodo si lo llama el usuario te dara la info de la ultima generacion
-    # shark.getInfo(5)
