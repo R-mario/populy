@@ -19,7 +19,8 @@ class Individual():
 
 
     def __init__(self,nom,name,size,ploidy,
-                 vida_media,genotypeFreq,gen=0,parents=0):
+                 vida_media,genotypeFreq,freq,d,R,gen=0,
+                 parents=0):
         
         #quiza el "name"no sea necesario para nada
         self.spName = name
@@ -27,6 +28,8 @@ class Individual():
         self.spPloidy = ploidy
 
         self.vida_media = vida_media
+        # habra que pasar la frecuencia alelica mejor
+        self.alFreq = dict()
         self.genotypeFreq = genotypeFreq
         
         self.sex = self.sex()
@@ -35,8 +38,17 @@ class Individual():
 
         self.parents = parents
         self.genotype = dict()
+        self.chromosome = dict()
+
+        self.d = d
+        self.alFreq = freq
+        self.R = R
+
+        # en proceso de modificacion, dentro de esta se llama a self.gameticFreq
+        self.firstGenotype(iniType='heterozygosis')
+
         
-        self.firstGenotype()
+
     
         
 
@@ -51,35 +63,82 @@ class Individual():
         #el usuario debera pasar algun parametro para indicar la dist por edades
         pass
     
-    def firstGenotype(self,homogeneous=False):
+    def firstGenotype(self,iniType=str()):
         genotype = {}
         if self.parents == 0:
 
-            if homogeneous:
+            if iniType == 'heterozygosis':
                 genotype = {'gene_1':'Aa','gene_2':'Bb'}
-            else:
+            elif iniType == 'Random':
                 genotype['gene_1']= ''.join(random.choices(Individual.gen1List,
                                             weights=self.genotypeFreq['A'],k=1))
                 genotype['gene_2']= ''.join(random.choices(Individual.gen2List,
                                             weights=self.genotypeFreq['B'],k=1))
 
             self.genotype = genotype
+            # llamamos a la funcion que genera de 0 nuevos cromosoma para cada indv
+            self.gameticFreq()
         else:
             self.mating()
+            self.newMating()
+
+    # Calcula la frecuencia gametica a partir de las frecuencias alelicas y D
+    def gameticFreq(self):
+        f = self.alFreq
+        d = self.d
+        fGametes = dict()
+        fGametes['AB'] = f['A'][0]*f['B'][0]+d
+        fGametes['Ab'] = f['A'][0]*f['B'][1]-d
+        fGametes['aB'] = f['A'][1]*f['B'][0]-d
+        fGametes['ab'] = f['A'][1]*f['B'][1]+d
+
+        return self.chooseGametes(fGametes)
+
+    # Elige un gameto segun su probabilidad (frecuencia)
+    def chooseGametes(self,fGametes):
+        chromosome = dict()
+        gameto =list(fGametes.keys())
+        pesos = list(fGametes.values())
+        for i in range(1,self.spPloidy+1):
+            chromosome['c'+str(i)]= ''.join(random.choices(gameto,
+                                            weights=pesos,k=1))
+
+        self.chromosome = chromosome
+
+
     
-    #metodo dunder
+    # metodo dunder
     def __str__(self):
         return ("este individuo es {}, su sexo es {} y su genotipo es {}"
-              .format(self.ide,self.sex,self.genotype))
+              .format(self.ide,self.sex,self.chromosome))
     
     def printParents(self,):
         '''
         Metodo que printa los padres del primer individuo
         '''
         print(f'''su padre es {self.parents[0].ide}, 
-        con genotipo {self.parents[0].genotype}\n su madre es {self.parents[1].ide}
-        con genotipo {self.parents[1].genotype}''')
+        con genotipo {self.parents[0].chromosome}\n su madre es {self.parents[1].ide}
+        con genotipo {self.parents[1].chromosome}''')
+
+    # calcula
+    def newMating(self):
+        r = self.R
+        recomb = ((1-r)/2,(1-r)/2,r/2,r/2)
+        for x in range(len(self.parents)):
+            c1P = self.parents[x].chromosome['c1']
+            c2P = self.parents[x].chromosome['c2']
+
+            ch_P = [c1P,c2P,c1P[0]+c2P[1],c2P[0]+c1P[1]]
+            # print('el padre tiene estas combinaciones: ',ch_P,recomb)
+            self.chromosome['c'+str(x+1)]= random.choices(ch_P,weights=recomb,k=1)[0]
+            # print('da lugar a este chromosoma: ',self.chromosome['c'+str(x+1)])
+        # print(self.ide)
+        # print('el resultado es: ',self.chromosome)
         
+
+
+
+
     def mating(self):
         '''Obtiene un genotipo a partir de los padres'''
         p1_genotype = self.parents[0].genotype

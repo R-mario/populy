@@ -7,6 +7,8 @@ from individualC import Individual
 
 import random
 import itertools
+import pandas as pd
+import matplotlib.pyplot as plt
 
 
 #clase poblacion,atributos generales que heredara de los individuos
@@ -16,12 +18,14 @@ class Population:
 
     
     def __init__(self,size = 100,name="Homo sapiens",ploidy = 2, vida_media=55,
-                 R=0.1,mu = (1e-4,1e-4),freq={'A':(0.4,0.6),'B':(0.6,0.4)}):
+                 R=0.1,mu = (1e-4,1e-4),freq={'A':(0.4,0.6),'B':(0.6,0.4)},D=0.1):
                  
         self.name = name
         self.size = size
         self.ploidy = ploidy
         self.vida_media = vida_media
+        self.d = D
+        self.R = R
 
         #frecuencia genotipica inicial
         self.freq = freq
@@ -32,25 +36,35 @@ class Population:
         # igual a freq pero es una lista (se usara para printar)
         self.alleleFreqs = {k: [v[0]] for k,v in freq.items()}
         
+        
+        
     def __str__(self):
         return ''.join([self.name])
     
     # genera indivividuos
     def generateIndividuals(self):
         # ejecuta la funcion para crear las variables globales que contengan los genotipos posibles
-        self.indiv = [Individual(i,self.name,
+        self.indiv = [Individual(i,
+                                self.name,
                                  self.size,
                                  self.ploidy,
                                  self.vida_media,
-                                 self.genotypeFreq) 
+                                 self.genotypeFreq,
+                                 self.freq,
+                                 self.d,
+                                 self.R,
+                                 self.gen) 
                       for i in range(self.size)]
         print("se han generado un total de {} individuos de la poblacion {}"
               .format(self.size,self.name))
         
+        # se crean nuevas variables de la poblacion
+        self.cum_gamF = self.gameticFreq()
+        
     # printa individuos        
     def printIndiv(self,show=5,children=True):
         show = abs(show)
-        listaAtrib = ['ide','sex','genotype']
+        listaAtrib = ['ide','sex','chromosome']
         print(*listaAtrib,sep="\t")
         if children==True and hasattr(self,'childrenInd'):
             print("print chidren")
@@ -70,9 +84,7 @@ class Population:
         alelicas a lo largo de las generaciones, tambien obtiene un grafico del
         cambio. Se utilizan las librerias pandas y matplotlib
         '''
-        import pandas as pd
-        import matplotlib.pyplot as plt
-        df = pd.DataFrame(self.alleleFreqs)
+        df = pd.DataFrame(self.cum_gamF,index=[0])
         print(df)
 
         df.plot()
@@ -104,42 +116,33 @@ class Population:
             print("No has inicializado la poblacion")
             
                 
-    # muestra informacion genotipo
-    def printGenotype(self):
-        
-        # calcula la frecuencia alelica a partir de la genotipica 
-        def aleleFreq():
-            popFreq = dict()
-            popFreq['A']= list()
-            popFreq['B']= list()
-            popFreq['A'].append((2*absFreq['AA']+absFreq['Aa'])/(2*self.size))
-            popFreq['A'].append((2*absFreq['aa']+absFreq['Aa'])/(2*self.size))
+    # calcula el numero de gametos distintos en la poblacion
+    def gameticFreq(self):
+        # frecuencia gametica observada
+        obsGamf = {'AB':0,'Ab':0,'aB':0,'ab':0}    
 
-            popFreq['B'].append((2*absFreq['BB']+absFreq['Bb'])/(2*self.size))
-            popFreq['B'].append((2*absFreq['bb']+absFreq['Bb'])/(2*self.size))
-
-            return popFreq
-        
-        absFreq = {'AA':0,'Aa':0,'aa':0,'BB':0,'Bb':0,'bb':0}    
         # cuenta las ocurrencias en la poblacion de los distintos genotipos  
         for individuo in self.indiv:
-            for key in absFreq:
-                if individuo.genotype['gene_1'] == key or individuo.genotype['gene_2']==key:
-                    absFreq[key] += 1
+            for key in obsGamf:
+                if individuo.chromosome['c1'] == key:
+                    obsGamf[key] += 1
+                if individuo.chromosome['c2']==key:
+                    obsGamf[key] += 1
+        
+        return obsGamf
+    
+    def freqGamAcumulada(self):
 
-        # relFreq = dict()
-        # for valores in absFreq.keys():
-        #     relFreq[valores+' %'] = round((absFreq[valores]/self.size)*100,2)
+        obsGamf = self.gameticFreq()
 
-        print(f'Generacion {self.gen}','frecuencia absoluta: ',absFreq,sep='\n')
-        # print('frecuencia relativa: ',relFreq,sep='\n')
+        print(f'Generacion {self.gen}','frecuencia absoluta: ',obsGamf,sep='\n')
 
-        alFreq = aleleFreq()
-        # metemos los valores de frecuencias alelicas en la variable      
-        for k in alFreq:
-            self.alleleFreqs[k].append(alFreq[k][0])
+        # frecuencias gameticas acumuladas (durante las generaciones)
+        for k in obsGamf:
+            self.cum_gamF[k] = self.cum_gamF[k].append(obsGamf[k])
 
-        print('frecuencia alelica: ',self.alleleFreqs,sep='\n')
+        print(self.cum_gamF)
+        # print('frecuencia alelica: ',self.alleleFreqs,sep='\n')
 
 
 
@@ -164,20 +167,21 @@ class Population:
             if self.gen % every == 0:
                 #este print sera otro metodo para obtener un resumen de 
                 #la poblacion
-                #self.printIndiv(show=5)
-                self.printGenotype()
+                self.printIndiv(show=5)
+                # shark.printParentIndividuals(id=2)
+                # self.printSummary()
                 #self.printParentIndividuals(3)
         
         
     def chooseMate(self,x,poblacion):
         # elige dos individuos de forma aleatoria
-        ind1,ind2 = random.choices(poblacion,k=2) 
+        while True:
+            ind1,ind2 = random.choices(poblacion,k=2)
+            # comprueba que sean de sexos distintos
+            if ind1.sex != ind2.sex:
+                break 
         #guardamos los dos individuos en la variable parents
         parents = ind1,ind2
-        # genera las ''frecuencias'' alelicas de ambos individuos, SIN USAR
-        #self.findFreqAlleles(ind1,ind2)
-        # genera las ''frecuencias'' genotipicas, NO ES NECESARIO AQUI
-        #self.genotFreq()
         # nuevo nombre que se le pasara al Individual
 
         Ind_Name = x
@@ -188,9 +192,34 @@ class Population:
                          self.ploidy,
                          self.vida_media,
                          self.genotypeFreq,
+                         self.freq,
+                         self.d,
+                         self.R,
                          self.gen,
                          parents)
+
+    def printSummary(self):
+        tam = len(self.indiv)
+
+        sex = {'Male':0,'Female':0}
+        for x in range(tam):
+            sexo = self.indiv[x].sex
+            if sexo == 'Male':
+                sex['Male'] = sex['Male'] + 1
+            else:
+                sex['Female'] =sex['Female']+ 1
+
+        print(f'Hay {len(self.indiv)} individuos\n{sex} son machos\t',
+                f'{sex} son hembras \n\n el desequilibrio de ligamiento (LD) =',
+                f'{self.d} \n frecuencia de recombinacion = {self.R} ',
+                f' la generacion es {self.gen} las frecuencias gameticas', 
+                f'hasta esta generacion son {self.cum_gamF}')
+
+    def printParentIndividuals(self,id=0):
+        print(self.indiv[id])
+        self.indiv[id].printParents()
     
+
     # SIN USAR: la eleccion de genotipo se hace ahora en la clae individual
     def findFreqAlleles(self,ind1,ind2):
         '''vacia el diccionario freq y cuenta las A para ambos padres,las B para ambos...
@@ -208,13 +237,6 @@ class Population:
         freq_b = (ind1.genotype['gene_2'].count('b')+ind2.genotype['gene_2'].count('b'))/sizeB
         self.freq['B']=(freq_B,freq_b)
 
-    def listIndividuals(self):
-        pass
-
-    def printParentIndividuals(self,id=0):
-        print(self.indiv[id])
-        self.indiv[id].printParents()
-
 
    
 if __name__ == '__main__':
@@ -224,24 +246,29 @@ if __name__ == '__main__':
     # ploidy es la ploidia de la poblacion (haploide=1,diploide=2)
     # vida media es la vida media
     # freq son las frecuencias alelicas en cada locus, es una tupla de diccionarios
+    # D es el desequilibrio de ligamiento de AB
+    # R es la tasa de recombinacion
     # mu es la tasa de mutacion de los alelos (de A a a y viceversa..)
     
-    shark = Population(size=50,
+    shark = Population(size=5,
                         name="Megadolon",
                         ploidy=2,
                         vida_media=23,
-                        freq={'A':(0.4,0.6),'B':(0.6,0.4)})
+                        freq={'A':(0.4,0.6),'B':(0.6,0.4)},
+                        D = 0.1,
+                        R=0)
 
     #se generan individuos en esa poblacion
     shark.generateIndividuals()
 
+
     #parametro opcional show, permite elegir cuantos elementos se muestran (por defecto se muestran 10)
-    shark.printIndiv(show=10)
+    shark.printIndiv(show=5)
 
     #muestra la cantidad de individuos con 'AA','aa'...
-    shark.printGenotype()
+    shark.printSummary()
 
-    shark.evolvePop()
+    shark.evolvePop(gens=100,every=10)
 
     shark.printIndiv(show=5)
 
