@@ -36,6 +36,8 @@ class Population:
         # igual a freq pero es una lista (se usara para printar)
         self.alleleFreqs = {k: [v[0]] for k,v in freq.items()}
         
+        # variable booleana interrumpe la evolucion
+        self.stopEv = False
         
         
     def __str__(self):
@@ -87,7 +89,7 @@ class Population:
         df = pd.DataFrame(self.cum_gamF,index=[0])
         print(df)
 
-        df.plot()
+        df.plot.bar()
         plt.show()
         
 
@@ -150,19 +152,22 @@ class Population:
     def evolvePop(self,gens = 20,every=5):
 
         for veces in range(0,gens):
+            # si hay que parar la evolucion por algun motivo, sale del bucle
+            if self.stopEv:
+                break
             #aumentamos la generacion
             self.gen += 1
             #hacemos que poblacion apunte a la lista padre
             poblacion = self.indiv
             #vaciamos la lista individuos
             self.childrenInd = []
+
             #va introduciendo nuevos individuos hasta llegar al size de la poblacion
             for x in range(self.size): 
                 self.childrenInd.append(self.chooseMate(x, poblacion))
 
             #sobreescribimos la generacion padre por la hija
             self.indiv = self.childrenInd
-
             #cada x generaciones, printamos
             if self.gen % every == 0:
                 #este print sera otro metodo para obtener un resumen de 
@@ -171,15 +176,25 @@ class Population:
                 # shark.printParentIndividuals(id=2)
                 # self.printSummary()
                 #self.printParentIndividuals(3)
+                pass
         
         
     def chooseMate(self,x,poblacion):
         # elige dos individuos de forma aleatoria
-        while True:
+        ind1,ind2 = random.choices(poblacion,k=2)
+        count = 0
+        # si son del mismo sexo vuelve a elegir, se establece un limite al bucle por si es infinito
+        # Esto puede pasar cuando solo hayan machos o hembras en una poblacion pequeña
+        while ind1.sex == ind2.sex and count < 5*self.size:
             ind1,ind2 = random.choices(poblacion,k=2)
             # comprueba que sean de sexos distintos
-            if ind1.sex != ind2.sex:
-                break 
+            count +=1
+        # si siguen siendo del mismo sexo, entonces hay que parar
+        if ind1.sex == ind2.sex:
+            print(f'se ha detenido la evolucion en la generacion {self.gen}',
+            f' debido a que todos los individuos son {ind1.sex}')
+            self.stopEv = True
+           
         #guardamos los dos individuos en la variable parents
         parents = ind1,ind2
         # nuevo nombre que se le pasara al Individual
@@ -266,9 +281,9 @@ if __name__ == '__main__':
     shark.printIndiv(show=5)
 
     #muestra la cantidad de individuos con 'AA','aa'...
-    shark.printSummary()
+    # shark.printSummary()
 
-    shark.evolvePop(gens=100,every=10)
+    shark.evolvePop(gens=50,every=10)
 
     shark.printIndiv(show=5)
 
