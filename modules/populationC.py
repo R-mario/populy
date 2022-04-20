@@ -32,6 +32,7 @@ class Population:
         self.mu = mu
         self.genotypeFreq = self.genotFreq()
         self.gen = 0
+        self.mu = mu
 
         # igual a freq pero es una lista (se usara para printar)
         self.alleleFreqs = {k: [v[0]] for k,v in freq.items()}
@@ -45,7 +46,9 @@ class Population:
     
     # genera indivividuos
     def generateIndividuals(self):
-        # ejecuta la funcion para crear las variables globales que contengan los genotipos posibles
+        '''
+        Crea una lista de individuos
+        '''       
         self.indiv = [Individual(i,
                                 self.name,
                                  self.size,
@@ -55,18 +58,21 @@ class Population:
                                  self.freq,
                                  self.d,
                                  self.R,
+                                 self.mu,
                                  self.gen) 
                       for i in range(self.size)]
         print("se han generado un total de {} individuos de la poblacion {}"
               .format(self.size,self.name))
         
         # se crean nuevas variables de la poblacion
-        self.cum_gamF = self.gameticFreq()
+        dictc = self.gameticFreq()
+        self.cum_gamF = {k: [v] for k,v in dictc.items()}
+        print(self.cum_gamF)
         
     # printa individuos        
     def printIndiv(self,show=5,children=True):
         show = abs(show)
-        listaAtrib = ['ide','sex','chromosome']
+        listaAtrib = ['ide','sex','chromosome','isMutated']
         print(*listaAtrib,sep="\t")
         if children==True and hasattr(self,'childrenInd'):
             print("print chidren")
@@ -81,21 +87,33 @@ class Population:
             if show == 0:
                 break
     
-    def plotInfo(self):
-        '''Esta funcion recogera un resumen del cambio en las frecuencias
-        alelicas a lo largo de las generaciones, tambien obtiene un grafico del
-        cambio. Se utilizan las librerias pandas y matplotlib
+    def plotInfo(self,what='Alleles'):
+        '''Permite mostrar cambio de frecuencias geneticas a lo 
+        largo de las generaciones.
+        Se le puede indicar si se quiere mostrar 'alleles' o 'gametes'
         '''
-        df = pd.DataFrame(self.cum_gamF,index=[0])
+        generaciones = 10
+        gens =50
+
+        if what=='Gametes':
+            data = self.cum_gamF
+        else:
+            data = self.alleleFreqs
+
+        index_name = ['gen.'+str(x) for x in range(0,gens+1,generaciones)]
+        df = pd.DataFrame(data,index=index_name)
         print(df)
 
-        df.plot.bar()
+        df.plot()
         plt.show()
         
 
                 
-    # funcion que calcula las frecuencias genotipicas a partir de las alelicas
+    
     def genotFreq(self):
+        '''
+        Calcula las frecuencias genotipicas a partir de las alelicas
+        '''
         if self.ploidy == 2:
             for key,lista in self.freq.items():
                 self.genotypeFreq[key] = (lista[0]**2,
@@ -105,9 +123,12 @@ class Population:
         elif self.ploidy == 1:
             self.genotypeFreq = self.freq
         return self.genotypeFreq
-        
+
+    # SIN USAR    
     def getMeanAge(self):
-        '''obtienes la edad media recorriendo la lista de individuos'''
+        '''
+        obtienes la edad media recorriendo la lista de individuos
+        '''
         try:
             meanAge = 0
             for obj in self.indiv:
@@ -118,8 +139,12 @@ class Population:
             print("No has inicializado la poblacion")
             
                 
-    # calcula el numero de gametos distintos en la poblacion
+    
     def gameticFreq(self):
+        '''
+        calcula el numero de gametos distintos en la poblacion
+        '''
+
         # frecuencia gametica observada
         obsGamf = {'AB':0,'Ab':0,'aB':0,'ab':0}    
 
@@ -131,21 +156,46 @@ class Population:
                 if individuo.chromosome['c2']==key:
                     obsGamf[key] += 1
         
-        return obsGamf
+        return {k: v / (2*len(self.indiv)) for k, v in obsGamf.items()}
+    
+    def alleleFreq(self):
+        '''
+        Obtiene la frecuencia alelica a partir de la gametica para la poblacion actual
+        '''
+        # frecuencia alelica observada
+        obsAleF = {'A': 0 ,'B': 0}
+        # frecuencia gametica observada
+        obsGamf = self.gameticFreq()
+  
+        obsAleF['A'] = obsGamf['AB']+obsGamf['Ab']
+        obsAleF['B'] = obsGamf['AB']+obsGamf['aB']
+
+        return obsAleF
+        
+
     
     def freqGamAcumulada(self):
+        '''
+        Modifica la variable cum_gamF para meter nuevos valores de frecuencia gametica
+        '''
 
         obsGamf = self.gameticFreq()
 
-        print(f'Generacion {self.gen}','frecuencia absoluta: ',obsGamf,sep='\n')
+        # print(f'Generacion {self.gen}','frecuencia absoluta: ',obsGamf,sep='\n')
+        # print(self.cum_gamF)
 
         # frecuencias gameticas acumuladas (durante las generaciones)
         for k in obsGamf:
-            self.cum_gamF[k] = self.cum_gamF[k].append(obsGamf[k])
-
-        print(self.cum_gamF)
-        # print('frecuencia alelica: ',self.alleleFreqs,sep='\n')
-
+            self.cum_gamF[k].append(obsGamf[k])
+    
+    def freqAleAcumulada(self):
+        '''
+        Modifica la variable alleleFreqs para meter nuevos valores de frecuencia alelica
+        '''
+        obsAleF = self.alleleFreq()
+        for k in obsAleF:
+            self.alleleFreqs[k].append(obsAleF[k]/(2*len(self.indiv)))
+        
 
 
       
@@ -154,6 +204,7 @@ class Population:
         for veces in range(0,gens):
             # si hay que parar la evolucion por algun motivo, sale del bucle
             if self.stopEv:
+                print(f'Se ha detenido la evolucion en la generacion {self.gen}')
                 break
             #aumentamos la generacion
             self.gen += 1
@@ -167,16 +218,24 @@ class Population:
                 self.childrenInd.append(self.chooseMate(x, poblacion))
 
             #sobreescribimos la generacion padre por la hija
-            self.indiv = self.childrenInd
+            if self.stopEv == False:
+                self.indiv = self.childrenInd
+
             #cada x generaciones, printamos
             if self.gen % every == 0:
                 #este print sera otro metodo para obtener un resumen de 
                 #la poblacion
                 self.printIndiv(show=5)
+                # obtiene informacion de la poblacion en curso
+                self.getInfo()
+                
                 # shark.printParentIndividuals(id=2)
-                # self.printSummary()
+                #self.printSummary()
                 #self.printParentIndividuals(3)
-                pass
+
+                # encuentra cuantos individuos han sufrido una mutacion
+                self.findMutated(show = 2)
+                
         
         
     def chooseMate(self,x,poblacion):
@@ -191,8 +250,6 @@ class Population:
             count +=1
         # si siguen siendo del mismo sexo, entonces hay que parar
         if ind1.sex == ind2.sex:
-            print(f'se ha detenido la evolucion en la generacion {self.gen}',
-            f' debido a que todos los individuos son {ind1.sex}')
             self.stopEv = True
            
         #guardamos los dos individuos en la variable parents
@@ -210,8 +267,16 @@ class Population:
                          self.freq,
                          self.d,
                          self.R,
+                         self.mu,
                          self.gen,
                          parents)
+    
+    def getInfo(self):
+        '''
+        Llama a otros metodos que obtienen estadisticos de la poblacion
+        '''
+        self.freqGamAcumulada()
+        self.freqAleAcumulada()
 
     def printSummary(self):
         tam = len(self.indiv)
@@ -233,7 +298,17 @@ class Population:
     def printParentIndividuals(self,id=0):
         print(self.indiv[id])
         self.indiv[id].printParents()
+
     
+    def findMutated(self,show=10):
+    # ver si algun individuo de la poblacion esta mutado 
+        mutated = 0
+        for individuo in self.indiv:
+            if individuo.isMutated:    
+                mutated += 1
+                if show > mutated:
+                    print(individuo)
+        return mutated
 
     # SIN USAR: la eleccion de genotipo se hace ahora en la clae individual
     def findFreqAlleles(self,ind1,ind2):
@@ -265,30 +340,33 @@ if __name__ == '__main__':
     # R es la tasa de recombinacion
     # mu es la tasa de mutacion de los alelos (de A a a y viceversa..)
     
-    shark = Population(size=5,
+    shark = Population(size=500,
                         name="Megadolon",
                         ploidy=2,
                         vida_media=23,
                         freq={'A':(0.4,0.6),'B':(0.6,0.4)},
                         D = 0.1,
-                        R=0)
+                        R=0,
+                        mu =(0,0))
 
-    #se generan individuos en esa poblacion
+    # se generan individuos en esa poblacion
     shark.generateIndividuals()
 
 
-    #parametro opcional show, permite elegir cuantos elementos se muestran (por defecto se muestran 10)
+    # parametro opcional show, permite elegir cuantos elementos se muestran (por defecto se muestran 10)
     shark.printIndiv(show=5)
 
-    #muestra la cantidad de individuos con 'AA','aa'...
+    # muestra la cantidad de individuos con 'AA','aa'...
     # shark.printSummary()
 
-    shark.evolvePop(gens=50,every=10)
+    shark.evolvePop(gens=55,every=10)
 
     shark.printIndiv(show=5)
 
-    #printa el individuo que se quiere estudiar y sus padres
+    # printa el individuo que se quiere estudiar y sus padres
     shark.printParentIndividuals(id=2)
     # obtiene un resumen del cambio en la frecuencia alelica
-    shark.plotInfo()
+    shark.plotInfo('Gametes')
+
+
 

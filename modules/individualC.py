@@ -19,40 +19,49 @@ class Individual():
 
 
     def __init__(self,nom,name,size,ploidy,
-                 vida_media,genotypeFreq,freq,d,R,gen=0,
+                 vida_media,genotypeFreq,freq,d,R,mu,gen=0,
                  parents=0):
         
-        #quiza el "name"no sea necesario para nada
+        # 
         self.spName = name
         self.spSize = size
         self.spPloidy = ploidy
 
         self.vida_media = vida_media
-        # habra que pasar la frecuencia alelica mejor
-        self.alFreq = dict()
         self.genotypeFreq = genotypeFreq
         
-        self.sex = self.sex()
         self.ide = 'g'+str(gen)+".ID-"+str(nom)
         self.age = 0
-
         self.parents = parents
-        self.genotype = dict()
-        self.chromosome = dict()
+
 
         self.d = d
         self.alFreq = freq
         self.R = R
+        self.mu = mu
 
-        # en proceso de modificacion, dentro de esta se llama a self.gameticFreq
-        self.firstGenotype(iniType='heterozygosis')
-
-        
-
-    
+        self.createIndividual()
         
 
         
+    def createIndividual(self):
+        '''
+        Inicializa las variables que no se le pasan al inicializador
+        '''
+        self.sex = self.sex()
+        self.genotype = dict()
+        self.chromosome = dict()
+        self.isMutated = False
+
+        if self.parents:
+            # self.mating()
+            self.newMating()
+            self.mutation()
+        else:
+            self.gameticFreq()
+
+
+            
     def sex(self):
         if randint(0,1)==0:
             return "Male"
@@ -62,25 +71,7 @@ class Individual():
     def edad(self):
         #el usuario debera pasar algun parametro para indicar la dist por edades
         pass
-    
-    def firstGenotype(self,iniType=str()):
-        genotype = {}
-        if self.parents == 0:
 
-            if iniType == 'heterozygosis':
-                genotype = {'gene_1':'Aa','gene_2':'Bb'}
-            elif iniType == 'Random':
-                genotype['gene_1']= ''.join(random.choices(Individual.gen1List,
-                                            weights=self.genotypeFreq['A'],k=1))
-                genotype['gene_2']= ''.join(random.choices(Individual.gen2List,
-                                            weights=self.genotypeFreq['B'],k=1))
-
-            self.genotype = genotype
-            # llamamos a la funcion que genera de 0 nuevos cromosoma para cada indv
-            self.gameticFreq()
-        else:
-            self.mating()
-            self.newMating()
 
     # Calcula la frecuencia gametica a partir de las frecuencias alelicas y D
     def gameticFreq(self):
@@ -135,10 +126,21 @@ class Individual():
         # print(self.ide)
         # print('el resultado es: ',self.chromosome)
         
+    def mutation(self):
+        '''
+        Provoca el cambio del alelo mayor al menor con una frecuencia mut
+        '''
+        muType = 'unidirectional'
+        for k,v in self.chromosome.items():
+            for i in range(len(v)):
+                #comprueba si es el alelo mayor
+                if v[i].isupper():
+                    #si muta, cambia el alelo del cromosoma por el alelo menor
+                    if random.random() < self.mu[i]:
+                        self.chromosome[k] = self.chromosome[k].replace(v[i],v[i].lower())
+                        self.isMutated = True
 
-
-
-
+    # SIN USAR
     def mating(self):
         '''Obtiene un genotipo a partir de los padres'''
         p1_genotype = self.parents[0].genotype
