@@ -3,6 +3,7 @@ Clase Poblacion, permite crear una nueva poblacion, hacerla evolucionar
 y obtener resumen de sus caracteristicas.
 '''
 
+from cProfile import label
 from individualC import Individual
 
 import random
@@ -26,6 +27,7 @@ class Population:
         self.vida_media = vida_media
         self.d = D
         self.R = R
+        self.steps = 0
 
         #frecuencia genotipica inicial
         self.freq = freq
@@ -71,6 +73,10 @@ class Population:
         
     # printa individuos        
     def printIndiv(self,show=5,children=True):
+        '''
+        Muestra por consola informacion de los primeros individuos
+        de la poblacion 
+        '''
         show = abs(show)
         listaAtrib = ['ide','sex','chromosome','isMutated']
         print(*listaAtrib,sep="\t")
@@ -91,20 +97,34 @@ class Population:
         '''Permite mostrar cambio de frecuencias geneticas a lo 
         largo de las generaciones.
         Se le puede indicar si se quiere mostrar 'alleles' o 'gametes'
-        '''
-        generaciones = 10
-        gens =50
+        '''  
 
         if what=='Gametes':
             data = self.cum_gamF
         else:
             data = self.alleleFreqs
+        # creamos el dataFrame
+        index_name = ['gen.'+str(x) for x in range(0,self.gen+1,self.steps)]
+        print(index_name)
 
-        index_name = ['gen.'+str(x) for x in range(0,gens+1,generaciones)]
         df = pd.DataFrame(data,index=index_name)
-        print(df)
 
-        df.plot()
+        al_df = pd.DataFrame(self.alleleFreqs,index=index_name)
+        gam_df = pd.DataFrame(self.cum_gamF,index=index_name)
+        
+        print(df)
+        print(al_df)
+
+        # Hacemos el grafico
+        fig,ax = plt.subplots(2,sharex=True, sharey=True)
+        # fig[0].title('Variacion de las frecuencias gameticas')
+        ax[0].plot(gam_df)
+        ax[0].set_title('frecuencias gameticas')
+        ax[0].legend(gam_df.columns)
+        # fig[1].title('Variacion de las frecuencias alelicas')
+        ax[1].set_title('frecuencias alelicas')
+        ax[1].plot(al_df)
+        ax[1].legend(al_df.columns)
         plt.show()
         
 
@@ -194,13 +214,13 @@ class Population:
         '''
         obsAleF = self.alleleFreq()
         for k in obsAleF:
-            self.alleleFreqs[k].append(obsAleF[k]/(2*len(self.indiv)))
+            self.alleleFreqs[k].append(obsAleF[k])
         
 
 
       
     def evolvePop(self,gens = 20,every=5):
-
+        self.steps = every
         for veces in range(0,gens):
             # si hay que parar la evolucion por algun motivo, sale del bucle
             if self.stopEv:
