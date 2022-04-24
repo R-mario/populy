@@ -9,26 +9,24 @@ dict genotype: {'str': 'str'} siendo la clave A o B y los valores
                 su genotipo para ese locus
 '''
 import itertools
+import numpy as np
 from random import randint
 import random
+from functions import *
 
 class Individual():
 
-    gen1List = [''.join(x) for x in itertools.combinations_with_replacement('Aa',2)]
-    gen2List = [''.join(x) for x in itertools.combinations_with_replacement('Bb',2)]
-
 
     def __init__(self,nom,name,size,ploidy,
-                 vida_media,genotypeFreq,freq,d,R,mu,gen=0,
+                 vida_media,freq,d,R,mu,gen=0,
                  parents=0):
         
-        # 
+         
         self.spName = name
         self.spSize = size
         self.spPloidy = ploidy
 
         self.vida_media = vida_media
-        self.genotypeFreq = genotypeFreq
         
         self.ide = 'g'+str(gen)+".ID-"+str(nom)
         self.age = 0
@@ -36,8 +34,11 @@ class Individual():
 
 
         self.d = d
+        # diccionario con frecuencias alelicas
         self.alFreq = freq
+        # frecuencia de recombinacion
         self.R = R
+        # tasa de mutacion
         self.mu = mu
 
         self.createIndividual()
@@ -58,6 +59,7 @@ class Individual():
             self.newMating()
             self.mutation()
         else:
+            self.chooseGametes()
             self.gameticFreq()
 
 
@@ -74,20 +76,34 @@ class Individual():
 
 
     # Calcula la frecuencia gametica a partir de las frecuencias alelicas y D
+    # esto quiza deberia estar en population !!!revisar
     def gameticFreq(self):
         f = self.alFreq
         d = self.d
         fGametes = dict()
+
         fGametes['AB'] = f['A'][0]*f['B'][0]+d
         fGametes['Ab'] = f['A'][0]*f['B'][1]-d
         fGametes['aB'] = f['A'][1]*f['B'][0]-d
         fGametes['ab'] = f['A'][1]*f['B'][1]+d
 
-        return self.chooseGametes(fGametes)
+
+        #producto externo (outer product)
+        freqValues = list(f.values())
+        inp = freqValues[0]
+        finalDict = dict()
+        for x in range(1,len(freqValues)):
+            final = outer2_product(inp,freqValues[x],x,finalDict)
+            inp = list(final.values())
+
+        fGametes = final
+
+        return fGametes
 
     # Elige un gameto segun su probabilidad (frecuencia)
-    def chooseGametes(self,fGametes):
+    def chooseGametes(self):
         chromosome = dict()
+        fGametes = self.gameticFreq()
         gameto =list(fGametes.keys())
         pesos = list(fGametes.values())
         for i in range(1,self.spPloidy+1):
@@ -96,6 +112,7 @@ class Individual():
 
         self.chromosome = chromosome
 
+        return chromosome
 
     
     # metodo dunder

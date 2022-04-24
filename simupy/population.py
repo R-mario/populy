@@ -4,7 +4,7 @@ y obtener resumen de sus caracteristicas.
 '''
 
 from cProfile import label
-from individualC import Individual
+from individual import Individual
 
 import random
 import itertools
@@ -56,7 +56,6 @@ class Population:
                                  self.size,
                                  self.ploidy,
                                  self.vida_media,
-                                 self.genotypeFreq,
                                  self.freq,
                                  self.d,
                                  self.R,
@@ -134,15 +133,16 @@ class Population:
         '''
         Calcula las frecuencias genotipicas a partir de las alelicas
         '''
-        if self.ploidy == 2:
+        genotypeFreq = dict()
+        if self.ploidy == 2:    
             for key,lista in self.freq.items():
-                self.genotypeFreq[key] = (lista[0]**2,
+                genotypeFreq[key] = (lista[0]**2,
                                          lista[0]*lista[1]*2,
                                          lista[1]**2)
-                self.genotypeFreq[key] = [x*self.size for x in self.genotypeFreq[key]]
+                genotypeFreq[key] = [x*self.size for x in genotypeFreq[key]]
         elif self.ploidy == 1:
-            self.genotypeFreq = self.freq
-        return self.genotypeFreq
+            genotypeFreq = self.freq
+        return genotypeFreq
 
     # SIN USAR    
     def getMeanAge(self):
@@ -283,7 +283,6 @@ class Population:
                          self.size,
                          self.ploidy,
                          self.vida_media,
-                         self.genotypeFreq,
                          self.freq,
                          self.d,
                          self.R,
