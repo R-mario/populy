@@ -1,5 +1,16 @@
 import unittest
-from simupy.individual import Individual
+import sys
+from pathlib import Path
+# from simupy.individual import Individual
+try:
+    from simupy.individual import Individual
+except ModuleNotFoundError as e:
+    path = Path()
+    simuPath =str(path.parent.absolute().parent.absolute()/'simupy')
+    print(simuPath)
+    sys.path.insert(0,simuPath)
+    print(sys.path)
+    from simupy.individual import Individual
 
 
 class individualTest(unittest.TestCase):
@@ -7,9 +18,9 @@ class individualTest(unittest.TestCase):
     def test_individual_activation(self):
         global ind1
         # instanciamos
-
         ind1 = Individual('a','test',1,0,0,freq={'A':(0.4,0.6),'B':(0.6,0.4)},
-        d=0,R=0.5,mu=(0.1,0.1))
+                          d=0,R=0.5,mu=(0.1,0.1))
+
         # comprobamos que devuelve un string
         self.assertTrue(ind1)
     def gameticTest(self):
@@ -17,5 +28,6 @@ class individualTest(unittest.TestCase):
         self.assertDictEqual(chromosome,{'AB': 0.24, 'Ab': 0.16000000000000003, 'aB': 0.36, 'ab': 0.24})
 
 if __name__ == '__main__':
+        
     unittest.main()
     
