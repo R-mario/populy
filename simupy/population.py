@@ -19,7 +19,7 @@ class Population:
 
     
     def __init__(self,size = 100,name="Homo sapiens",ploidy = 2, vida_media=55,
-                 R=0.1,mu = (1e-4,1e-4),freq={'A':(0.4,0.6),'B':(0.6,0.4)},D=0.1):
+                 R=0.1,mu = (1e-4,1e-4),freq={'A':(0.5,0.5),'B':(0.5,0.5)},D=0.1):
                  
         self.name = name
         self.size = size
@@ -46,7 +46,7 @@ class Population:
     def __str__(self):
         return ''.join([self.name])
     
-    # genera indivividuos
+    
     def generateIndividuals(self):
         '''
         Crea una lista de individuos
@@ -62,15 +62,15 @@ class Population:
                                  self.mu,
                                  self.gen) 
                       for i in range(self.size)]
-        print("se han generado un total de {} individuos de la poblacion {}"
-              .format(self.size,self.name))
+        print("se han generado un total de {} individuos de la poblacion"
+              .format(self.size))
         
         # se crean nuevas variables de la poblacion
         dictc = self.gameticFreq()
         self.cum_gamF = {k: [v] for k,v in dictc.items()}
         print(self.cum_gamF)
         
-    # printa individuos        
+           
     def printIndiv(self,show=5,children=True):
         '''
         Muestra por consola informacion de los primeros individuos
@@ -93,7 +93,8 @@ class Population:
                 break
     
     def plotInfo(self,what='Alleles'):
-        '''Permite mostrar cambio de frecuencias geneticas a lo 
+        '''
+        Permite mostrar cambio de frecuencias geneticas a lo 
         largo de las generaciones.
         Se le puede indicar si se quiere mostrar 'alleles' o 'gametes'
         '''  
@@ -219,7 +220,7 @@ class Population:
 
 
       
-    def evolvePop(self,gens = 20,every=5):
+    def evolvePop(self,gens = 20,every=5,ignoreSex=True,printInfo=True):
         self.steps = every
         for veces in range(0,gens):
             # si hay que parar la evolucion por algun motivo, sale del bucle
@@ -235,7 +236,7 @@ class Population:
 
             #va introduciendo nuevos individuos hasta llegar al size de la poblacion
             for x in range(self.size): 
-                self.childrenInd.append(self.chooseMate(x, poblacion))
+                self.childrenInd.append(self.chooseMate(x, poblacion, ignoreSex))
 
             #sobreescribimos la generacion padre por la hija
             if self.stopEv == False:
@@ -243,33 +244,31 @@ class Population:
 
             #cada x generaciones, printamos
             if self.gen % every == 0:
-                #este print sera otro metodo para obtener un resumen de 
-                #la poblacion
-                self.printIndiv(show=5)
+                # enseña por pantalla informacion de individuos 
+                # de la poblacion en curso
+                if printInfo:    
+                    self.printIndiv(show=5)
+                
                 # obtiene informacion de la poblacion en curso
                 self.getInfo()
                 
-                # shark.printParentIndividuals(id=2)
-                #self.printSummary()
-                #self.printParentIndividuals(3)
-
                 # encuentra cuantos individuos han sufrido una mutacion
                 self.findMutated(show = 2)
                 
         
         
-    def chooseMate(self,x,poblacion):
+    def chooseMate(self,x,poblacion,ignoreSex):
         # elige dos individuos de forma aleatoria
         ind1,ind2 = random.choices(poblacion,k=2)
         count = 0
         # si son del mismo sexo vuelve a elegir, se establece un limite al bucle por si es infinito
         # Esto puede pasar cuando solo hayan machos o hembras en una poblacion pequeña
-        while ind1.sex == ind2.sex and count < 5*self.size:
+        while ind1.sex == ind2.sex and count < 5*self.size and ignoreSex==False:
             ind1,ind2 = random.choices(poblacion,k=2)
             # comprueba que sean de sexos distintos
             count +=1
         # si siguen siendo del mismo sexo, entonces hay que parar
-        if ind1.sex == ind2.sex:
+        if ind1.sex == ind2.sex and ignoreSex==False:
             self.stopEv = True
            
         #guardamos los dos individuos en la variable parents
