@@ -8,11 +8,12 @@ int age: de momento sin usar
 dict genotype: {'str': 'str'} siendo la clave A o B y los valores
                 su genotipo para ese locus
 '''
+from calendar import c
 import itertools
 import numpy as np
 from random import randint
 import random
-from functions import *
+from functions import outer_product
 
 class Individual():
 
@@ -50,18 +51,19 @@ class Individual():
         Inicializa las variables que no se le pasan al inicializador
         '''
         self.sex = self.sex()
-        self.genotype = dict()
+        
         self.chromosome = dict()
         self.isMutated = False
 
         if self.parents:
             # self.mating()
-            self.newMating()
+            self.mating()
             self.mutation()
         else:
-            self.chooseGametes()
+            self.chromosome = self.chooseGametes()
             self.gameticFreq()
-
+        
+        self.genotype = self.getGenotype()
 
             
     def sex(self):
@@ -70,30 +72,32 @@ class Individual():
         else:
             return 'Female'
         
-    def edad(self):
-        #el usuario debera pasar algun parametro para indicar la dist por edades
-        pass
-
+    def getGenotype(self):
+        
+        genotype = dict()
+        # print(self.chromosome)
+        for i,letra in enumerate(self.chromosome['c1']):
+            if self.spPloidy == 2:
+                genotype[letra.upper()] = ''.join(sorted(self.chromosome['c1'][i] + self.chromosome['c2'][i]))
+            else:
+                genotype[letra.upper()] = self.chromosome['c1'][i]
+        
+        return genotype
 
     # Calcula la frecuencia gametica a partir de las frecuencias alelicas y D
     # esto quiza deberia estar en population !!!revisar
     def gameticFreq(self):
+
         f = self.alFreq
         d = self.d
         fGametes = dict()
-
-        fGametes['AB'] = f['A'][0]*f['B'][0]+d
-        fGametes['Ab'] = f['A'][0]*f['B'][1]-d
-        fGametes['aB'] = f['A'][1]*f['B'][0]-d
-        fGametes['ab'] = f['A'][1]*f['B'][1]+d
-
 
         #producto externo (outer product)
         freqValues = list(f.values())
         inp = freqValues[0]
         finalDict = dict()
         for x in range(1,len(freqValues)):
-            final = outer2_product(inp,freqValues[x],x,finalDict)
+            final = outer_product(inp,freqValues[x],x,finalDict)
             inp = list(final.values())
 
         fGametes = final
@@ -102,46 +106,54 @@ class Individual():
 
     # Elige un gameto segun su probabilidad (frecuencia)
     def chooseGametes(self):
-        chromosome = dict()
+        """Choose a gamete from gameticFreq keys
+        by its given probability in gameticFreq values
+
+        Returns:
+           dict(str:str): two chromosomes and its genotype
+        """
+        chrom = dict()
         fGametes = self.gameticFreq()
         gameto =list(fGametes.keys())
         pesos = list(fGametes.values())
         for i in range(1,self.spPloidy+1):
-            chromosome['c'+str(i)]= ''.join(random.choices(gameto,
+            chrom['c'+str(i)]= ''.join(random.choices(gameto,
                                             weights=pesos,k=1))
 
-        self.chromosome = chromosome
-
-        return chromosome
+        # self.chromosome = chrom
+        return chrom
 
     
     # metodo dunder
     def __str__(self):
-        return ("este individuo es {}, su sexo es {} y su genotipo es {}"
+        return ("This individual is {}, it's sex is {} and its genotype is {}"
               .format(self.ide,self.sex,self.chromosome))
     
     def printParents(self,):
         '''
-        Metodo que printa los padres del primer individuo
+        Print individual parents
         '''
+        
         print(f'''su padre es {self.parents[0].ide}, 
         con genotipo {self.parents[0].chromosome}\n su madre es {self.parents[1].ide}
         con genotipo {self.parents[1].chromosome}''')
 
-    # calcula
-    def newMating(self):
-        r = self.R
-        recomb = ((1-r)/2,(1-r)/2,r/2,r/2)
-        for x in range(len(self.parents)):
-            c1P = self.parents[x].chromosome['c1']
-            c2P = self.parents[x].chromosome['c2']
+    # calculates
+    def mating(self):
+        if len(self.chromosome) > 1:
+            r = self.R
+            # tabla de recombinacion
+            recomb = ((1-r)/2,(1-r)/2,r/2,r/2)
+            for x in range(len(self.parents)):
+                c1P = self.parents[x].chromosome['c1']
+                c2P = self.parents[x].chromosome['c2']
 
-            ch_P = [c1P,c2P,c1P[0]+c2P[1],c2P[0]+c1P[1]]
-            # print('el padre tiene estas combinaciones: ',ch_P,recomb)
-            self.chromosome['c'+str(x+1)]= random.choices(ch_P,weights=recomb,k=1)[0]
-            # print('da lugar a este chromosoma: ',self.chromosome['c'+str(x+1)])
-        # print(self.ide)
-        # print('el resultado es: ',self.chromosome)
+                ch_P = [c1P,c2P,c1P[0]+c2P[1],c2P[0]+c1P[1]]
+                
+                self.chromosome['c'+str(x+1)]= random.choices(ch_P,weights=recomb,k=1)[0]
+        else:  
+            self.chromosome = {'c'+str(k+1):v for k in range(2) for v in random.choice(self.parents[k].chromosome.values())}
+
         
     def mutation(self):
         '''
@@ -156,46 +168,6 @@ class Individual():
                     if random.random() < self.mu[i]:
                         self.chromosome[k] = self.chromosome[k].replace(v[i],v[i].lower())
                         self.isMutated = True
-
-    # SIN USAR
-    def mating(self):
-        '''Obtiene un genotipo a partir de los padres'''
-        p1_genotype = self.parents[0].genotype
-        p2_genotype = self.parents[1].genotype
-
-        if self.parents != 0:
-            # para el alelo A
-            if randint(0,1)==0:
-                aleloA_p1 = p1_genotype['gene_1'][0]
-                if randint(0,1)==0:
-                    aleloA_p2 = p2_genotype['gene_1'][0]
-                else:
-                    aleloA_p2 = p2_genotype['gene_1'][1]
-            else:
-                aleloA_p1 = p1_genotype['gene_1'][1]
-                if randint(0,1)==0:
-                    aleloA_p2 = p2_genotype['gene_1'][0]
-                else:
-                    aleloA_p2 = p2_genotype['gene_1'][1]
-            # para B
-            if randint(0,1)==0:
-                aleloB_p1 = p1_genotype['gene_2'][0]
-                if randint(0,1)==0:
-                    aleloB_p2 = p2_genotype['gene_2'][0]
-                else:
-                    aleloB_p2 = p2_genotype['gene_2'][1]
-            else:
-                aleloB_p1 = p1_genotype['gene_2'][1]
-                if randint(0,1)==0:
-                    aleloB_p2 = p2_genotype['gene_2'][0]
-                else:
-                    aleloB_p2 = p2_genotype['gene_2'][1]
-        
-            a = aleloA_p1+aleloA_p2
-            b = aleloB_p1+aleloB_p2
-            #se aplica esto para que todos los 'Aa' aparezcan asi en lugar de 'aA'
-            self.genotype['gene_1'] = ''.join(sorted(a))
-            self.genotype['gene_2'] = ''.join(sorted(b))
 
             
 

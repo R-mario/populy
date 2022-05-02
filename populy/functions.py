@@ -1,5 +1,7 @@
 
-def outer2_product(a, b,iteration,finalDict):
+import random
+
+def outer_product(a, b,iteration,finalDict):
     """Calculate the outer product of two vectors and stores them on a dictionary"""
 
     d = dict()
@@ -26,7 +28,7 @@ def rename(i,j,iteration,k,finalDict):
     # check if it is the first round
     if iteration==1:
         letrai =chr(ord('A')+iteration-1)
-        #check if its the first position
+        # check if its the first position
         if i==1:
             letrai = letrai.lower()
     else:
@@ -37,3 +39,48 @@ def rename(i,j,iteration,k,finalDict):
     else:
         letraj = chr(ord('A')+iteration)
     return letrai,letraj
+
+
+def fitness(fit,child_gen):
+    '''Fitness function
+    0 = no selection,
+    1 = dominant selection (1,0.9,0.91)
+    2 = recessive selection (0.81,0.9,1)
+    3 = double recessive selection 'aabb'=0
+    '''
+    def live_die(p):
+        """_summary_
+
+        Args:
+            p (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
+        randNum = random.random()
+        if randNum < p:
+            return True
+        else:
+            return False
+  
+    
+    if fit==0:
+        return True
+    if fit==1:
+        if 'Aa'== child_gen['A']:
+            return live_die()
+        if 'aa'== child_gen['A']:
+            return live_die(0.81)
+    if fit==2:
+        if 'Aa'== child_gen['A']:
+            return live_die(0.9)
+        if 'AA'== child_gen['A']:
+            return live_die(0.81)
+    if fit==3:
+        if 'aa'== child_gen['A'] and 'bb'== child_gen['B']:
+            return False
+    
+    return True
+        
+        
+    

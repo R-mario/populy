@@ -10,6 +10,7 @@ import random
 import itertools
 import pandas as pd
 import matplotlib.pyplot as plt
+from functions import fitness
 
 
 #clase poblacion,atributos generales que heredara de los individuos
@@ -19,7 +20,8 @@ class Population:
 
     
     def __init__(self,size = 100,name="Homo sapiens",ploidy = 2, vida_media=55,
-                 R=0.1,mu = (1e-4,1e-4),freq={'A':(0.5,0.5),'B':(0.5,0.5)},D=0.1):
+                 R=0.1,mu = (1e-4,1e-4),freq={'A':(0.5,0.5),'B':(0.5,0.5)},D=0.1,
+                 fit=0):
                  
         self.name = name
         self.size = size
@@ -41,6 +43,8 @@ class Population:
         
         # variable booleana interrumpe la evolucion
         self.stopEv = False
+        
+        self.fit = fit
         
         
     def __str__(self):
@@ -127,7 +131,7 @@ class Population:
         ax[1].legend(al_df.columns)
         plt.show()
         
-
+            
                 
     
     def genotFreq(self):
@@ -184,10 +188,12 @@ class Population:
         Obtiene la frecuencia alelica a partir de la gametica para la poblacion actual
         '''
         # frecuencia alelica observada
-        obsAleF = {'A': 0 ,'B': 0}
+        obsAleF = {k:0 for k in self.freq.keys()}
         # frecuencia gametica observada
         obsGamf = self.gameticFreq()
-  
+        for x in self.freq.keys():
+            obsAleF[x] = [sum(obsGamf[y] for y in obsGamf.keys() if x in y)]
+            
         obsAleF['A'] = obsGamf['AB']+obsGamf['Ab']
         obsAleF['B'] = obsGamf['AB']+obsGamf['aB']
 
@@ -234,15 +240,20 @@ class Population:
             #vaciamos la lista individuos
             self.childrenInd = []
 
-            #va introduciendo nuevos individuos hasta llegar al size de la poblacion
-            for x in range(self.size): 
-                self.childrenInd.append(self.chooseMate(x, poblacion, ignoreSex))
+            # introduce nuevos individuos hasta llegar al size de la poblacion
+            x = 0
+            while len(self.childrenInd)<= self.size:
+                child = self.chooseMate(x, poblacion, ignoreSex)
+                # aplicamos una funcion fitness
+                if fitness(self.fit,child.genotype) == True:
+                    self.childrenInd.append(child)
+                    x+=1
 
             #sobreescribimos la generacion padre por la hija
             if self.stopEv == False:
                 self.indiv = self.childrenInd
 
-            #cada x generaciones, printamos
+            # cada x generaciones, printamos
             if self.gen % every == 0:
                 # enseña por pantalla informacion de individuos 
                 # de la poblacion en curso
@@ -328,22 +339,6 @@ class Population:
                     print(individuo)
         return mutated
 
-    # SIN USAR: la eleccion de genotipo se hace ahora en la clae individual
-    def findFreqAlleles(self,ind1,ind2):
-        '''vacia el diccionario freq y cuenta las A para ambos padres,las B para ambos...
-        esto lo almacena como freq (frecuencias alelicas)
-        esto hay que cambiarlo porque freq no puede variar con cada individuo'''
-        self.freq = dict()
-        
-        sizeA = len(ind1.genotype['gene_1'])+len(ind2.genotype['gene_1'])
-        freq_A = (ind1.genotype['gene_1'].count('A')+ind2.genotype['gene_1'].count('A'))/sizeA
-        freq_a = ind1.genotype['gene_1'].count('a')+ind1.genotype['gene_1'].count('a')/sizeA
-        self.freq['A']=(freq_A,freq_a)
-        
-        sizeB = len(ind1.genotype['gene_2'])+len(ind2.genotype['gene_2'])
-        freq_B = (ind1.genotype['gene_2'].count('B')+ind2.genotype['gene_2'].count('B'))/sizeB
-        freq_b = (ind1.genotype['gene_2'].count('b')+ind2.genotype['gene_2'].count('b'))/sizeB
-        self.freq['B']=(freq_B,freq_b)
 
 
    
@@ -365,7 +360,8 @@ if __name__ == '__main__':
                         freq={'A':(0.4,0.6),'B':(0.6,0.4)},
                         D = 0.1,
                         R=0,
-                        mu =(0,0))
+                        mu =(0,0),
+                        fit = 3)
 
     # se generan individuos en esa poblacion
     shark.generateIndividuals()
