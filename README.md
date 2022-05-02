@@ -1,9 +1,35 @@
-# SIMUPY
+# Populy
 
-Simupy (nombre provisional) es un paquete que permite simular la evolucion de una poblacion mediante una simulacion de tipo 'forward time'. El paquete consta (de momento) de dos clases Population e Individual, estas clases contienen una serie de metodos que permiten llevar a cabo la creacion de 0 de una poblacion, la evolucion de esta y la obtencion de unos informes, graficos y resultados de la evolcion.
+Populy es un paquete de python que permite llevar a cabo una simulacion de tipo 'forward time'. 
+El paquete consta de dos modulos principales llamados population e individual, dentro se encuentran sus respectivas clases que permiten llevar a cabo la creacion de 0 de una poblacion, la evolucion de ésta y la obtención de unos informes, graficos y resultados de la evolución.
 
 
+## Instalación
+Por el momento, se puede acceder mediante la descarga en [github] (https://github.com/R-mario/populy)
+en el futuro se podrá instalar con el gestor de paquetes [pip](https://pip.pypa.io/en/stable/).
+```cmd
+pip install populy
+```
+## Uso
+```python
+from populy.population import Population
 
+# crea un objeto de la clase Poblacion
+pop = Population(size=1000, 
+                ploidy=2)
+
+# genera individuos en la poblacio'n
+pop.generateIndividuals()
+
+# hace evolucionar a la Poblacion
+pop.evolvePop(gens=200)
+```
+Para una explicación más detallada consultar el notebook [example](example.ipynb)
+
+## Licencia
+[MIT](https://choosealicense.com/licenses/mit/)
+
+## Contenidos (no actualizado)
 
 # Population
 Population es la clase principal, a partir de esta el usuario interactuara con ella instanciando un objeto y llamando a sus metodos para llevar a cabo la simulacion. Dentro de esta clase, utiliando la *agregacion* de clases, se instanciaran multitud de **Individual** para llevar a cabo su evolucion.
