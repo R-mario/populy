@@ -1,7 +1,7 @@
 
 import random
 
-def outer_product(a, b,iteration,finalDict):
+def outer_product(a: int, b : int,iteration :int,finalDict: dict):
     """Calculate the outer product of two vectors and stores them on a dictionary"""
 
     d = dict()
@@ -22,6 +22,35 @@ def outer_product(a, b,iteration,finalDict):
                     k+=1
     d = dict(zip(names,values))
     return d
+
+def outer_product2(f):
+    """Calculate the outer product of two vectors and stores them on a dictionary"""
+    # lista de tuplas con los valores de frecuencia alelica
+    fValues = list(f.values())
+    # primera tupla
+    a = fValues[0]
+    finalD = dict()
+    # recorremos todos los valores
+    for x in range(1,len(fValues)):
+        d = dict()
+        values = list()
+        names = list()
+        k=0
+        # recorremos la tupla numero i
+        for i,val_i in enumerate(a):
+            #recorremos el resto de tuplas
+            for j,val_j in enumerate(fValues[x]):
+                    # multiplicamos el valor i de la primera tupla
+                    # por el valor j de la tupla x
+                    values.append(val_i*val_j)
+                    # cambiamos el nombre
+                    letrai,letraj = rename(i,j,x,k,finalD)
+                    names.append(letrai+letraj)
+                    if j%2==1:
+                        k+=1
+        finalD = dict(zip(names,values))
+        a = list(finalD.values())
+    return finalD
 
 def rename(i,j,iteration,k,finalDict):
     '''Set the proper letters according to the outer product'''

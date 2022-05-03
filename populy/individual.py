@@ -13,7 +13,7 @@ import itertools
 import numpy as np
 from random import randint
 import random
-from functions import outer_product
+from functions import outer_product2
 
 class Individual():
 
@@ -91,16 +91,24 @@ class Individual():
         f = self.alFreq
         d = self.d
         fGametes = dict()
-
+        
         #producto externo (outer product)
         freqValues = list(f.values())
         inp = freqValues[0]
         finalDict = dict()
-        for x in range(1,len(freqValues)):
-            final = outer_product(inp,freqValues[x],x,finalDict)
-            inp = list(final.values())
-
-        fGametes = final
+        if len(freqValues)>1:
+            fGametes = outer_product2(f)
+            # for x in range(1,len(freqValues)):
+            #     final = outer_product(inp,freqValues[x],x,finalDict)
+            #     inp = list(final.values())
+            # fGametes = final
+        else:
+            word = str(list(f.keys())[0])
+            keys = [word,word.lower()]
+            
+            values = list(freqValues[0])  
+                 
+            fGametes = dict(zip(keys,values))
 
         return fGametes
 
@@ -114,9 +122,12 @@ class Individual():
         """
         chrom = dict()
         fGametes = self.gameticFreq()
+        
         gameto =list(fGametes.keys())
         pesos = list(fGametes.values())
+        
         for i in range(1,self.spPloidy+1):
+            
             chrom['c'+str(i)]= ''.join(random.choices(gameto,
                                             weights=pesos,k=1))
 
@@ -140,17 +151,22 @@ class Individual():
 
     # calculates
     def mating(self):
-        if len(self.chromosome) > 1:
+        # print(self.chromosome,len(self.chromosome))
+        if self.spPloidy > 1:
             r = self.R
             # tabla de recombinacion
             recomb = ((1-r)/2,(1-r)/2,r/2,r/2)
             for x in range(len(self.parents)):
                 c1P = self.parents[x].chromosome['c1']
                 c2P = self.parents[x].chromosome['c2']
-
-                ch_P = [c1P,c2P,c1P[0]+c2P[1],c2P[0]+c1P[1]]
-                
-                self.chromosome['c'+str(x+1)]= random.choices(ch_P,weights=recomb,k=1)[0]
+                # para 2 locus (A,B)
+                if len(self.alFreq) == 2:                 
+                    ch_P = [c1P,c2P,c1P[0]+c2P[1],c2P[0]+c1P[1]]
+                    self.chromosome['c'+str(x+1)]= random.choices(ch_P,weights=recomb,k=1)[0]
+                # para 1 locus (A)
+                elif len(self.alFreq)==1:
+                    ch_P = [c1P,c2P]
+                    self.chromosome['c'+str(x+1)]= random.choices(ch_P,weights=(0.5,0.5),k=1)[0]     
         else:  
             self.chromosome = {'c'+str(k+1):v for k in range(2) for v in random.choice(self.parents[k].chromosome.values())}
 

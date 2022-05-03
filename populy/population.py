@@ -10,7 +10,7 @@ import random
 import itertools
 import pandas as pd
 import matplotlib.pyplot as plt
-from functions import fitness
+from functions import fitness,outer_product2
 
 
 #clase poblacion,atributos generales que heredara de los individuos
@@ -19,7 +19,7 @@ class Population:
     genotypeFreq = dict()
 
     
-    def __init__(self,size = 100,name="Homo sapiens",ploidy = 2, vida_media=55,
+    def __init__(self,size = 100,name="Population",ploidy = 2, vida_media=55,
                  R=0.1,mu = (1e-4,1e-4),freq={'A':(0.5,0.5),'B':(0.5,0.5)},D=0.1,
                  fit=0):
                  
@@ -32,7 +32,7 @@ class Population:
         self.steps = 0
 
         #frecuencia genotipica inicial
-        self.freq = freq
+        self.freq = self.allelicFreq(freq)
         self.mu = mu
         self.genotypeFreq = self.genotFreq()
         self.gen = 0
@@ -46,7 +46,28 @@ class Population:
         
         self.fit = fit
         
-        
+    def allelicFreq(self,freq):
+        """Comprueba que el diccionario pasado tenga el formato correcto
+
+        Args:
+            freq (dict): contiene los valores de frecuencias alelicas
+
+        Raises:
+            ValueError: error si se pasan valores mayores que 1
+
+        Returns:
+            dict: diccionario de frecuencias
+        """
+        for k,v in freq.items():
+            if type(v)==int:
+                freq[k]=(v,1-v)
+            print('tupla',freq[k])
+            print('suma',sum(freq[k]))
+            if sum(freq[k])>1:
+                raise ValueError('suma mayor que 1') 
+        return freq
+    
+    
     def __str__(self):
         return ''.join([self.name])
     
@@ -170,9 +191,9 @@ class Population:
         calcula el numero de gametos distintos en la poblacion
         '''
 
-        # frecuencia gametica observada
-        obsGamf = {'AB':0,'Ab':0,'aB':0,'ab':0}    
-
+        obsGamf = outer_product2(self.freq)
+        obsGamf = {k:0 for k in obsGamf.keys()}
+        
         # cuenta las ocurrencias en la poblacion de los distintos genotipos  
         for individuo in self.indiv:
             for key in obsGamf:
@@ -180,7 +201,7 @@ class Population:
                     obsGamf[key] += 1
                 if individuo.chromosome['c2']==key:
                     obsGamf[key] += 1
-        
+                    
         return {k: v / (2*len(self.indiv)) for k, v in obsGamf.items()}
     
     def alleleFreq(self):
@@ -192,10 +213,12 @@ class Population:
         # frecuencia gametica observada
         obsGamf = self.gameticFreq()
         for x in self.freq.keys():
-            obsAleF[x] = [sum(obsGamf[y] for y in obsGamf.keys() if x in y)]
+            # suma los valores de frecuencia alelica que contengan la letra
+            obsAleF[x] = sum(obsGamf[y] for y in obsGamf.keys() if x in y)
             
-        obsAleF['A'] = obsGamf['AB']+obsGamf['Ab']
-        obsAleF['B'] = obsGamf['AB']+obsGamf['aB']
+            # obsAleF['A'] = obsGamf['AB']+obsGamf['Ab']
+            # obsAleF['B'] = obsGamf['AB']+obsGamf['aB']
+            # ...
 
         return obsAleF
         
@@ -256,7 +279,7 @@ class Population:
             # cada x generaciones, printamos
             if self.gen % every == 0:
                 # enseña por pantalla informacion de individuos 
-                # de la poblacion en curso
+                # de la poblacion en curso si el usuario quiere
                 if printInfo:    
                     self.printIndiv(show=5)
                 
@@ -373,7 +396,7 @@ if __name__ == '__main__':
     # muestra la cantidad de individuos con 'AA','aa'...
     # shark.printSummary()
 
-    shark.evolvePop(gens=55,every=10)
+    shark.evolvePop(gens=55,every=10,printInfo=False)
 
     shark.printIndiv(show=5)
 
