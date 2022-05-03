@@ -50,6 +50,16 @@ def outer_product2(f):
                         k+=1
         finalD = dict(zip(names,values))
         a = list(finalD.values())
+    if len(list(f.keys()))==1: # si solo hay un locus
+        # la letra (prob. A)
+        letter = list(f.keys())
+        # lista de keys (A,a)
+        letter.append(letter[0].lower())
+        # lista de valores ej: (0.4,0,6)
+        values = list(f.values())[0]
+        # se hace diccionario
+        finalD = dict(zip(letter,values))
+        
     return finalD
 
 def rename(i,j,iteration,k,finalDict):

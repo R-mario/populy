@@ -61,8 +61,6 @@ class Population:
         for k,v in freq.items():
             if type(v)==int:
                 freq[k]=(v,1-v)
-            print('tupla',freq[k])
-            print('suma',sum(freq[k]))
             if sum(freq[k])>1:
                 raise ValueError('suma mayor que 1') 
         return freq
@@ -117,7 +115,7 @@ class Population:
             if show == 0:
                 break
     
-    def plotInfo(self,what='Alleles'):
+    def plotInfo(self,what='Alleles',printInfo=False):
         '''
         Permite mostrar cambio de frecuencias geneticas a lo 
         largo de las generaciones.
@@ -130,15 +128,14 @@ class Population:
             data = self.alleleFreqs
         # creamos el dataFrame
         index_name = ['gen.'+str(x) for x in range(0,self.gen+1,self.steps)]
-        print(index_name)
 
         df = pd.DataFrame(data,index=index_name)
 
         al_df = pd.DataFrame(self.alleleFreqs,index=index_name)
         gam_df = pd.DataFrame(self.cum_gamF,index=index_name)
-        
-        print(df)
-        print(al_df)
+        if printInfo:
+            print(df)
+            print(al_df)
 
         # Hacemos el grafico
         fig,ax = plt.subplots(2,sharex=True, sharey=True)
@@ -190,10 +187,9 @@ class Population:
         '''
         calcula el numero de gametos distintos en la poblacion
         '''
-
+        # diccionario tipo {'AB': 0,'Ab':0,...}
         obsGamf = outer_product2(self.freq)
         obsGamf = {k:0 for k in obsGamf.keys()}
-        
         # cuenta las ocurrencias en la poblacion de los distintos genotipos  
         for individuo in self.indiv:
             for key in obsGamf:
@@ -249,7 +245,7 @@ class Population:
 
 
       
-    def evolvePop(self,gens = 20,every=5,ignoreSex=True,printInfo=True):
+    def evolvePop(self,gens = 20,every=5,ignoreSex=True,printInfo=False):
         self.steps = every
         for veces in range(0,gens):
             # si hay que parar la evolucion por algun motivo, sale del bucle
@@ -287,7 +283,13 @@ class Population:
                 self.getInfo()
                 
                 # encuentra cuantos individuos han sufrido una mutacion
-                self.findMutated(show = 2)
+                self.findMutated(show = 2 if printInfo else 0)
+                
+                completed = (self.gen/gens)*100
+                if completed < 100:
+                    print(f"{round(completed,1)}% completado...")
+        else:
+            print("¡Evolucion completada!")
                 
         
         
@@ -359,6 +361,9 @@ class Population:
             if individuo.isMutated:    
                 mutated += 1
                 if show > mutated:
+                    print("¡Un individuo ha mutado!, ha ocurrido",
+                          f"en la generación {self.gen}",
+                          " y se trata de:")
                     print(individuo)
         return mutated
 

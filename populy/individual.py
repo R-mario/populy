@@ -137,7 +137,7 @@ class Individual():
     
     # metodo dunder
     def __str__(self):
-        return ("This individual is {}, it's sex is {} and its genotype is {}"
+        return ("Este individuo es {}, su sexo es {} su genotipo es {}"
               .format(self.ide,self.sex,self.chromosome))
     
     def printParents(self,):
