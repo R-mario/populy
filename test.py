@@ -76,9 +76,18 @@ class Test_population(unittest.TestCase):
 
     
     def test_pop_oneLocus(self):
-        pop2 = pop.Population(freq={'A': (0.4,0.6),'B':(0.1,0.9)})
+        # instancia
+        pop2 = pop.Population(size=100,freq={'A': (0.4,0.6)})
+        # individuos
         pop2.generateIndividuals()
+        # evolucion
         pop2.evolvePop(printInfo=False)
+        # frecuencia de gametos en la generacion final
+        gameticFreq = pop2.gameticFreq()
+        # hacemos test
+        self.assertEqual(list(gameticFreq.keys()),['A','a'])
+        # test sobre los valores 
+        self.assertTrue(sum(gameticFreq.values())==1)
         print(pop2)
 
 
