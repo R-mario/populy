@@ -64,6 +64,24 @@ class Test_individual(unittest.TestCase):
         ind5 = ind.Individual('nombre_ind','nombre_pob',1,2,0,freq,
                           d=0,R=0.5,mu=(0.1,0.1),parents=parents)
         
+        print(ind5.chromosome)
+    
+    def test_mating_multipleLoci(self):
+        freq = {'A':(0.4,0.6),'B':(0.6,0.4),'C':(0.7,0.3)}
+        # padres del individuo
+        p1 = ind.Individual('nombre_ind','nombre_pob',1,2,0,freq,
+                          d=0,R=0.5,mu=(0.1,0.1))
+        p2 = ind.Individual('nombre_ind','nombre_pob',1,2,0,freq,
+                          d=0,R=0.5,mu=(0.1,0.1))
+        parents = [p1,p2]
+        # individuo
+        ind5 = ind.Individual('nombre_ind','nombre_pob',1,2,0,freq,
+                          d=0,R=0.5,mu=(0.1,0.1,0.1),parents=parents)
+        
+        print(ind5.chromosome)
+        
+        
+        
         
 
 class Test_population(unittest.TestCase):
