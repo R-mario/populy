@@ -1,29 +1,7 @@
 
 import random
 
-def outer_product(a: int, b : int,iteration :int,finalDict: dict):
-    """Calculate the outer product of two vectors and stores them on a dictionary"""
-
-    d = dict()
-
-    values = list()
-    names = list()
-    k=0
-    # go over first vector values
-    for i,val_i in enumerate(a):
-        #go over second vector values
-        for j,val_j in enumerate(b):
-                #append values into new list
-                values.append(val_i*val_j)
-
-                letrai,letraj = rename(i,j,iteration,k,finalDict)
-                names.append(letrai+letraj)
-                if j%2==1:
-                    k+=1
-    d = dict(zip(names,values))
-    return d
-
-def outer_product2(f):
+def outer_product(f):
     """Calculate the outer product of two vectors and stores them on a dictionary"""
     # lista de tuplas con los valores de frecuencia alelica
     fValues = list(f.values())
