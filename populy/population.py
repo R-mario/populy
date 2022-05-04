@@ -5,12 +5,15 @@ y obtener resumen de sus caracteristicas.
 
 from cProfile import label
 from individual import Individual
+from functions import fitness,outer_product
 
 import random
 import itertools
 import pandas as pd
 import matplotlib.pyplot as plt
-from functions import fitness,outer_product2
+import numpy as np 
+from statistics import mean
+
 
 
 #clase poblacion,atributos generales que heredara de los individuos
@@ -37,9 +40,6 @@ class Population:
         self.genotypeFreq = self.genotFreq()
         self.gen = 0
         self.mu = mu
-
-        # igual a freq pero es una lista (se usara para printar)
-        self.alleleFreqs = {k: [v[0]] for k,v in freq.items()}
         
         # variable booleana interrumpe la evolucion
         self.stopEv = False
@@ -89,9 +89,16 @@ class Population:
               .format(self.size))
         
         # se crean nuevas variables de la poblacion
+        
+        # frecuencia alelica acumulada = se añadiran valores durante la ev
+        self.f_ale_acc = {k: [v[0]] for k,v in self.freq.items()}
         dictc = self.gameticFreq()
-        self.cum_gamF = {k: [v] for k,v in dictc.items()}
-        print(self.cum_gamF)
+        # frecuencia gametica acumulada
+        self.f_gam_acc = {k: [v] for k,v in dictc.items()}
+        # frecuencia de mutacion acumulada
+        self.f_mut_acc = [self.findMutated()]
+        # frecuencia de sexos acumulada
+        self.f_sex_acc = [self.sexFreq()]
         
            
     def printIndiv(self,show=5,children=True):
@@ -115,42 +122,65 @@ class Population:
             if show == 0:
                 break
     
-    def plotInfo(self,what='Alleles',printInfo=False):
+    def plotAll(self,printInfo=False):
         '''
-        Permite mostrar cambio de frecuencias geneticas a lo 
-        largo de las generaciones.
-        Se le puede indicar si se quiere mostrar 'alleles' o 'gametes'
+        Representa gráficamente todas las caracteristicas 
+        más relevantes de la población 
+        frecuencias alélicas, frecuencias gaméticas, sexo, nº mutantes y
+        nº de recombinantes
+        Args:
+            printInfo (bool, optional): Mostrar o no mas informacion 
+            a parte de las graficas. Defaults to False.
         '''  
 
-        if what=='Gametes':
-            data = self.cum_gamF
-        else:
-            data = self.alleleFreqs
-        # creamos el dataFrame
+        # creamos el indice (eje x) del dataFrame
+ 
         index_name = ['gen.'+str(x) for x in range(0,self.gen+1,self.steps)]
-
-        df = pd.DataFrame(data,index=index_name)
-
-        al_df = pd.DataFrame(self.alleleFreqs,index=index_name)
-        gam_df = pd.DataFrame(self.cum_gamF,index=index_name)
+        
+        # DataFrame de frecuencias alelicas acumuladas
+        al_df = pd.DataFrame(self.f_ale_acc,index=index_name)
+        # DataFrame de frecuencias gameticas acumuladas
+        gam_df = pd.DataFrame(self.f_gam_acc,index=index_name)
+        
+        # DataFrame de sexos
+        sex_df = pd.DataFrame(self.f_sex_acc,index=index_name)
+        # # DataFrame de mutaciones 
+        # mut_df = pd.DataFrame(self.f_mut_acc,index=index_name)
         if printInfo:
-            print(df)
+            print(gam_df)
             print(al_df)
 
         # Hacemos el grafico
-        fig,ax = plt.subplots(2,sharex=True, sharey=True)
+        fig,ax = plt.subplots(2,2,figsize=(13,8))
+
         # fig[0].title('Variacion de las frecuencias gameticas')
-        ax[0].plot(gam_df)
-        ax[0].set_title('frecuencias gameticas')
-        ax[0].legend(gam_df.columns)
+        ax[0,0].plot(gam_df)
+        ax[0,0].set_title('frecuencias gaméticas')
+        ax[0,0].legend(gam_df.columns)
+        ax[0,0].set_ylim(0,1)
         # fig[1].title('Variacion de las frecuencias alelicas')
-        ax[1].set_title('frecuencias alelicas')
-        ax[1].plot(al_df)
-        ax[1].legend(al_df.columns)
+        ax[0,1].set_title('frecuencias alélicas')
+        ax[0,1].plot(al_df)
+        ax[0,1].legend(al_df.columns)
+        ax[0,1].set_ylim(0,1)
+        
+        ax[1,0].plot(sex_df)
+        ax[1,0].set_title('frecuencia del sexo')
+        ax[1,0].set_ylim(0.3,0.7)
+        ax[1,0].legend(['Female','Male'])
+        
+        ax[1,1].bar(height=self.f_mut_acc[1:],x=index_name[1:])
+        ax[1,1].set_title('Mutaciones')
+        maxMutLim = max(self.f_mut_acc)
+        ax[1,1].set_ylim(0,maxMutLim+1)
+        # media
+        ax[1,1].axhline(mean(self.f_mut_acc), color='green', linewidth=2)
+        if len(index_name)>10:
+            for a in np.ravel(ax): 
+                a.set_xticks(index_name[1:-1:3])
         plt.show()
         
-            
-                
+                     
     
     def genotFreq(self):
         '''
@@ -188,7 +218,7 @@ class Population:
         calcula el numero de gametos distintos en la poblacion
         '''
         # diccionario tipo {'AB': 0,'Ab':0,...}
-        obsGamf = outer_product2(self.freq)
+        obsGamf = outer_product(self.freq)
         obsGamf = {k:0 for k in obsGamf.keys()}
         # cuenta las ocurrencias en la poblacion de los distintos genotipos  
         for individuo in self.indiv:
@@ -218,7 +248,16 @@ class Population:
 
         return obsAleF
         
-
+    def sexFreq(self):
+        sex=[0,0]
+        for individuo in self.indiv:
+            if individuo.sex=='Female':
+                sex[0]+=1
+            else:
+                sex[1]+=1
+        return [i/len(self.indiv) for i in sex]
+    
+            
     
     def freqGamAcumulada(self):
         '''
@@ -232,7 +271,7 @@ class Population:
 
         # frecuencias gameticas acumuladas (durante las generaciones)
         for k in obsGamf:
-            self.cum_gamF[k].append(obsGamf[k])
+            self.f_gam_acc[k].append(obsGamf[k])
     
     def freqAleAcumulada(self):
         '''
@@ -240,11 +279,15 @@ class Population:
         '''
         obsAleF = self.alleleFreq()
         for k in obsAleF:
-            self.alleleFreqs[k].append(obsAleF[k])
+            self.f_ale_acc[k].append(obsAleF[k])
         
+    def sexAcumulada(self):
+        self.f_sex_acc.append(self.sexFreq())
 
-
-      
+    def mutAcumulada(self):
+        self.f_mut_acc.append(self.findMutated()) 
+        
+         
     def evolvePop(self,gens = 20,every=5,ignoreSex=True,printInfo=False):
         self.steps = every
         for veces in range(0,gens):
@@ -331,6 +374,8 @@ class Population:
         '''
         self.freqGamAcumulada()
         self.freqAleAcumulada()
+        self.sexAcumulada()
+        self.mutAcumulada()
 
     def printSummary(self):
         tam = len(self.indiv)
@@ -347,15 +392,23 @@ class Population:
                 f'{sex} son hembras \n\n el desequilibrio de ligamiento (LD) =',
                 f'{self.d} \n frecuencia de recombinacion = {self.R} ',
                 f' la generacion es {self.gen} las frecuencias gameticas', 
-                f'hasta esta generacion son {self.cum_gamF}')
+                f'hasta esta generacion son {self.f_gam_acc}')
 
     def printParentIndividuals(self,id=0):
         print(self.indiv[id])
         self.indiv[id].printParents()
 
     
-    def findMutated(self,show=10):
-    # ver si algun individuo de la poblacion esta mutado 
+    def findMutated(self,show=0):
+        """encuentra a los individuos que han mutado en la poblacion
+
+        Args:
+            show (int, optional): Cuántos individuos queremos que muestre.
+            Defaults to 0.
+
+        Returns:
+            int: número de individuos que han sufrido una mutación
+        """
         mutated = 0
         for individuo in self.indiv:
             if individuo.isMutated:    
@@ -381,14 +434,14 @@ if __name__ == '__main__':
     # R es la tasa de recombinacion
     # mu es la tasa de mutacion de los alelos (de A a a y viceversa..)
     
-    shark = Population(size=500,
+    shark = Population(size=100,
                         name="Megadolon",
                         ploidy=2,
                         vida_media=23,
                         freq={'A':(0.4,0.6),'B':(0.6,0.4)},
                         D = 0.1,
                         R=0,
-                        mu =(0,0),
+                        mu =(0.1,0.1),
                         fit = 3)
 
     # se generan individuos en esa poblacion
@@ -401,14 +454,14 @@ if __name__ == '__main__':
     # muestra la cantidad de individuos con 'AA','aa'...
     # shark.printSummary()
 
-    shark.evolvePop(gens=55,every=10,printInfo=False)
+    shark.evolvePop(gens=200,every=10,printInfo=False)
 
     shark.printIndiv(show=5)
 
     # printa el individuo que se quiere estudiar y sus padres
     shark.printParentIndividuals(id=2)
     # obtiene un resumen del cambio en la frecuencia alelica
-    shark.plotInfo('Gametes')
+    shark.plotAll()
 
 
 

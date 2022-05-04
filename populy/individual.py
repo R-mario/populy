@@ -13,7 +13,7 @@ import itertools
 import numpy as np
 from random import randint
 import random
-from functions import outer_product2
+from functions import outer_product
 
 class Individual():
 
@@ -97,7 +97,7 @@ class Individual():
         inp = freqValues[0]
         finalDict = dict()
         if len(freqValues)>1:
-            fGametes = outer_product2(f)
+            fGametes = outer_product(f)
             # for x in range(1,len(freqValues)):
             #     final = outer_product(inp,freqValues[x],x,finalDict)
             #     inp = list(final.values())
@@ -159,18 +159,40 @@ class Individual():
             for x in range(len(self.parents)):
                 c1P = self.parents[x].chromosome['c1']
                 c2P = self.parents[x].chromosome['c2']
-                # para 2 locus (A,B)
-                if len(self.alFreq) == 2:                 
-                    ch_P = [c1P,c2P,c1P[0]+c2P[1],c2P[0]+c1P[1]]
-                    self.chromosome['c'+str(x+1)]= random.choices(ch_P,weights=recomb,k=1)[0]
-                # para 1 locus (A)
-                elif len(self.alFreq)==1:
-                    ch_P = [c1P,c2P]
-                    self.chromosome['c'+str(x+1)]= random.choices(ch_P,weights=(0.5,0.5),k=1)[0]     
+                # metodo de recombinacion
+                c1,c2 = self.recombination(c1P,c2P,r)              
+                self.chromosome['c'+str(x+1)] = random.choice([c1,c2])
+                # # para 2 locus (A,B)
+                # if len(self.alFreq) >= 2:   
+                #     # ch_P = [c1P,c2P,c1P[0]+c2P[1],c2P[0]+c1P[1]]
+                #     # self.chromosome['c'+str(x+1)]= random.choices(ch_P,weights=recomb,k=1)[0]
+                # # para 1 locus (A)
+                # elif len(self.alFreq)==1:
+                #     ch_P = [c1P,c2P]
+                #     self.chromosome['c'+str(x+1)]= random.choices(ch_P,weights=(0.5,0.5),k=1)[0]     
         else:  
             self.chromosome = {'c'+str(k+1):v for k in range(2) for v in random.choice(self.parents[k].chromosome.values())}
 
-        
+    def recombination(self,c1,c2,r):
+        # factor de interferencia
+        # para que sea menos probable la recombinacion de dos loci seguidos
+        int = 0
+        for i in range(0,len(c1),2):
+            if random.random()<=r-int:
+                # ocurre la recombinacion (solo recombinan los loci A B )
+                c1R = c1[i]+c2[i+1:]
+                c2R = c2[i]+c1[i+1:] 
+                int = r/2
+                
+                c1 = c1R
+                c2 = c2R
+            else:
+                int = 0
+            
+            
+        return c1,c2
+            
+    
     def mutation(self):
         '''
         Provoca el cambio del alelo mayor al menor con una frecuencia mut
