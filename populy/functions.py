@@ -1,5 +1,6 @@
 
 import random
+from struct import pack
 
 def outer_product(f):
     """Calculate the outer product of two vectors and stores them on a dictionary"""
@@ -58,43 +59,79 @@ def rename(i,j,iteration,k,finalDict):
     return letrai,letraj
 
 
-def fitness(fit,child_gen):
-    '''Fitness function
-    0 = no selection,
-    1 = dominant selection (1,0.9,0.91)
-    2 = recessive selection (0.81,0.9,1)
-    3 = double recessive selection 'aabb'=0
+def fitness(fit : dict, genotype):
+    '''
+    A partir del tipo de seleccion y del genotipo que se le pase
+    Te devuelve si ese individuo vive o muere.
+    
+    Args:
+        fit ( dict[str : int] ): valor de fitness de genotipo o alelo
+        ej.1: fit = {'locusA':(0.8,0.9)...}
+        ej.2. fit = {'}
+        
+        child_gen (dict[str:int]): genotipo del individuo
     '''
     def live_die(p):
-        """_summary_
+        """
+        Función de vida o muerte, si el valor generado
+        es mayor que el valor pasado como parametro muere.
 
         Args:
             p (_type_): _description_
 
         Returns:
-            _type_: _description_
+            bool: decide si vive(True) o muere(False)
         """
         randNum = random.random()
-        if randNum < p:
+        if randNum <= p:
             return True
         else:
             return False
-  
-    
+
+    # Fitness segun locus/genotipo
+    # si tiene 1 A = fit[A][0]*fit[A][1]
+    # si tiene 0 A = fit[A][1]**2
+    # ...
+    if type(fit) is not int:
+        # para alelo
+        for k,v in genotype.items():
+            # si el locus esta en los valores de fit
+            if any(k == c for c in fit):
+                # recorremos cada alelo del genotipo para el locus dado k
+                p = 1
+                for letra in v:
+                    # si es el mayor llamamos a una probabilidad, si no a otra
+                    if letra.isupper():
+                        p *= fit[k][0]
+                    else:
+                        p *= fit[k][1]
+                    if live_die(p) == False:
+                        return False     
+        else:
+            # para genotipos completos
+            for k,v in fit.items():
+                genotipo = ''.join(genotype.values())
+                if genotipo == k:
+                    if live_die(v) == False:
+                        return False
+            else:
+                return True 
+            
+    # fitness concreto
     if fit==0:
         return True
     if fit==1:
-        if 'Aa'== child_gen['A']:
+        if 'Aa'== genotype['A']:
             return live_die()
-        if 'aa'== child_gen['A']:
+        if 'aa'== genotype['A']:
             return live_die(0.81)
     if fit==2:
-        if 'Aa'== child_gen['A']:
+        if 'Aa'== genotype['A']:
             return live_die(0.9)
-        if 'AA'== child_gen['A']:
+        if 'AA'== genotype['A']:
             return live_die(0.81)
     if fit==3:
-        if 'aa'== child_gen['A'] and 'bb'== child_gen['B']:
+        if 'aa'== genotype['A'] and 'bb'== genotype['B']:
             return False
     
     return True
