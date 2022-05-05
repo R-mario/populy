@@ -113,18 +113,15 @@ class Test_functions(unittest.TestCase):
     def test_outer_three(self):
         f = {'A':0,'B':0,'C':0.3}
         newf = {k:(v,1-v) for k,v in f.items()}
-        finalD = functions.outer_product2(newf)
+        finalD = functions.outer_product(newf)
         
         self.assertEqual(len(finalD),2**len(f))
     
     def test_outer_one(self):
-        f = {'A':1,'B':1,'C':0.3}
+        f = {'A':1}
         newf = {k:(v,1-v) for k,v in f.items()}
-        fValues = list(newf.values())
-        i = fValues[0]
-        finalD = dict()
-        finalD = functions.outer_product(i,fValues[1],1,finalD)
-        # print('oldcic',finalD)
+        finalD = functions.outer_product(newf)
+        self.assertEqual(len(finalD),2**len(f))
 
 if __name__ == '__main__':
     unittest.main()
