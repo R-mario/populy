@@ -180,7 +180,15 @@ class Population:
                 a.set_xticks(index_name[1:-1:3])
         plt.show()
         
-                     
+    def plotAlleles(freqs):
+        '''
+        La idea es que este metodo te permita representar el cambio 
+        de las frecuencias alelicas si se llama por separado 
+        pero si lo llama un metodo superior que se pueda meter en un
+        subplot.
+        Para eso debe ser un metodo estatico?
+        '''
+                         
     
     def genotFreq(self):
         '''
@@ -289,7 +297,9 @@ class Population:
         
          
     def evolvePop(self,gens = 20,every=5,ignoreSex=True,printInfo=False):
+        
         self.steps = every
+            
         for veces in range(0,gens):
             # si hay que parar la evolucion por algun motivo, sale del bucle
             if self.stopEv:
