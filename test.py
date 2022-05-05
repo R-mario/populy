@@ -97,7 +97,7 @@ class Test_population(unittest.TestCase):
         # instancia
         pop2 = pop.Population(size=100,freq={'A': (0.4,0.6)})
         # individuos
-        pop2.generateIndividuals()
+        pop2.initIndividuals()
         # evolucion
         pop2.evolvePop(printInfo=False)
         # frecuencia de gametos en la generacion final
@@ -122,6 +122,15 @@ class Test_functions(unittest.TestCase):
         newf = {k:(v,1-v) for k,v in f.items()}
         finalD = functions.outer_product(newf)
         self.assertEqual(len(finalD),2**len(f))
+    
+    def test_fitness(self):
+        res = functions.fitness({'A':(0,1)},{'A':'AA','B':'BB'})
+        self.assertFalse(res)
+        res2 = functions.fitness({'A':(1,1),'B':(1,1)},{'A':'AA','B':'BB'})
+        self.assertTrue(res2)
+        res3 = functions.fitness({'AaBB':0},{'A':'Aa','B':'BB'})
+        self.assertFalse(res3)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -31,7 +31,7 @@ class Superpop():
             
         printInfo = False
         # inicializamos
-        [x.generateIndividuals()  for x in self.sPop]
+        [x.initIndividuals()  for x in self.sPop]
         #evolucionamos
         [x.evolvePop(gens,every=cada,printInfo=False) for x in self.sPop]
         # guarda las frecuencias alelicas acumuladas en una lista
@@ -53,8 +53,6 @@ class Superpop():
         
         fig,ax=plt.subplots(1,2,figsize=(13,6))
 
-        
-        print(labels)
         for j,let in enumerate(self.freqs[0].keys()):
             for i in range(len(self.freqs)): 
                 ax[j].set_title(f'frecuencia alelica de {let}')
