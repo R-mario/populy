@@ -19,7 +19,6 @@ from statistics import mean
 #clase poblacion,atributos generales que heredara de los individuos
 class Population:
     
-    genotypeFreq = dict()
 
     
     def __init__(self,size = 100,name="Population",ploidy = 2, vida_media=55,
@@ -37,7 +36,6 @@ class Population:
         #frecuencia genotipica inicial
         self.freq = self.allelicFreq(freq)
         self.mu = mu
-        self.genotypeFreq = self.genotFreq()
         self.gen = 0
         self.mu = mu
         
@@ -70,28 +68,34 @@ class Population:
         return ''.join([self.name])
     
     
-    def generateIndividuals(self):
+    def initIndividuals(self,pop=0):
         '''
         Crea una lista de individuos
-        '''       
-        self.indiv = [Individual(i,
-                                self.name,
-                                 self.size,
-                                 self.ploidy,
-                                 self.vida_media,
-                                 self.freq,
-                                 self.d,
-                                 self.R,
-                                 self.mu,
-                                 self.gen) 
-                      for i in range(self.size)]
-        print("se han generado un total de {} individuos de la poblacion"
-              .format(self.size))
+        '''
+        if not pop:     
+            self.indiv = [Individual(i,
+                                    self.name,
+                                    self.size,
+                                    self.ploidy,
+                                    self.vida_media,
+                                    self.freq,
+                                    self.d,
+                                    self.R,
+                                    self.mu,
+                                    self.gen) 
+                        for i in range(self.size)]
+            print("se han generado un total de {} individuos de la poblacion"
+                .format(self.size))
+        else:
+            # la poblacion sera una parte o toda, dependiendo del tamaño original
+            self.indiv = pop.indiv[0:self.size if self.size < len(pop.indiv) else len(pop.indiv)]
+            print(f"Se han tomado {self.size} individuos de la poblacion")
         
         # se crean nuevas variables de la poblacion
-        
+        # print(self.freq,self.alleleFreq())
+        freq_alelicas = self.alleleFreq()
         # frecuencia alelica acumulada = se añadiran valores durante la ev
-        self.f_ale_acc = {k: [v[0]] for k,v in self.freq.items()}
+        self.f_ale_acc = {k: [v] for k,v in freq_alelicas.items()}
         dictc = self.gameticFreq()
         # frecuencia gametica acumulada
         self.f_gam_acc = {k: [v] for k,v in dictc.items()}
@@ -135,15 +139,15 @@ class Population:
 
         # creamos el indice (eje x) del dataFrame
  
-        index_name = ['gen.'+str(x) for x in range(0,self.gen+1,self.steps)]
+        labels = ['gen.'+str(x) for x in range(0,self.gen+1,self.steps)]
         
         # DataFrame de frecuencias alelicas acumuladas
-        al_df = pd.DataFrame(self.f_ale_acc,index=index_name)
+        al_df = pd.DataFrame(self.f_ale_acc,index=labels)
         # DataFrame de frecuencias gameticas acumuladas
-        gam_df = pd.DataFrame(self.f_gam_acc,index=index_name)
+        gam_df = pd.DataFrame(self.f_gam_acc,index=labels)
         
         # DataFrame de sexos
-        sex_df = pd.DataFrame(self.f_sex_acc,index=index_name)
+        sex_df = pd.DataFrame(self.f_sex_acc,index=labels)
         # # DataFrame de mutaciones 
         # mut_df = pd.DataFrame(self.f_mut_acc,index=index_name)
         if printInfo:
@@ -169,15 +173,18 @@ class Population:
         ax[1,0].set_ylim(0.3,0.7)
         ax[1,0].legend(['Female','Male'])
         
-        ax[1,1].bar(height=self.f_mut_acc[1:],x=index_name[1:])
+        ax[1,1].bar(height=self.f_mut_acc[1:],x=labels[1:])
         ax[1,1].set_title('Mutaciones')
         maxMutLim = max(self.f_mut_acc)
         ax[1,1].set_ylim(0,maxMutLim+1)
         # media
         ax[1,1].axhline(mean(self.f_mut_acc), color='green', linewidth=2)
-        if len(index_name)>10:
-            for a in np.ravel(ax): 
-                a.set_xticks(index_name[1:-1:3])
+        # if len(index_name)>10:
+        #     for a in np.ravel(ax): 
+        #         a.set_xticks(index_name[1:-1:3])
+        # setting x_ticks for all subplots
+        new_steps = int(self.gen/30) if len(labels)>10 else 1
+        plt.setp(ax, xticks=range(0,len(labels),new_steps), xticklabels=labels[:-1:new_steps])
         plt.show()
         
     def plotAlleles(freqs):
@@ -188,22 +195,8 @@ class Population:
         subplot.
         Para eso debe ser un metodo estatico?
         '''
+        pass
                          
-    
-    def genotFreq(self):
-        '''
-        Calcula las frecuencias genotipicas a partir de las alelicas
-        '''
-        genotypeFreq = dict()
-        if self.ploidy == 2:    
-            for key,lista in self.freq.items():
-                genotypeFreq[key] = (lista[0]**2,
-                                         lista[0]*lista[1]*2,
-                                         lista[1]**2)
-                genotypeFreq[key] = [x*self.size for x in genotypeFreq[key]]
-        elif self.ploidy == 1:
-            genotypeFreq = self.freq
-        return genotypeFreq
 
     # SIN USAR    
     def getMeanAge(self):
@@ -338,7 +331,7 @@ class Population:
                 # encuentra cuantos individuos han sufrido una mutacion
                 self.findMutated(show = 2 if printInfo else 0)
                 
-                completed = (self.gen/gens)*100
+                completed = (veces/gens)*100
                 if completed < 100:
                     print(f"{round(completed,1)}% completado...")
         else:
@@ -455,7 +448,7 @@ if __name__ == '__main__':
                         fit = 3)
 
     # se generan individuos en esa poblacion
-    shark.generateIndividuals()
+    shark.initIndividuals()
 
 
     # parametro opcional show, permite elegir cuantos elementos se muestran (por defecto se muestran 10)
