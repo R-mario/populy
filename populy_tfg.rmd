@@ -1,0 +1,86 @@
+---
+title: "Populy: un paquete de python para enseñar genética de poblaciones"
+author: "Mario Ruiz Pérez"
+date: "6/5/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(reticulate)
+```
+
+# Índice
+
+## 1. Introducción
+  [Podria ser una introducció curta, explicant de forma anecdòtica que el 
+Populus és un exemple dels programes que ja no s'haurien de fer servir en 
+educació superior. ]
+
+## 2. La computació com a eina educativa
+
+- ### Alfabetització informàtica
+  [Sobre la importància de saber programar en qualsevol professió i els 
+beneficis que pot tenir sobre l'aprenentatge de qualsevol matèria. Hi ha qui parla 
+de "pensament computacional", però tampoc no sé què volen dir, exactament.]
+
+- ### Python
+  [Per què has triat python. Podries citar algun testimoni sobre l'ús de 
+python a les aules, si en trobes algun d'interessant.]
+
+- ### Jupyter notebook
+  [Explicar què és i quines potencialitats té per a l'educació, en 
+general.]
+
+- ### Evolució i genètica
+  [Una vegada has contextualitzat i justificat el mètode, pots especificar la 
+matèria sobre la que l'apliques. Ho pots relacionar amb la crítica de Populus 
+de la introducció.]
+
+- ## Descripció del paquet
+    - Contenidos y estructura
+        * Directorios y archivos del paquete (+módulos)
+        * Diagrama de clases y funciones
+        * Tests
+    - Ejemplo de Uso
+        * Explicación paso a paso de como utilizarlo
+    - Caso práctico
+
+    - Perspectivas y limitaciones
+        * Posibles mejoras y añadidos
+
+## Conclusiones
+  [Idealment, ací podries intentar lligar les dues parts anteriors, que poden 
+estar escrites quasi per a audiències diferents. Podries, per exemple, 
+explicar en quines assignatures de quins graus creus que podria utilitzar-se el 
+programa que has creat.]
+
+## Bibliografía
+
+## Introducción
+
+Esto es una prueba de uso de R-markdown como archivo para ejecutar código
+
+Aqui se importan el módulo pero no se muestra por pantalla:
+
+```{python imports, include=FALSE}
+try:
+  from populy.population import Population
+except:
+  import sys
+  sys.path.append('populy')
+finally:
+  from populy.population import Population
+```
+
+Ahora se ejecuta este bloque de código: 
+
+```{python Pop, echo=FALSE}
+import pandas
+pop = Population()
+pop.initIndividuals()
+pop.evolvePop()
+df1,df2 = pop.plotAll()
+```
+
+
