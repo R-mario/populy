@@ -184,8 +184,10 @@ class Population:
         #         a.set_xticks(index_name[1:-1:3])
         # setting x_ticks for all subplots
         new_steps = int(self.gen/30) if len(labels)>10 else 1
-        plt.setp(ax, xticks=range(0,len(labels),new_steps), xticklabels=labels[:-1:new_steps])
+        plt.setp(ax, xticks=range(0,len(labels),new_steps), xticklabels=labels[::new_steps])
         plt.show()
+        
+        return gam_df,al_df
         
     def plotAlleles(freqs):
         '''
