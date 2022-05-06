@@ -90,6 +90,9 @@ class Test_population(unittest.TestCase):
         creates a population without giving parameters
         """
         pop1 = pop.Population()
+        pop1.initIndividuals()
+        pop1.evolvePop()
+        pop1.plotAll()
         self.assertTrue(pop1)
 
     

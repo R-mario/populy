@@ -162,3 +162,7 @@ cython_debug/
 Populy.code-workspace
 
 # End of https://www.toptal.com/developers/gitignore/api/python
+.Rproj.user
+.RData
+.Rhistory
+*.Rproj
