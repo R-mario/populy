@@ -1,64 +1,92 @@
 ---
-title: "Populy: un paquete de python para enseñar genética de poblaciones"
+title: 'Populy: un paquete de python para enseñar genética de poblaciones'
 author: "Mario Ruiz Pérez"
 date: "6/5/2022"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(reticulate)
+library(tinytex)
 ```
-
+\newpage
 # Índice
 
-## 1. Introducción
-  [Podria ser una introducció curta, explicant de forma anecdòtica que el 
-Populus és un exemple dels programes que ja no s'haurien de fer servir en 
-educació superior. ]
+1. Introducción<br>
+  
+2. Computación como herramienta educativa
 
-## 2. La computació com a eina educativa
+  - Alfabetización informática
+  - Python
+  - Jupyter notebook
+  - Evolución y genética
 
-- ### Alfabetització informàtica
-  [Sobre la importància de saber programar en qualsevol professió i els 
-beneficis que pot tenir sobre l'aprenentatge de qualsevol matèria. Hi ha qui parla 
-de "pensament computacional", però tampoc no sé què volen dir, exactament.]
-
-- ### Python
-  [Per què has triat python. Podries citar algun testimoni sobre l'ús de 
-python a les aules, si en trobes algun d'interessant.]
-
-- ### Jupyter notebook
-  [Explicar què és i quines potencialitats té per a l'educació, en 
-general.]
-
-- ### Evolució i genètica
-  [Una vegada has contextualitzat i justificat el mètode, pots especificar la 
-matèria sobre la que l'apliques. Ho pots relacionar amb la crítica de Populus 
-de la introducció.]
-
-- ## Descripció del paquet
-    - Contenidos y estructura
-        * Directorios y archivos del paquete (+módulos)
-        * Diagrama de clases y funciones
-        * Tests
-    - Ejemplo de Uso
-        * Explicación paso a paso de como utilizarlo
+3. Populy: funcionamiento y estructura
+    - Contenidos
+    - Manual(es) de uso
     - Caso práctico
-
     - Perspectivas y limitaciones
-        * Posibles mejoras y añadidos
 
-## Conclusiones
-  [Idealment, ací podries intentar lligar les dues parts anteriors, que poden 
-estar escrites quasi per a audiències diferents. Podries, per exemple, 
-explicar en quines assignatures de quins graus creus que podria utilitzar-se el 
-programa que has creat.]
+4. Conclusiones<br>
 
-## Bibliografía
+5. Bibliografía
+\newpage
 
 ## Introducción
 
+Hablar sobre qué es la biología evolutiva y la necesidad (y utilidad) de métodos de representación de la evolución, explicar en qué consiste Populy de forma general y compararlo con populus, el más utilizando en las clases, y también con simuPOP, una herramienta más avanzada pero menos asequible.Hacer una breve crítica a ambos y explicar por qué Populy (y los notebooks) pueden ser una herramienta mucho más útil para enseñar biología evolutiva y genética de poblaciones a los alumnos.
+
+## Computación como herramienta educativa
+### Alfabetización informática
+
+Qué es la programación, como concepto y como herramienta, sobre la expansión que tiene en todos los ámbitos, desde la sociedad hasta el ámbito académico.<br>
+Exponer la importancia de tener unas bases para cualquier persona, en especial para los estudiantes de ciencias experimentales (que son los que menos se valen de ésta herramienta de todas las ciencias naturales y exactas). Los beneficios que aporta la programación, desde el nivel cognitivo (supuesta mejor abstracción, mejora en la organización de esquemas mentales, forma de pensar analítica) hasta profesional (la demanda de programadores y conocimientos informáticos es cada vez mayor, casi todos los sectores incorporan una parte tecnológica importante que no se puede obviar).
+
+### Python
+
+Primero hablar sobre los distintos tipos de lenguajes que existen, hacer una introducción a la programación orientada a objetos. Qué es python, que ventajas (ej: facil curva de aprendizaje, gran comunidad, multitud de paquetes y librerias) y posibles desventajas (menor rendimiento) tiene.
+Hablar sobre la importancia de Python como lenguaje respecto al resto, el gran número de usuarios que tiene, la facilidad en su aprendizaje y su expansión en el mundo académico.
+  
+### Jupyter notebook
+
+Qué es un jupyter notebook, modelo pasivo vs. modelo activo de aprendizaje, sus multitud de aplicaciones, destacando la de la enseñanza (nombrar ejemplos). Cómo funciona.
+  
+La ventaja que tiene enseñar en estos *notebooks* ya que permite utilizarlo como libreta y como laboratorio al mismo tiempo, haciendo posible que los estudiantes practiquen en ese mismo momento lo que han aprendido y prueben diferentes formas de aproximarse a un problema, de representarlo.... También de utilizarlo para realizar cálculos que son muy pesados a mano (poner el ejemplo del cálculo de frecuencias gaméticas a partir de las alélicas o la frecuencia de recombinación), es decir usarlo como una calculadora avanzada...
+  
+### Evolución y genética
+
+Hablar sobre las formas de modelar la evolución (modelo de coalescencia vs forward-time), cómo funcionan este tipo de modelos, qué ventajas tienen como modelar la estocasticidad o la flexibilidad en los parámetros (respecto a populus por ejemplo), relacionarlo con el modelo activo del aprendizaje (aquí debes entender qué es cada parámetro para obtener la información que quieres, también puedes trabajar tú con esa información, tanto gráficamente como con una tabla de datos.<br>
+Cuáles son los conceptos clave de la evolución que se pueden aprender mediante estos modelos y Populy en concreto (locus, alelo, mutación, selección, deriva genética, efecto fundador, migración, etc).
+
+## Populy: funcionamiento y estructura
+### Contenidos
+
+Explicar la diferencia entre paquete y script, describir todos los archivos y la función que cumplen.<br>
+Centrarse en el directorio populy, explicar detalladame que hace cada modulo, cuales son sus atributos y sus metodos, o las funciones que contiene. Al menos las mas relevantes para comprender el paquete.
+Hablar de los tests y su importancia para un buen desarrollo de software
+
+### Manual(es) de uso
+
+Mediante rmarkdown, hace algo similar (quizá más conciso) que lo que hay en el archivo manual.md, explicando cómo se ejecuta cada línea de código para que funcione correctamente.
+Si al final se añade, incluir en ejemplo de uso el notebook de aprendiendo python, para explicar los conceptos clave del lenguaje para poder entender qué se está haciendo (qué es una variable, condicionales, bucles y qué es una función ~ método).
+
+### Caso práctico: la deriva genética
+
+Aquí, se hará algo parecido al apartado anterior pero sin tanta explicación, será un ejemplo de un ejercicio para clase que se podría hacer. Cómo llevarlo a cabo y cómo interpretar los resultados.
+### Perspectiva y limitaciones
+
+Hablar de las mejoras a nivel de software que se podrían implementar (para mejorar el rendimiento principalmente) pero centrándose en cambios de concepto: cómo se representa un genoma, cómo se representa un sexo... y añadidos: implementar una estructura de edades, permitir la interacción entre poblaciones (migración)...
+
+## Conclusiones
+
+(volver a) Hablar sobre la importancia de la programación en la biología, las carencias que tiene respeto al resto de ciencias. El enfoque de aprender haciendo. Hablar de que el paquete, por su contenido, está pensado principalmente para estudiantes de la rama de la biología (biología, bioquimica, biotecnologia) de 1 o 2 curso, en asignaturas de procesos evolutivos, o biologia (y evolución).
+
+## Bibliografía
+\newpage
+## Prueba rmd
 Esto es una prueba de uso de R-markdown como archivo para ejecutar código
 
 Aqui se importan el módulo pero no se muestra por pantalla:
