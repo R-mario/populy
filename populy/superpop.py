@@ -15,11 +15,12 @@ class Superpop():
         Args:
             popsize (int): tamaño de cada población
             n (int): número de poblaciones
+            kwargs: los mismos de poblacion
             '''
 
         self.popsize = popsize
         self.n = n
-        self.sPop = [Population(popsize,kwargs)for x in range(n)] 
+        self.sPop = [Population(popsize,**kwargs)for x in range(n)] 
     
         
     def startPops(self,gens,**kwargs):
@@ -63,15 +64,11 @@ class Superpop():
         plt.show()
         
         
-        
-        
-        
-        
 if __name__ == '__main__':
     
-    superpop = Superpop(10,n=5,ploidy=2)
+    superpop = Superpop(100,n=5,ploidy=2,fit={'A':(0.9,1)},rnd=False)
     
-    alFreq_sp = superpop.startPops(gens=10)
+    alFreq_sp = superpop.startPops(gens=100)
     
     
     superpop.plotPops()

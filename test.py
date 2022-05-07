@@ -23,14 +23,14 @@ class Test_individual(unittest.TestCase):
     def test_individual_activation(self):
         # instanciamos
         ind1 = ind.Individual('nombre_ind','nombre_pob',1,2,0,freq={'A':(0.4,0.6),'B':(0.6,0.4)},
-                          d=0,R=0.5,mu=(0.1,0.1))
+                          d=0,R=0.5,mu=(0.1,0.1),sex_system='XY')
         # comprobamos que devuelve un string
         self.assertTrue(ind1)
         
     def test_gametic(self):
         # instanciamos
         ind2 = ind.Individual('nombre_ind','nombre_pob',1,2,0,freq={'A':(0.4,0.6),'B':(0.6,0.4)},
-                          d=0,R=0.5,mu=(0.1,0.1))
+                          d=0,R=0.5,mu=(0.1,0.1),sex_system='ZW')
         # guardamos la frecuencia gametica
         gam_freq = ind2.gameticFreq()
         # comprobamos que es lo esperado
@@ -38,7 +38,7 @@ class Test_individual(unittest.TestCase):
         
     def test_haploid(self):
         ind3 = ind.Individual('nombre_ind','nombre_pob',1,1,0,freq={'A':(0.4,0.6),'B':(0.6,0.4)},
-                          d=0,R=0.5,mu=(0.1,0.1))
+                          d=0,R=0.5,mu=(0.1,0.1),sex_system='XY')
         #chromosomes 
         chr = ind3.chromosome
         self.assertEqual(list(chr.keys()),['c1'])
@@ -48,7 +48,7 @@ class Test_individual(unittest.TestCase):
     def test_oneLocus(self):
         freq={'A':(0.4,0.6)}
         ind3 = ind.Individual('nombre_ind','nombre_pob',1,2,0,freq,
-                          d=0,R=0.5,mu=(0.1,0.1))
+                          d=0,R=0.5,mu=(0.1,0.1),sex_system='XY')
         gamFreq=ind3.gameticFreq()
         self.assertEqual(gamFreq,{'A':0.4,'a':0.6})
     

@@ -117,12 +117,12 @@ def fitness(fit : dict, genotype):
             else:
                 return True 
             
-    # fitness concreto
+    # fitness numerico
     if fit==0:
         return True
     if fit==1:
         if 'Aa'== genotype['A']:
-            return live_die()
+            return live_die(0.9)
         if 'aa'== genotype['A']:
             return live_die(0.81)
     if fit==2:
