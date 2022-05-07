@@ -12,6 +12,7 @@ import itertools
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np 
+import re
 from statistics import mean
 
 
@@ -23,7 +24,7 @@ class Population:
     
     def __init__(self,size = 100,name="Population",ploidy = 2, vida_media=55,
                  R=0.1,mu = (1e-4,1e-4),freq={'A':(0.5,0.5),'B':(0.5,0.5)},D=0.1,
-                 fit=0):
+                 fit=0,sex_system='XY',rnd=False):
                  
         self.name = name
         self.size = size
@@ -32,7 +33,9 @@ class Population:
         self.d = D
         self.R = R
         self.steps = 0
-
+        
+        self.rnd = rnd
+        
         #frecuencia genotipica inicial
         self.freq = self.allelicFreq(freq)
         self.mu = mu
@@ -43,6 +46,10 @@ class Population:
         self.stopEv = False
         
         self.fit = fit
+        
+        self.sex_system = sex_system.upper()
+        
+        self.checkRandom(rnd)
         
     def allelicFreq(self,freq):
         """Comprueba que el diccionario pasado tenga el formato correcto
@@ -57,13 +64,32 @@ class Population:
             dict: diccionario de frecuencias
         """
         for k,v in freq.items():
-            if type(v)==int:
-                freq[k]=(v,1-v)
-            if sum(freq[k])>1:
+            if self.rnd:
+                q = random.random()
+                freq[k]=(q,1-q)
+            elif sum(freq[k])>1:
                 raise ValueError('suma mayor que 1') 
+            elif isinstance(v,int):
+                freq[k]=(v,1-v)
         return freq
     
-    
+    def checkRandom(self,rnd):
+        '''Comprueba si existe el usuario ha indicado que la población
+        ha de ser aleatoria, si es así cambia algunos los atributos de
+        la población [f de recombinacion R, D, mutacion y fitness].
+        
+        Las frecuencias alelicas se cambian en otro metodo
+        Args:
+            rnd (bool,str): True si queremos aleatorio False si no
+            si es un string solo hara aleatorio las frecuencias alelicas
+        '''
+        if isinstance(rnd,bool):
+            if rnd:
+                self.R = random.random()/2
+                self.d = random.random()/2
+                self.mu = tuple([random.random()/2 for x in range(2)])
+                self.fit = random.randint(0,3)
+                
     def __str__(self):
         return ''.join([self.name])
     
@@ -82,7 +108,9 @@ class Population:
                                     self.d,
                                     self.R,
                                     self.mu,
-                                    self.gen) 
+                                    self.sex_system,
+                                    self.gen,
+                                    parents=0) 
                         for i in range(self.size)]
             print("se han generado un total de {} individuos de la poblacion"
                 .format(self.size))
@@ -186,35 +214,42 @@ class Population:
         new_steps = int(self.gen/30) if len(labels)>10 else 1
         plt.setp(ax, xticks=range(0,len(labels),new_steps), xticklabels=labels[::new_steps])
         plt.show()
-        
-        return gam_df,al_df
-        
-    def plotAlleles(freqs):
-        '''
-        La idea es que este metodo te permita representar el cambio 
-        de las frecuencias alelicas si se llama por separado 
-        pero si lo llama un metodo superior que se pueda meter en un
-        subplot.
-        Para eso debe ser un metodo estatico?
-        '''
-        pass
-                         
 
-    # SIN USAR    
-    def getMeanAge(self):
+        
+    def getDataFrame(self,which='mutantes'):
         '''
-        obtienes la edad media recorriendo la lista de individuos
+        Genera un dataframe filas: generaciones.
+        Args:
+            which (str) : cual es el dataframe que quieres obtener
+        
+        Returns:
+            (pd.DataFrame): un dataframe de n filas, 
+            donde n es el numero de generaciones
         '''
-        try:
-            meanAge = 0
-            for obj in self.indiv:
-                meanAge += obj.age
-            meanAge = round(meanAge/len(self.indiv),2)
-            print("la edad media de la poblacion es: ",meanAge)
-        except:
-            print("No has inicializado la poblacion")
+        labels = ['gen.'+str(x) for x in range(0,self.gen+1,self.steps)]
+        if isinstance(which, str):
+            if re.match('(.+?)?gamet(ica|o)s?',which):
+                data = self.f_gam_acc
+            elif re.match('(.+?)?all?el(ica|o)s?',which):
+                data = self.f_ale_acc
+            elif re.match('(.+?)?sexo?s?',which):
+                data = self.f_sex_acc
+            elif re.match('(.+?)?mut(.+?)',which):
+                data = self.f_mut_acc
+            # if re.match('(.+?)?(tod(o|a)s?|all)(.+?)',which):
+            #     data= [self.f_gam_acc,self.f_ale_acc,
+            #            self.f_sex_acc,self.f_mut_acc]
+            else:
+                raise ValueError(f'Unknown {which}')
+        elif isinstance(which,list):
+            data = which
+        else:
+            raise TypeError(f'Unknown {which}')
             
-                
+        Summary = pd.DataFrame(data,index=labels)
+
+        return Summary
+                                  
     
     def gameticFreq(self):
         '''
@@ -254,7 +289,7 @@ class Population:
     def sexFreq(self):
         sex=[0,0]
         for individuo in self.indiv:
-            if individuo.sex=='Female':
+            if individuo.getSex()=='Female':
                 sex[0]+=1
             else:
                 sex[1]+=1
@@ -347,12 +382,12 @@ class Population:
         count = 0
         # si son del mismo sexo vuelve a elegir, se establece un limite al bucle por si es infinito
         # Esto puede pasar cuando solo hayan machos o hembras en una poblacion pequeña
-        while ind1.sex == ind2.sex and count < 5*self.size and ignoreSex==False:
+        while ind1.sex_chromosome == ind2.sex_chromosome and count < 5*self.size and ignoreSex==False:
             ind1,ind2 = random.choices(poblacion,k=2)
             # comprueba que sean de sexos distintos
             count +=1
         # si siguen siendo del mismo sexo, entonces hay que parar
-        if ind1.sex == ind2.sex and ignoreSex==False:
+        if ind1.sex_chromosome == ind2.sex_chromosome and ignoreSex==False:
             self.stopEv = True
            
         #guardamos los dos individuos en la variable parents
@@ -370,6 +405,7 @@ class Population:
                          self.d,
                          self.R,
                          self.mu,
+                         self.sex_system,
                          self.gen,
                          parents)
     
@@ -387,7 +423,7 @@ class Population:
 
         sex = {'Male':0,'Female':0}
         for x in range(tam):
-            sexo = self.indiv[x].sex
+            sexo = self.indiv[x].sex()
             if sexo == 'Male':
                 sex['Male'] = sex['Male'] + 1
             else:
@@ -439,34 +475,34 @@ if __name__ == '__main__':
     # R es la tasa de recombinacion
     # mu es la tasa de mutacion de los alelos (de A a a y viceversa..)
     
-    shark = Population(size=100,
+    pop = Population(size=100,
                         name="Megadolon",
                         ploidy=2,
                         vida_media=23,
                         freq={'A':(0.4,0.6),'B':(0.6,0.4)},
                         D = 0.1,
-                        R=0,
+                        R=0.5,
                         mu =(0.1,0.1),
-                        fit = 3)
+                        fit = {'aabb':0.2})
 
     # se generan individuos en esa poblacion
-    shark.initIndividuals()
+    pop.initIndividuals()
 
 
     # parametro opcional show, permite elegir cuantos elementos se muestran (por defecto se muestran 10)
-    shark.printIndiv(show=5)
+    pop.printIndiv(show=5)
 
     # muestra la cantidad de individuos con 'AA','aa'...
     # shark.printSummary()
 
-    shark.evolvePop(gens=200,every=10,printInfo=False)
-
-    shark.printIndiv(show=5)
+    pop.evolvePop(gens=200,every=10,printInfo=False,ignoreSex=False)
 
     # printa el individuo que se quiere estudiar y sus padres
-    shark.printParentIndividuals(id=2)
+    # pop.printParentIndividuals(id=2)
+    df = pop.getDataFrame('sex')
+    print(df.head())
     # obtiene un resumen del cambio en la frecuencia alelica
-    shark.plotAll()
+    pop.plotAll()
 
 
 
