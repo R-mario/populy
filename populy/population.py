@@ -19,13 +19,31 @@ from statistics import mean
 
 #clase poblacion,atributos generales que heredara de los individuos
 class Population:
-    
+
 
     
     def __init__(self,size = 100,name="Population",ploidy = 2, vida_media=55,
-                 R=0.1,mu = (1e-4,1e-4),freq={'A':(0.5,0.5),'B':(0.5,0.5)},D=0.1,
+                 R=0.5,mu = (1e-4,1e-4),freq={'A':(0.5,0.5),'B':(0.5,0.5)},D=0.1,
                  fit=0,sex_system='XY',rnd=False):
-                 
+        """Creates a new empty object population.
+        
+        Parameters:
+            size (int): Population size. Defaults to 100.
+            name (int): Population name. Defaults to 'Population'
+            ploidy (int): Number of homologous chromosomes. Defaults to 2.
+            R (float) : Recombination frequency [0,0.5] where 0.5 indicates
+            statistic independence. Defaults to 0.5. 
+            mu (tuple(float,float)): Mutation rate. Defaults to (1e-4,1e-4).
+            freq (dict): loci (key) and allelic frequencies for each allele (values).
+            D (float): initial linkage desequilibrium [0,0.5]. Defaults to 0. 
+            fit (int,dict): fitness function applied, can take allele fitness value
+            or genotype fitness value. E.g. {'A':0.8} or {'AABB':0.8}. Every other 
+            value is set to 1. Defaults to 0 (no fitness function applied).
+            sex_system (str) : sex determination sistem. Can be XY,ZW or X0. 
+            Defaults to 'XY'.
+            rnd (bool) : If set to True every other parameter is changed to
+            a new random value (R,D,mu,freq). Defaults to False.
+        """     
         self.name = name
         self.size = size
         self.ploidy = ploidy
@@ -42,23 +60,24 @@ class Population:
         self.gen = 0
         self.mu = mu
         
-        # variable booleana interrumpe la evolucion
+        # stops evolve if needed
         self.stopEv = False
         
         self.fit = fit
         
         self.sex_system = sex_system.upper()
         
-        self.checkRandom(rnd)
+        self.__checkRandom()
         
     def allelicFreq(self,freq):
-        """Comprueba que el diccionario pasado tenga el formato correcto
+        """
+        Checks if dictionary has the correct format
 
-        Args:
-            freq (dict): contiene los valores de frecuencias alelicas
+        Parameters:
+            freq (dict): contains allelic frequencies values
 
         Raises:
-            ValueError: error si se pasan valores mayores que 1
+            ValueError: if sum of all freq is greater than 1
 
         Returns:
             dict: diccionario de frecuencias
@@ -68,21 +87,18 @@ class Population:
                 q = random.random()
                 freq[k]=(q,1-q)
             elif sum(freq[k])>1:
-                raise ValueError('suma mayor que 1') 
+                raise ValueError(f'{freq[k]} is greater than 1') 
             elif isinstance(v,int):
                 freq[k]=(v,1-v)
         return freq
     
-    def checkRandom(self,rnd):
-        '''Comprueba si existe el usuario ha indicado que la población
-        ha de ser aleatoria, si es así cambia algunos los atributos de
-        la población [f de recombinacion R, D, mutacion y fitness].
-        
-        Las frecuencias alelicas se cambian en otro metodo
-        Args:
-            rnd (bool,str): True si queremos aleatorio False si no
-            si es un string solo hara aleatorio las frecuencias alelicas
+    def __checkRandom(self):
         '''
+        Check if user set random (rnd) to True, then changes R, D, 
+        mu and fit to random values.
+           
+        '''
+        rnd = self.rnd
         if isinstance(rnd,bool):
             if rnd:
                 self.R = random.random()/2
@@ -96,7 +112,11 @@ class Population:
     
     def initIndividuals(self,pop=0):
         '''
-        Crea una lista de individuos
+        Creates new list of individuals
+        
+        Parameters:
+            pop : If a population is passed then will use
+            that as a generation 0 population. Defaults to 0.
         '''
         if not pop:     
             self.indiv = [Individual(i,
@@ -135,8 +155,13 @@ class Population:
            
     def printIndiv(self,show=5,children=True):
         '''
-        Muestra por consola informacion de los primeros individuos
-        de la poblacion 
+        Shows information about the individuals. 
+        
+        Parameters:
+            show (int): Indicates how many individuals are shown. Defaults
+            to 5. 
+            children (bool): If True, shows current generation, if false,
+            shows previous generation (parent). Defaults to True.
         '''
         show = abs(show)
         listaAtrib = ['ide','sex','sex_chromosome','chromosome']
@@ -154,15 +179,10 @@ class Population:
             if show == 0:
                 break
     
-    def plotAll(self,printInfo=False):
+    def plotAll(self):
         '''
-        Representa gráficamente todas las caracteristicas 
-        más relevantes de la población 
-        frecuencias alélicas, frecuencias gaméticas, sexo, nº mutantes y
-        nº de recombinantes
-        Args:
-            printInfo (bool, optional): Mostrar o no mas informacion 
-            a parte de las graficas. Defaults to False.
+        Graphical representation with matplotlib.
+        Allelic and gametic frequencies, sex frequency and number of mutations.
         '''  
 
         # creamos el indice (eje x) del dataFrame
@@ -178,9 +198,6 @@ class Population:
         sex_df = pd.DataFrame(self.f_sex_acc,index=labels)
         # # DataFrame de mutaciones 
         # mut_df = pd.DataFrame(self.f_mut_acc,index=index_name)
-        if printInfo:
-            print(gam_df)
-            print(al_df)
 
         # Hacemos el grafico
         fig,ax = plt.subplots(2,2,figsize=(13,8))
@@ -190,27 +207,27 @@ class Population:
         ax[0,0].set_title('frecuencias gaméticas')
         ax[0,0].legend(gam_df.columns)
         ax[0,0].set_ylim(0,1)
+        ax[0,0].set_ylabel('%')
         # fig[1].title('Variacion de las frecuencias alelicas')
         ax[0,1].set_title('frecuencias alélicas')
         ax[0,1].plot(al_df)
         ax[0,1].legend(al_df.columns)
         ax[0,1].set_ylim(0,1)
+        ax[0,1].set_ylabel('%')
         
         ax[1,0].plot(sex_df)
         ax[1,0].set_title('frecuencia del sexo')
         ax[1,0].set_ylim(0.3,0.7)
         ax[1,0].legend(['Female','Male'])
+        ax[1,0].set_ylabel('%')
         
         ax[1,1].bar(height=self.f_mut_acc[1:],x=labels[1:])
         ax[1,1].set_title('Número de mutaciones')
         maxMutLim = max(self.f_mut_acc)
         ax[1,1].set_ylim(0,maxMutLim+1)
-        # media
         ax[1,1].plot(self.f_mut_acc[1:], color='red', linewidth=2)
-        # if len(index_name)>10:
-        #     for a in np.ravel(ax): 
-        #         a.set_xticks(index_name[1:-1:3])
-        # setting x_ticks for all subplots
+        ax[1,1].set_ylabel('individuos mutados')
+        
         new_steps = int(self.gen/30) if len(labels)>10 else 1
         plt.setp(ax, xticks=range(0,len(labels),new_steps), xticklabels=labels[::new_steps])
         plt.show()
@@ -218,13 +235,15 @@ class Population:
         
     def getDataFrame(self,which='mutantes'):
         '''
-        Genera un dataframe filas: generaciones.
-        Args:
-            which (str) : cual es el dataframe que quieres obtener
+        Generates a pandas dataframe.
+        
+        Parameters:
+            which (str) : which dataframe will be returned.
+            Options = gametic,allelic,sex frequencies or number 
+            of mutations
         
         Returns:
-            (pd.DataFrame): un dataframe de n filas, 
-            donde n es el numero de generaciones
+            (pd.DataFrame): Dataframe.
         '''
         labels = ['gen.'+str(x) for x in range(0,self.gen+1,self.steps)]
         if isinstance(which, str):
@@ -234,6 +253,7 @@ class Population:
                 data = self.f_ale_acc
             elif re.match('(.+?)?sexo?s?',which):
                 data = self.f_sex_acc
+                data.columns = ['Female','Male']
             elif re.match('(.+?)?mut(.+?)',which):
                 data = self.f_mut_acc
             # if re.match('(.+?)?(tod(o|a)s?|all)(.+?)',which):
@@ -253,7 +273,7 @@ class Population:
     
     def gameticFreq(self):
         '''
-        calcula el numero de gametos distintos en la poblacion
+        Computes number of different gametes in the population.
         '''
         # diccionario tipo {'AB': 0,'Ab':0,...}
         obsGamf = outer_product(self.freq)
@@ -270,7 +290,10 @@ class Population:
     
     def alleleFreq(self):
         '''
-        Obtiene la frecuencia alelica a partir de la gametica para la poblacion actual
+        Obtains number of major alleles from gametic frequency for current population.
+        
+        Returns:
+            dict (str:int): Keys = locus(A,B,...), Values=Count
         '''
         # frecuencia alelica observada
         obsAleF = {k:0 for k in self.freq.keys()}
@@ -287,6 +310,11 @@ class Population:
         return obsAleF
         
     def sexFreq(self):
+        """Obtains sex frequency for current population.
+
+        Returns:
+            dict: Keys = Male-Female, Values = frequencies
+        """
         sex=[0,0]
         for individuo in self.indiv:
             if individuo.getSex()=='Female':
@@ -299,7 +327,7 @@ class Population:
     
     def freqGamAcumulada(self):
         '''
-        Modifica la variable cum_gamF para meter nuevos valores de frecuencia gametica
+        Adds current gametic frequency to object variable f_gam_acc
         '''
 
         obsGamf = self.gameticFreq()
@@ -313,27 +341,35 @@ class Population:
     
     def freqAleAcumulada(self):
         '''
-        Modifica la variable alleleFreqs para meter nuevos valores de frecuencia alelica
+        Adds current allelic frequency to object variable f_ale_acc
         '''
         obsAleF = self.alleleFreq()
         for k in obsAleF:
             self.f_ale_acc[k].append(obsAleF[k])
         
     def sexAcumulada(self):
+        '''
+        Adds current sex frequency to object variable f_sex_acc
+        '''
         self.f_sex_acc.append(self.sexFreq())
 
     def mutAcumulada(self):
+        '''
+        Adds current mutation numbers to object variable f_mut_acc
+        '''
         self.f_mut_acc.append(self.findMutated()) 
         
          
     def evolvePop(self,gens = 50,every=10,ignoreSex=False,printInfo=False):
-        """Evoluciona a la población según los parámetros introducidos
+        """
+        Evolves the population 
 
-        Args:
-            gens (int, optional): Número de generaciones. Defaults to 50.
-            every (int, optional): Cada cuanto tomar información. Defaults to 10.
-            ignoreSex (bool, optional): Si se precisa se puede ignorar el sexo. Defaults to False.
-            printInfo (bool, optional): Mostrar información del proceso o no. Defaults to False.
+        Parameters:
+            gens (int, optional): Number of generations. Defaults to 50.
+            every (int, optional): How often it will get information. Defaults to 10.
+            ignoreSex (bool, optional): Ignore sex when generating new children
+            (only set to True when posize is really small). Defaults to False.
+            printInfo (bool, optional): Show process info like some individuals. Defaults to False.
         """
         
         self.steps = every
@@ -346,14 +382,14 @@ class Population:
             #aumentamos la generacion
             self.gen += 1
             #hacemos que poblacion apunte a la lista padre
-            poblacion = self.indiv
+            currentPop = self.indiv
             #vaciamos la lista individuos
             self.childrenInd = []
 
             # introduce nuevos individuos hasta llegar al size de la poblacion
             x = 0
             while len(self.childrenInd)<= self.size:
-                child = self.__chooseMate(x, poblacion, ignoreSex)
+                child = self.__chooseMate(x, currentPop, ignoreSex)
                 # aplicamos una funcion fitness
                 if fitness(self.fit,child.genotype) == True:
                     self.childrenInd.append(child)
@@ -376,7 +412,7 @@ class Population:
                 # encuentra cuantos individuos han sufrido una mutacion
                 self.findMutated(show = 2 if printInfo else 0)
                 
-                completed = (veces/gens)*100
+                completed = ((veces+1)/gens)*100
                 if completed < 100:
                     print(f"{round(completed,1)}% completado...")
         else:
@@ -384,14 +420,25 @@ class Population:
                 
         
         
-    def __chooseMate(self,x,poblacion,ignoreSex):
+    def __chooseMate(self,x,currentPop,ignoreSex):
+        """
+        Choose two parents and generate new children.
+
+        Args:
+            x (int): used to name the individual
+            currentPop (list): list of individual instances.
+            ignoreSex (bool): if sex will be ignored.
+
+        Returns:
+            Individual : new individual (children)
+        """
         # elige dos individuos de forma aleatoria
-        ind1,ind2 = random.choices(poblacion,k=2)
+        ind1,ind2 = random.choices(currentPop,k=2)
         count = 0
         # si son del mismo sexo vuelve a elegir, se establece un limite al bucle por si es infinito
         # Esto puede pasar cuando solo hayan machos o hembras en una poblacion pequeña
         while ind1.sex_chromosome == ind2.sex_chromosome and count < 5*self.size and ignoreSex==False:
-            ind1,ind2 = random.choices(poblacion,k=2)
+            ind1,ind2 = random.choices(currentPop,k=2)
             # comprueba que sean de sexos distintos
             count +=1
         # si siguen siendo del mismo sexo, entonces hay que parar
@@ -419,7 +466,7 @@ class Population:
     
     def getInfo(self):
         '''
-        Llama a otros metodos que obtienen estadisticos de la poblacion
+        Call other methods which obtain information about the population
         '''
         self.freqGamAcumulada()
         self.freqAleAcumulada()
@@ -427,6 +474,11 @@ class Population:
         self.mutAcumulada()
 
     def printSummary(self):
+        """
+        Get summary about current population.
+        
+        Will be obsolete.
+        """
         tam = len(self.indiv)
 
         sex = {'Male':0,'Female':0}
@@ -444,21 +496,27 @@ class Population:
                 f'hasta esta generacion son {self.f_gam_acc}')
 
     def printParentIndividuals(self,id=0):
+        """Shows an individual an its parents
+
+        Parameters:
+            id (int, optional): which individual will be shown. Defaults to 0.
+        """
         print(self.indiv[id])
         self.indiv[id].printParents()
 
     
     def findMutated(self,show=0):
-        """encuentra a los individuos que han mutado en la poblacion
+        """Find mutated individuals
 
         Args:
-            show (int, optional): Cuántos individuos queremos que muestre.
+            show (int, optional): If this search will be shown.
             Defaults to 0.
 
         Returns:
-            int: número de individuos que han sufrido una mutación
+            int: number of individuals which were mutated.
         """
         mutated = 0
+        advMutated = {k:0 for k in self.freq.values()}
         for individuo in self.indiv:
             if individuo.isMutated:    
                 mutated += 1
@@ -467,6 +525,10 @@ class Population:
                           f"en la generación {self.gen}",
                           " y se trata de:")
                     print(individuo)
+            # if individuo.adMutated:
+            #     for i in individuo.adMutated:
+            #         advMutated[i] += 1
+                    
         return mutated
 
 
@@ -507,7 +569,7 @@ if __name__ == '__main__':
 
     # printa el individuo que se quiere estudiar y sus padres
     # pop.printParentIndividuals(id=2)
-    df = pop.getDataFrame('sex')
+    df = pop.getDataFrame('gametos')
     print(df.head())
     # obtiene un resumen del cambio en la frecuencia alelica
     pop.plotAll()
