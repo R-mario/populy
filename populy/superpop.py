@@ -7,7 +7,7 @@ from population import Population
 
 class Superpop():
     '''
-    This class allows to perform operations on serveral populations at once
+    Permite llevar a cabo la simulación de varias poblaciones al mismo tiempo
     '''
     
     def __init__(self,popsize,n,**kwargs):
@@ -24,6 +24,15 @@ class Superpop():
     
         
     def startPops(self,gens,**kwargs):
+        """Inicializa los individuos de cada población y los hace evolucionar
+
+        Args:
+            gens (int): numero de generaciones
+
+        Returns:
+            list: lista de diccionarios que contiene las frecuencias alelicas
+            acumuladas de todas las poblaciones
+        """
         cada = 5
         for key,value in kwargs.items():
             if key == 'every':
@@ -38,9 +47,12 @@ class Superpop():
         # guarda las frecuencias alelicas acumuladas en una lista
         self.freqs = [d.f_ale_acc for d in self.sPop]
         os.system("cls")
+        
         return self.freqs
     
     def plotPops(self):
+        """Representación mediante matplotlib de las frecuencias alelicas
+        """
     
         # numero de generaciones
         gens = self.sPop[0].gen

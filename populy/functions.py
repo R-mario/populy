@@ -2,8 +2,13 @@
 import random
 from struct import pack
 
-def outer_product(f):
-    """Calculate the outer product of two vectors and stores them on a dictionary"""
+def outer_product(f: dict):
+    """Calculate the outer product of two vectors and stores them on a dictionary
+        Args:
+        f(dict[char:str]): chromosome
+        
+        Returns:
+        dict: genotype"""
     # lista de tuplas con los valores de frecuencia alelica
     fValues = list(f.values())
     # primera tupla
@@ -42,7 +47,18 @@ def outer_product(f):
     return finalD
 
 def rename(i,j,iteration,k,finalDict):
-    '''Set the proper letters according to the outer product'''
+    """rename
+
+    Args:
+        i (_type_): _description_
+        j (_type_): _description_
+        iteration (_type_): _description_
+        k (_type_): _description_
+        finalDict (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     # check if it is the first round
     if iteration==1:
         letrai =chr(ord('A')+iteration-1)
