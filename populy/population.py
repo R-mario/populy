@@ -139,7 +139,7 @@ class Population:
         de la poblacion 
         '''
         show = abs(show)
-        listaAtrib = ['ide','sex','chromosome','isMutated']
+        listaAtrib = ['ide','sex','sex_chromosome','chromosome']
         print(*listaAtrib,sep="\t")
         if children==True and hasattr(self,'childrenInd'):
             print("print chidren")
@@ -202,11 +202,11 @@ class Population:
         ax[1,0].legend(['Female','Male'])
         
         ax[1,1].bar(height=self.f_mut_acc[1:],x=labels[1:])
-        ax[1,1].set_title('Mutaciones')
+        ax[1,1].set_title('Número de mutaciones')
         maxMutLim = max(self.f_mut_acc)
         ax[1,1].set_ylim(0,maxMutLim+1)
         # media
-        ax[1,1].axhline(mean(self.f_mut_acc), color='green', linewidth=2)
+        ax[1,1].plot(self.f_mut_acc[1:], color='red', linewidth=2)
         # if len(index_name)>10:
         #     for a in np.ravel(ax): 
         #         a.set_xticks(index_name[1:-1:3])
@@ -326,7 +326,15 @@ class Population:
         self.f_mut_acc.append(self.findMutated()) 
         
          
-    def evolvePop(self,gens = 20,every=5,ignoreSex=True,printInfo=False):
+    def evolvePop(self,gens = 50,every=10,ignoreSex=False,printInfo=False):
+        """Evoluciona a la población según los parámetros introducidos
+
+        Args:
+            gens (int, optional): Número de generaciones. Defaults to 50.
+            every (int, optional): Cada cuanto tomar información. Defaults to 10.
+            ignoreSex (bool, optional): Si se precisa se puede ignorar el sexo. Defaults to False.
+            printInfo (bool, optional): Mostrar información del proceso o no. Defaults to False.
+        """
         
         self.steps = every
             
@@ -345,7 +353,7 @@ class Population:
             # introduce nuevos individuos hasta llegar al size de la poblacion
             x = 0
             while len(self.childrenInd)<= self.size:
-                child = self.chooseMate(x, poblacion, ignoreSex)
+                child = self.__chooseMate(x, poblacion, ignoreSex)
                 # aplicamos una funcion fitness
                 if fitness(self.fit,child.genotype) == True:
                     self.childrenInd.append(child)
@@ -376,7 +384,7 @@ class Population:
                 
         
         
-    def chooseMate(self,x,poblacion,ignoreSex):
+    def __chooseMate(self,x,poblacion,ignoreSex):
         # elige dos individuos de forma aleatoria
         ind1,ind2 = random.choices(poblacion,k=2)
         count = 0

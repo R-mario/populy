@@ -44,11 +44,11 @@ class Individual():
         self.R = R
         # tasa de mutacion
         self.mu = mu
-        self.createIndividual()
+        self.__createIndividual()
         
 
         
-    def createIndividual(self):
+    def __createIndividual(self):
         '''
         Inicializa las variables que no se le pasan al inicializador
         '''
@@ -69,8 +69,11 @@ class Individual():
 
             
     def generate_sexual_genotype(self):
-        '''genera un genotipo sexual, compuesto por dos valores correspondientes
-        a cada un de los cromosomas, los almacena en la variable sex_chromosome'''
+        '''Genera un genotipo sexual, compuesto por dos valores correspondientes
+        a cada un de los cromosomas, los almacena en la variable sex_chromosome
+        
+        Returns:
+            str: cromosoma sexual para el individuo'''
         # sex_chromosome= 'XX'or'XY' / 'ZW' or 'ZZ' / 'XO' or 'XX'
         if randint(0,1)==0:
             return self.sex_system[0]+self.sex_system[0]
@@ -79,8 +82,10 @@ class Individual():
         
     def getSex(self):
         '''Devuelve el sexo segun los chromosomas sexuales
+        
         Returns:
-            (str): 'Male' or 'Female' '''
+            str: 'Male' or 'Female' '''
+            
         if self.sex_chromosome[0] == self.sex_chromosome[1]:
             sexo = 'Female' if self.sex_system != 'ZW' else 'Male'
         else:
@@ -114,10 +119,6 @@ class Individual():
         finalDict = dict()
         if len(freqValues)>1:
             fGametes = outer_product(f)
-            # for x in range(1,len(freqValues)):
-            #     final = outer_product(inp,freqValues[x],x,finalDict)
-            #     inp = list(final.values())
-            # fGametes = final
         else:
             word = str(list(f.keys())[0])
             keys = [word,word.lower()]
@@ -177,10 +178,10 @@ class Individual():
                 # metodo de recombinacion
                 c1,c2 = self.recombination(c1P,c2P,r)              
                 self.chromosome['c'+str(x+1)] = random.choice([c1,c2])   
-            # cromosomas sexuales sex_chromosome = 00 if fem o 01 if male
+            # cromosomas sexuales sex_chromosome: str XX/XY or ZW/ZZ or XX/X0
             sP = self.parents[0].sex_chromosome
             sM = self.parents[1].sex_chromosome
-            self.sex_chromosome = random.choice(sP)+random.choice(sM)
+            self.sex_chromosome = ''.join(sorted([random.choice(sP),random.choice(sM)]))
         else:  
             self.chromosome = {'c'+str(k+1):v for k in range(2) for v in random.choice(self.parents[k].chromosome.values())}
 
