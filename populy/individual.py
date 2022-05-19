@@ -210,6 +210,8 @@ class Individual():
         Provoca el cambio del alelo mayor al menor con una frecuencia mut
         '''
         muType = 'unidirectional'
+        #000100 significa que ha mutado en la posicion 4
+        self.adMutated = ''
         for k,v in self.chromosome.items():
             for i in range(len(v)):
                 #comprueba si es el alelo mayor
@@ -218,6 +220,8 @@ class Individual():
                     if random.random() < self.mu[i]:
                         self.chromosome[k] = self.chromosome[k].replace(v[i],v[i].lower())
                         self.isMutated = True
+                        self.adMutated += k
+                    
 
             
 

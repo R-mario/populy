@@ -23,7 +23,7 @@ class Population:
 
     
     def __init__(self,size = 100,name="Population",ploidy = 2, vida_media=55,
-                 R=0.5,mu = (1e-4,1e-4),freq={'A':(0.5,0.5),'B':(0.5,0.5)},D=0.1,
+                 R=0.5,mu = (1e-4,1e-4),freq={'A':(0.5,0.5),'B':(0.5,0.5)},D=0,
                  fit=0,sex_system='XY',rnd=False):
         """Creates a new empty object population.
         
@@ -196,39 +196,47 @@ class Population:
         
         # DataFrame de sexos
         sex_df = pd.DataFrame(self.f_sex_acc,index=labels)
-        # # DataFrame de mutaciones 
-        # mut_df = pd.DataFrame(self.f_mut_acc,index=index_name)
 
         # Hacemos el grafico
         fig,ax = plt.subplots(2,2,figsize=(13,8))
-
+        
+        plt.style.context("ggplot")
+        plt.suptitle(f"Población con {self.size} individuos",fontsize=18)
+        caption=f"""Caracteristicas iniciales: frecuencia gametica={self.freq}, R={self.R}
+        frecuencia de mutación={self.mu}"""
+        plt.figtext(0.5, 0.01, caption, wrap=True, horizontalalignment='center', fontsize=10)
+        
         # fig[0].title('Variacion de las frecuencias gameticas')
-        ax[0,0].plot(gam_df)
-        ax[0,0].set_title('frecuencias gaméticas')
-        ax[0,0].legend(gam_df.columns)
-        ax[0,0].set_ylim(0,1)
-        ax[0,0].set_ylabel('%')
-        # fig[1].title('Variacion de las frecuencias alelicas')
-        ax[0,1].set_title('frecuencias alélicas')
-        ax[0,1].plot(al_df)
-        ax[0,1].legend(al_df.columns)
-        ax[0,1].set_ylim(0,1)
-        ax[0,1].set_ylabel('%')
+        with plt.style.context("ggplot"):
+          ax[0,0].plot(gam_df)
+          ax[0,0].set_title('frecuencias gaméticas')
+          ax[0,0].legend(gam_df.columns)
+          ax[0,0].set_ylim(0,1)
+          ax[0,0].set_ylabel('%')
+          ax[0,0].set_ylim([0,1])
+          # fig[1].title('Variacion de las frecuencias alelicas')
+          ax[0,1].set_title('frecuencias alélicas')
+          ax[0,1].plot(al_df)
+          ax[0,1].legend(al_df.columns)
+          ax[0,1].set_ylim(0,1)
+          ax[0,1].set_ylabel('%')
+          ax[0,1].set_ylim([0,1])
+          
+          ax[1,0].plot(sex_df)
+          ax[1,0].set_title('frecuencia del sexo')
+          ax[1,0].set_ylim(0.3,0.7)
+          ax[1,0].legend(['Female','Male'])
+          ax[1,0].set_ylabel('%')
+          ax[1,0].set_ylim([0,1])
+          
+          ax[1,1].bar(height=self.f_mut_acc[1:],x=labels[1:])
+          ax[1,1].set_title('Número de mutaciones')
+          maxMutLim = max(self.f_mut_acc)
+          ax[1,1].set_ylim(0,maxMutLim+1)
+          ax[1,1].plot(self.f_mut_acc[1:], color='red', linewidth=2)
+          ax[1,1].set_ylabel('individuos mutados')
         
-        ax[1,0].plot(sex_df)
-        ax[1,0].set_title('frecuencia del sexo')
-        ax[1,0].set_ylim(0.3,0.7)
-        ax[1,0].legend(['Female','Male'])
-        ax[1,0].set_ylabel('%')
-        
-        ax[1,1].bar(height=self.f_mut_acc[1:],x=labels[1:])
-        ax[1,1].set_title('Número de mutaciones')
-        maxMutLim = max(self.f_mut_acc)
-        ax[1,1].set_ylim(0,maxMutLim+1)
-        ax[1,1].plot(self.f_mut_acc[1:], color='red', linewidth=2)
-        ax[1,1].set_ylabel('individuos mutados')
-        
-        new_steps = int(self.gen/30) if len(labels)>10 else 1
+        new_steps = int(len(labels)/5) if len(labels)>8 else 1
         plt.setp(ax, xticks=range(0,len(labels),new_steps), xticklabels=labels[::new_steps])
         plt.show()
 
