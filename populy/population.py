@@ -4,7 +4,7 @@ y obtener resumen de sus caracteristicas.
 '''
 
 from cProfile import label
-from individual import Individual
+import individual
 from functions import fitness,outer_product
 
 import random
@@ -13,7 +13,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np 
 import re
-from statistics import mean
+
 
 
 
@@ -21,7 +21,6 @@ from statistics import mean
 class Population:
 
 
-    
     def __init__(self,size = 100,name="Population",ploidy = 2, vida_media=55,
                  R=0.5,mu = (1e-4,1e-4),freq={'A':(0.5,0.5),'B':(0.5,0.5)},D=0,
                  fit=0,sex_system='XY',rnd=False):
@@ -119,7 +118,7 @@ class Population:
             that as a generation 0 population. Defaults to 0.
         '''
         if not pop:     
-            self.indiv = [Individual(i,
+            self.indiv = [individual.Individual(i,
                                     self.name,
                                     self.size,
                                     self.ploidy,
@@ -255,26 +254,27 @@ class Population:
         '''
         labels = ['gen.'+str(x) for x in range(0,self.gen+1,self.steps)]
         if isinstance(which, str):
-            if re.match('(.+?)?gamet(ica|o)s?',which):
+            if re.match('(.+?)?gamet(ica|o|e)s?',which):
                 data = self.f_gam_acc
-            elif re.match('(.+?)?all?el(ica|o)s?',which):
+                Summary=pd.DataFrame(data,index=labels)
+            elif re.match('(.+?)?all?el(ica|o|e)s?',which):
                 data = self.f_ale_acc
+                Summary = pd.DataFrame(data,index=labels)
             elif re.match('(.+?)?sexo?s?',which):
                 data = self.f_sex_acc
-                data.columns = ['Female','Male']
+                Summary =pd.DataFrame(data,index=labels,columns=['Female','Male'])
             elif re.match('(.+?)?mut(.+?)',which):
                 data = self.f_mut_acc
-            # if re.match('(.+?)?(tod(o|a)s?|all)(.+?)',which):
-            #     data= [self.f_gam_acc,self.f_ale_acc,
-            #            self.f_sex_acc,self.f_mut_acc]
+                Summary = pd.DataFrame(data,index=labels)
             else:
                 raise ValueError(f'Unknown {which}')
         elif isinstance(which,list):
             data = which
+            Summary = pd.DataFrame(data,index=labels)
         else:
             raise TypeError(f'Unknown {which}')
             
-        Summary = pd.DataFrame(data,index=labels)
+        
 
         return Summary
                                   
@@ -459,7 +459,7 @@ class Population:
 
         Ind_Name = x
         # genera un nuevo individuo y lo devuelve al metodo evolvePop
-        return Individual(Ind_Name,
+        return individual.Individual(Ind_Name,
                          self.name,
                          self.size,
                          self.ploidy,
@@ -581,6 +581,7 @@ if __name__ == '__main__':
     print(df.head())
     # obtiene un resumen del cambio en la frecuencia alelica
     pop.plotAll()
+    
 
 
 
