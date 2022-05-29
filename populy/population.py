@@ -1,11 +1,7 @@
-'''
-Clase Poblacion, permite crear una nueva poblacion, hacerla evolucionar
-y obtener resumen de sus caracteristicas.
-'''
 
-from cProfile import label
-import individual
-from functions import fitness,outer_product
+#local imports
+from .individual import Individual
+from .functions import fitness,outer_product
 
 import random
 import itertools
@@ -24,7 +20,7 @@ class Population:
     def __init__(self,size = 100,name="Population",ploidy = 2, vida_media=55,
                  R=0.5,mu = (1e-4,1e-4),freq={'A':(0.5,0.5),'B':(0.5,0.5)},D=0,
                  fit=0,sex_system='XY',rnd=False):
-        """Creates a new empty object population.
+        """Creates a new empty population object.
         
         Parameters:
             size (int): Population size. Defaults to 100.
@@ -118,7 +114,7 @@ class Population:
             that as a generation 0 population. Defaults to 0.
         '''
         if not pop:     
-            self.indiv = [individual.Individual(i,
+            self.indiv = [Individual(i,
                                     self.name,
                                     self.size,
                                     self.ploidy,
@@ -459,7 +455,7 @@ class Population:
 
         Ind_Name = x
         # genera un nuevo individuo y lo devuelve al metodo evolvePop
-        return individual.Individual(Ind_Name,
+        return Individual(Ind_Name,
                          self.name,
                          self.size,
                          self.ploidy,

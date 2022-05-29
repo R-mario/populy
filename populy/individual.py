@@ -9,11 +9,12 @@ dict genotype: {'str': 'str'} siendo la clave A o B y los valores
                 su genotipo para ese locus
 '''
 from calendar import c
-import itertools
 import numpy as np
-from random import randint
 import random
-from functions import outer_product
+from random import randint
+
+#local import
+from .functions import outer_product
 
 class Individual():
 

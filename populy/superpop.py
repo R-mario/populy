@@ -4,7 +4,9 @@ import matplotlib.pyplot as plt
 import matplotlib
 import os
 import numpy as np
-import population
+
+#local import
+from .population import Population
 
 class Superpop():
     
@@ -34,7 +36,7 @@ class Superpop():
         self.popsize = popsize
         self.n = n
         self.kwargs = kwargs
-        self.sPop = [population.Population(popsize,**kwargs)for x in range(n)] 
+        self.sPop = [Population(popsize,**kwargs)for x in range(n)] 
     
         
     def startPops(self,gens,**kwargs):

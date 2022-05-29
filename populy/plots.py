@@ -2,8 +2,9 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 
-import population
-import superpop
+#local imports
+from .population import Population
+from .superpop import Superpop
 
 class Plots:
     
@@ -21,7 +22,7 @@ class Plots:
         
         return labels, caption
         
-    def alleles(pop: population.Population):
+    def alleles(pop: Population):
         '''
         Metodo estatico que recibe un dataframe y lo representa
         graficamente
@@ -38,7 +39,7 @@ class Plots:
         plt.legend(alleles.columns)
         plt.show()
         
-    def gametes(pop: population.Population):
+    def gametes(pop: Population):
         labels,caption = Plots.__populationInfo(pop)
         gametes = pop.getDataFrame('gametos')
         
@@ -52,7 +53,7 @@ class Plots:
         plt.legend(gametes.columns)
         plt.show()
         
-    def sex(pop: population.Population):
+    def sex(pop: Population):
         labels,caption = Plots.__populationInfo(pop)
         sex = pop.getDataFrame('sex')
         
@@ -66,7 +67,7 @@ class Plots:
         plt.legend(sex.columns)
         plt.show()
         
-    def mutations(pop: population.Population):
+    def mutations(pop: Population):
         labels, caption = Plots.__populationInfo(pop)
         mut = pop.getDataFrame('mutantes')
         
