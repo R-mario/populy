@@ -51,9 +51,7 @@ class Population:
         
         #frecuencia genotipica inicial
         self.freq = self.allelicFreq(freq)
-        self.mu = mu
         self.gen = 0
-        self.mu = mu
         
         # stops evolve if needed
         self.stopEv = False
@@ -62,6 +60,7 @@ class Population:
         
         self.sex_system = sex_system.upper()
         
+        self.mu = self.lenMutFreq(mu)
         self.__checkRandom()
         
     def allelicFreq(self,freq):
@@ -87,6 +86,15 @@ class Population:
                 freq[k]=(v,1-v)
         return freq
     
+    def lenMutFreq(self,mu):
+        freqSize = len(self.freq)
+        muList = list(mu)
+        while(freqSize > len(muList)): 
+            muList.append(0)
+        
+        return tuple(muList)
+        
+    
     def __checkRandom(self):
         '''
         Check if user set random (rnd) to True, then changes R, D, 
@@ -98,7 +106,7 @@ class Population:
             if rnd:
                 self.R = random.random()/2
                 self.d = random.random()/2
-                self.mu = tuple([random.random()/2 for x in range(2)])
+                self.mu = tuple([random.random()/2 for x in range(len(self.freq))])
                 self.fit = random.randint(0,3)
                 
     def __str__(self):
@@ -148,7 +156,7 @@ class Population:
         self.f_sex_acc = [self.sexFreq()]
         
            
-    def printIndiv(self,show=5,children=True):
+    def printIndividuals(self,show=5,children=True):
         '''
         Shows information about the individuals. 
         

@@ -96,7 +96,6 @@ class Individual():
     def getGenotype(self):
         
         genotype = dict()
-        # print(self.chromosome)
         for i,letra in enumerate(self.chromosome['c1']):
             if self.spPloidy == 2:
                 genotype[letra.upper()] = ''.join(sorted(self.chromosome['c1'][i] + 
@@ -177,7 +176,7 @@ class Individual():
                 c1P = self.parents[x].chromosome['c1']
                 c2P = self.parents[x].chromosome['c2']
                 # metodo de recombinacion
-                c1,c2 = self.recombination(c1P,c2P,r)              
+                c1,c2 = Individual.recombination(c1P,c2P,r)              
                 self.chromosome['c'+str(x+1)] = random.choice([c1,c2])   
             # cromosomas sexuales sex_chromosome: str XX/XY or ZW/ZZ or XX/X0
             sP = self.parents[0].sex_chromosome
@@ -186,24 +185,25 @@ class Individual():
         else:  
             self.chromosome = {'c'+str(k+1):v for k in range(2) for v in random.choice(self.parents[k].chromosome.values())}
 
-    def recombination(self,c1,c2,r):
-        # factor de interferencia
-        # para que sea menos probable la recombinacion de dos loci seguidos
-        int = 0
-        for i in range(0,len(c1),2):
-            if random.random()<=r-int:
-                # ocurre la recombinacion (solo recombinan los loci A B )
-                c1R = c1[i]+c2[i+1:]
-                c2R = c2[i]+c1[i+1:] 
-                int = r/2
-                
-                c1 = c1R
-                c2 = c2R
-            else:
-                int = 0
-            
-            
-        return c1,c2
+    def recombination(c1,c2,r):
+            # factor de interferencia
+            # para que sea menos probable la recombinacion de dos loci seguidos
+            int = 0
+            c1 = list(c1)
+            c2 = list(c2)
+            c1R,c2R = c1.copy(),c2.copy()
+            for i in range(0,len(c1)):
+                if random.random()<=r-int:
+                    # ocurre la recombinacion (solo recombinan los loci A B )
+                    c1R = c1
+                    c2R = c2
+                    c1R[i] = c2[i]
+                    c2R[i] = c1[i]
+                    int = r/2
+                    
+                else:
+                    int = 0      
+            return ''.join(c1R),''.join(c2R)
             
     
     def mutation(self):
@@ -211,7 +211,6 @@ class Individual():
         Provoca el cambio del alelo mayor al menor con una frecuencia mut
         '''
         muType = 'unidirectional'
-        #000100 significa que ha mutado en la posicion 4
         self.adMutated = ''
         for k,v in self.chromosome.items():
             for i in range(len(v)):
