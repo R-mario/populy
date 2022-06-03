@@ -137,52 +137,98 @@ Mediante este paquete el usuario podrá invocar una o múltiples poblaciones, cr
 # Computación como herramienta educativa
 ## Alfabetización informática 
 
-La biología se está alzando como la ciencia del siglo XXI: medicina personalizada[*ref1*], microoganismos superresistentes[*ref2*], ingeniería genética y mejora de organismos[*ref3*], descubrimiento de las estructuras tridimensionales de las proteínas[*ref4*] son solo algunos de los temas que están acaparando el panorama científico actual. Para mucha gente el siglo XXI es el siglo de la biología[@VENTER2004].
+<!--La biología se está alzando como la ciencia del siglo XXI: medicina personalizada[*ref1*], microoganismos superresistentes[*ref2*], ingeniería genética y mejora de organismos[*ref3*], descubrimiento de las estructuras tridimensionales de las proteínas[*ref4*] son solo algunos de los temas que están acaparando el panorama científico actual. Para mucha gente el siglo XXI es el siglo de la biología[@VENTER2004].
 Aunque no existe un premio nobel de biología, la mayoría de los temas premiados tanto en medicina y fisiología, en química y hasta en física corresponden a investigaciones en el campo de la biología[-@nobel]. Los avances tecnológicos están permitiendo estudiar sistemas extremadamente complejos como lo son los biológicos, la criomicroscopía, el análisis de redes metabólicas.
 
-Mencionando un ejemplo más concreto, de hace tan solo un año, se trata de *AlphaFold* 2, la herramienta de predicción de estructuras tridimensionales de proteínas de DeepMind basada en Inteligencia Artificial. Esta herramienta tiene sus bases en el aprendizaje profundo que se ha desarrollado casi en su totalidad desde hace menos de 10 años[*ref7*] y en este tiempo ha desbancado al resto de tecnologías tradicionales de predicción de la estructura proteica con tasas de aciertos iguales a los métodos experimentales[*ref8*].
+Mencionando un ejemplo más concreto, de hace tan solo un año, se trata de *AlphaFold* 2, la herramienta de predicción de estructuras tridimensionales de proteínas de DeepMind basada en Inteligencia Artificial. Esta herramienta tiene sus bases en el aprendizaje profundo que se ha desarrollado casi en su totalidad desde hace menos de 10 años[*ref7*] y en este tiempo ha desbancado al resto de tecnologías tradicionales de predicción de la estructura proteica con tasas de aciertos iguales a los métodos experimentales[*ref8*].-->
 
-La programación es una herramienta y como cualquier lenguaje natural requiere un cierto nivel de abstracción. Esta abstracción y "forma de ver el mundo" se le ha denominado pensamiento computacional[@Wing2008], siendo éste un subgrupo del denominado pensamiento analítico. La esencia de este modelo de pensamiento centrado en la abstracción y la automatización de procesos. De hecho, existe un debate público donde se le otorga el aprendizaje de la programación la misma importancia que aprender a escribir[*ref10*]. La capacidad de abstracción es un buen indicador de la capacidad de resolución de problemas[Bergmann1996].
+La tecnología está cada vez más presente en una sociedad digitalizada, muchas de las interacciones sociales se llevan a cabo por medios virtuales, el usuario promedio pasa más de X horas interactuando con un dispositivo electrónico: transacciones bancarias,compra-venta de productos, consumo de nuevos contenidos como juegos y películas, etc son algunos de los muchos lugares donde la digitalización ha acaparado por completo el mundo tradicional.
+
+Es innegable el impacto que estas herramientas están teniendo en la sociedad. La educación también debe adaptarse a estas nuevas tecnologías a un ritmo mayor incluso del que lo hace la sociedad. Al fin y al cabo, educar a un alumno consiste en proporcionarle unas herramientas para que se desenvuelva correctamente en el futuro. Por lo tanto, las competencias informáticas debe procurar ser vértebra del resto de contenidos.
+
+No solo ésto, sino que estas herramientas tienen un gran potencial para mejorar o complementar la enseñanza ya tradicional. La inmensa cantidad de recursos web que están a disposición del alumnado ya de por sí facilita tareas como la búsqueda de información. El uso de diapositivas en clase puede complementarse con una actividad en grupo utilizando herramientas como Kahoot, que permite evaluar los conocimientos, llevar un registro actualizado de cada alumno, favorecer el trabajo en equipo, entre otros.
+
+Las herramientas informáticas también facilitan el trabajo de los profesores. Hasta aplicaciones tan sencillas como Excel pueden actuar como una pequeña base de datos donde realizar cálculos sencillos de la nota.
+
+A todo esto se le conoce como alfabetización informática: la capacidad de utilizar las tecnologías de la información y la comunicación para realizar tareas cotidianas. Se trata de un conjunto de competencias básicas que todos los ciudadanos deben tener para vivir y trabajar en un mundo cada vez más digitalizado.
+
+La alfabetización informática es una habilidad esencial en la sociedad de hoy. A medida que la tecnología se vuelve cada vez más integral, es esencial que pueda ser utilizada por todos de manera efectiva. La alfabetización informática no solo se refiere a saber cómo usar una computadora, sino también a entender cómo funcionan los sistemas y aplicaciones informáticas.
+
+En un mundo en el que la tecnología está cambiando constantemente, es vital que las habilidades informáticas se mantengan al día. La Alfabetización informática permite estar mejor preparados para el futuro, ya que proporciona herramientas para adaptarnos a los cambios y aprender nuevas habilidades.
+
+Tener un buen nivel de alfabetización informática proporciona mejores habilidades para desenvolverte en una sociedad cada vez más digitalizada y competitiva. Las personas con buenas habilidades informáticas tienden a tener mayores oportunidades de éxito en la vida, ya que están mejor preparadas para aprovechar las nuevas tecnologías.
+
+Alfabetización informática también es importante para la seguridad personal y la protección de la privacidad. A medida que más y más de nuestra vida se lleva a cabo en línea, es crucial que sepamos cómo proteger nuestros datos. Las personas con buenas habilidades informáticas son menos propensas a ser víctimas de fraude o robo de identidad, por ejemplo.
+
+En resumen, la alfabetización informática es una habilidad esencial para el éxito en la sociedad de hoy. A medida que la tecnología se vuelva cada vez más integral en nuestras vidas.
+
+En cuanto a la educación, los estudiantes conviven con multitud de herramientas informáticas en su día a día; están habituados a una interacción digital mucho más profunda y como tal requieren de más recursos y herramientas de alfabetización informática. El objetivo educativo debe ser incrementar la alfabetización informática de los estudiantes para que estén mejor preparados para el mundo laboral y la sociedad en general.
+
+Esta alfabetización debe estar presente en todas las etapas de la vida y en todos los niveles educativos, se trata de dar a la persona la habilidad de usar las nuevas herramientas para que pueda desenvolverse correctamente en su entorno. Así pues, aunque todas las personas deben tener una alfabetización mínima no será para todos la misma. La educación debe adaptarse a estas nuevas tecnologías que permiten realizar de forma más eficiente, dinámica e interactiva muchas tareas que anteriormente resultaban tediosas e incluso imposibles de realizar.
+
+El avance en la educación y en la capacidad de abstracción de los alumnos se debe, en parte, a un aprendizaje y uso de las herramientas informáticas correspondientes ya que permiten ahorrar tiempo y dedicar el esfuerzo a aquellas tareas que requieren de razonamiento, así como la presencia de nuevos estímulos y problemas.
+
+El uso de las herramientas ofimáticas, internet e incluso calculadoras son competencias de la alfabetizacion informática. Sin embargo estas herramientas son necesarias pero no suficientes para desenvolverse en la sociedad de hoy en día. Una de las nuevas tareas pendientes en la educación es la enseñanza de la programación.
+
+La programación es una herramienta más, y como cualquier lenguaje natural requiere un cierto nivel de abstracción. Esta abstracción y "forma de ver el mundo" se le ha denominado pensamiento computacional[@Wing2008], siendo éste un subgrupo del denominado pensamiento analítico. La esencia de este modelo de pensamiento centrado en la abstracción y la automatización de procesos. De hecho, existe un debate público donde se le otorga el aprendizaje de la programación la misma importancia que aprender a escribir[*ref10*]. La capacidad de abstracción es un buen indicador de la capacidad de resolución de problemas[Bergmann1996].
+
+Esta herramienta, aunque similar a las anteriores, también es diferente en el sentido de que es mucho más abierta que el resto. Potencialmente permite hacer casi cualquier cosa que le puedas pedir a un ordenador, esto va desde una sencilla suma hasta el uso de programas informáticos complejos. El usuario medio interactua con las aplicaciones mediante el uso de interfaces gráficas, estas interfaces facilitan el uso pero restringen las posibilidades de muchos programas y servicios web, esto es, no permiten explotar el potencial. Al introducir al alumnado a la programación se le abre un nuevo campo de conocimiento donde poder utilizar programas menos "intuitivos" pero mucho más potentes, en virtualmente cualquier ámbito, incluido la biología.
+
+No solo eso, sino que la demanda social de un conocimiento de programación está en auge. Una gran cantidad de trabajos requieren de unos conocimientos básicos de programación: estructuras y tipos de datos, bases de datos o estructuras de control. Proporcionar a los alumnos unas competencias mínimas puede repercutir favorablemente en su integración al mundo laboral.
+
+La capacidad de indicar a una máquina las instrucciones para ejecutar una acción ha existido desde hace siglos; ya en el siglo IX se describe una máquina que toca la flauta de forma automática [@Koetsier2001], sin embargo el primer programa surge en 1843 por Ada Lovelace desarrollado para la máquina analítica que nunca llegó a construirse. La programación va ligada a la creación y uso de las máquinas para instruirlas. Actualmente el objetivo es el mismo que hace cien años, comunicarse con una máquina para que lleve a cabo determinadas operaciones, es una forma de dar instrucciones que un ordenador pueda traducir a su propio lenguaje, para ejecutar una tarea. Con la ubicuidad de los ordenadores en los hogares y las aulas y la creación de multitud de lenguajes de programación de alto nivel y con sintaxis similar a la lengua humana surge la posibilidad y la necesidad de aprender a programar.
+
+Sin embargo, la programación ha evolucionado: existen multitud de lenguajes de programación diferentes con propósitos diferentes. También los recursos para aprender en la web son enormes. De entre todos los lenguajes, uno ha destacado los últimos años por su sencillez de uso y su potencial: Python.
 
 
-El avance de las ciencias de la computación es casi exponencial, al igual que se enseña en las aulas como el mundo físico funciona varios autores defienden que debe enseñarse cómo el mundo virtual funciona y no solo a utilizarlo. Los alumnos pasan gran parte de su tiempo cara a las pantallas, utilizando programas, viendo vídeos, jugando. Se les ha enseñado a usarlo pero no qué los hace funcionar, más allá de los conceptos básicos.
-
-La alfabetización informática es la capacidad de usar las herramientas informáticas para llevar a cabo tareas(). Esta alfabetización debe estar presente en todas las etapas de la vida y en todos los niveles educativos, se trata de dar a la persona la habilidad de usar las nuevas herramientas para que pueda desenvolverse correctamente en su entorno. Así pues, aunque todas las personas deben tener una alfabetización mínima no será para todos la misma. La educación debe adaptarse a estas nuevas tecnologías que permiten realizar de forma más eficiente, dinámica e interactiva muchas tareas que anteriormente resultaban tediosas e incluso imposibles de realizar.
-
-El uso de las calculadoras, por ejemplo, es una de las habilidades propias de esta alfabetización, a día de hoy es raro ver algún estudiante que no haya usado calculadoras hasta para problemas de lo más sencillos, cuando hace 20 años esta herramienta era prácticamente inexistente en las aulas[*ref*]. Al contrario de lo que se cree, no existe una disminución en la inteligencia de la población, más bien lo contrario[*ref*]. Parte de este avance se debe al aprendizaje y uso de las herramientas informáticas correspondientes ya que permiten ahorrar tiempo y dedicar el esfuerzo a aquellas tareas que requieren de razonamiento, así como la presencia de nuevos estímulos y problemas.
-
-La programación es una de estas herramientas, la programación ha existido desde hace siglos; ya en el siglo IX se describe una máquina que toca la flauta de forma automática [@Koetsier2001], sin embargo el primer programa surge en 1843 por Ada Lovelace desarrollado para la máquina analítica que nunca llegó a construirse. La programación va ligada a la creación y uso de las máquinas para instruirlas. Actualmente el objetivo es el mismo que hace cien años, comunicarse con una máquina para que lleve a cabo determinadas operaciones, es una forma de dar instrucciones que un ordenador pueda traducir a su propio lenguaje, para ejecutar una tarea. Con la ubicuidad de los ordenadores en los hogares y las aulas y la creación de multitud de lenguajes de programación de alto nivel y con sintaxis similar a la lengua humana surge la posibilidad y la necesidad de aprender a programar.
-
-
-## Python 
+## Lenguajes de programación
 
 Un lenguaje de programación es un tipo de lenguaje con estructura fuertemente definida que proporciona las herramientas necesarias (variables,estructuras de control, etc.) para implementar una serie de instrucciones que serán llevadas a cabo por un ordenador.
 
 Existen multitud de lenguajes de programación, que se clasifican históricamente según dos criterios:
 1. Nivel de abstracción: esto es, según la similitud al lenguaje empleado por los ordenadores, también conocido como lenguaje máquina. Se le denomina de alto nivel a un lenguaje con una sintaxis más abstracta, es decir, similar al lenguaje humano y menos dependiente del hardware de la máquina mientras que uno de bajo nivel es más similar al lenguaje máquina pero más dependiente.
 2. Según el paradigma: aunque la mayoría de lenguajes de programación permiten llevar a cabo las mismas tareas e implementar los mismos algoritmos no todos lo hacen de la misma manera, existen diferentes formas de estructurar el código, los paradigmas más conocidos son Orientado a Objetos, funcional y multiparadigma.
-3. Según su propósito: Aquellos con una utilidad muy restringida, pensados para una tarea concreta se conocen como lenguajes de propósito específico mientras que el resto son de propósito general
+3. Según su propósito: Aquellos con una utilidad muy restringida, pensados para una tarea concreta se conocen como lenguajes de propósito específico mientras que el resto son de propósito general.
+
+A la hora de introducir a estudiantes a uno u otro lenguaje surgen diversas cuestiones: ¿se debe enseñar primero lo más complejo, para después utilizar lo sencillo? ¿cuál tiene más aplicaciones relacionadas con el campo de estudio? ¿con qué finalidad se va a utilizar en el aula?. Las respuestas son muy diversas, en muchas aulas se comienza enseñando C o C++, ambos lenguajes son de bajo nivel pero muy eficientes. Se suele elegir este tipo de lenguajes en carreras o profesiones que requieren un conocimiento exhaustivo de la computación y sus estructuras. También se defienden estos lenguajes no tanto por su utilidad sino porque una vez entendido su funcionamiento es más sencillo extrapolar los conocimientos a otros lenguajes.
+
+Sin embargo, en los últimos años está cobrando relevancia la enseñanza de lenguajes más sencillos para un usuario inexperto. Debido a su curva de aprendizaje hacen que estos lenguajes permitan obtener resultados fácilmente, aumentan la versatilidad y tienen una gran comunidad detrás.
+
+De este tipo de lenguajes existen dos que son ampliamente usados en el ámbito académico: Python y R.
+
+Para el propósito del presente trabajo ambos eran igualmente útles ya que son de alto nivel y multipropósito, tienen sintaxis similares y tipado dinámico, esto es, son lenguajes sencillos de aprender. 
+La instalación es sencilla, poseen una enorme cantidad de recursos para aprender gratis de forma autodidacta y la sintaxis es intuitiva. Todo esto hace que un alumno sin conocimientos de programación puede programar y entender las primeras lineas de código en menos de 15 minutos.
+
+Para la experiencia de usuario las diferencias son minúsculas, en todo caso R es un lenguaje muy usado en el ámbito académico, en especial para realizar análisis y tratamiento de datos. Por otra parte, Python es más utilizado en el ámbito profesional, con múltiples enfoques aunque destaca por sus aplicaciones en aprendizaje máquina.
+
+No obstante, a la hora de desarrollar el paquete Populy sí se presentaron algunas diferencias:
+
+- R no es estrictamente multipropósito. Este lenguaje fue creado por y para estadistas, su paradigma es principalmente el funcional: creación y uso de funciones de manera similar al comportamiento de las funciones matemáticas. Python sí es multipropósito y soporta de forma adecuada la orientación a objetos, que se explicará más adelante.
+
+- Soporte con libretas **Jupyter**, como se menciona en el [siguiente capítulo](# Jupyter Notebook). Estas libretas fueron creadas para Python y, aunque a día de hoy soportan R y otros lenguajes es mucho más común encontrarse utilizando estas libretas en Python antes que en R.
+
+
+Como se puede observar, las diferencias son muy sutiles y cualquiera de ambos podría haberse empleado. La finalidad al escoger uno u otro lenguaje era utilizar un lenguaje que no fuese complejo y que permitiera a un usuario inexperto introducirse en el mundo de la programación.
+
+## Python
 
 Python es un lenguaje de programación de alto nivel multiparadigma de propósito general, fue diseñado por Guido Van Rossum en 1991. El objetivo de este lenguaje es facilitar la interpretación del código, su aprendizaje y su uso. Sus pilares se describen en el libro zen de python.
 
 Su facilidad de aprendizaje y la gran comunidad que tiene a su alrededor son algunos de los motivos por el cual Python es uno de los lenguajes más utilizados y con mayor proyección.
 
-### ¿Por qué Python?
-
-A la hora de desarrollar Populy la segunda pregunta, después de decidir el propósito del paquete, fue en qué lenguaje implementarlo. Existían dos posibilidades: R o Python. Ambos lenguajes son de alto nivel y multipropósito, tienen sintaxis similares y tipado dinámico. Sin embargo, R no es multipropósito. Este lenguaje fue creado por y para estatistas, su paradigma es principalmente el funcional: creación y uso de funciones de manera similara al comportamiento de las funciones matemáticas, y es ampliamente utilizado en campos como la ciencia de datos. 
-
 Aunque Populy podría haberse desarrollado sin problemas en cualquier lenguaje, al final se hizo en Python debido a un mejor paradigma de orientación a objetos. Este paradigma de programación establece que gran parte del código, sino todo, debe estar encapsulado en Objetos, estas entidades deben tener un propósito común, es decir, cada objeto creado debe tener una características que lo definan. La interacción entre el código debe ser una interacción entre objetos siempre que sea posible.
 
-Los objetos son una herramienta muy útil ya que permiten encapsular el código similar en bloques comunes, haciendo el programa más legible. Esto es lo que se buscaba a la hora de desarrollar Populy ya que el objetivo era crear una población que contendría unos individuos, mediante el paradigma de la orientación a objetos se entiende que tanto población como individuo deben ser dos clases de objetos distintas, que tendrán un tipo de relación determinada que les permitirá interactuar.
+Los pilares de la Orientación son la encapsulación, polimorfismo, herencia y abstracción.
 
-Primero hablar sobre los distintos tipos de lenguajes que existen, hacer una introducción a la programación orientada a objetos. Qué es python, que ventajas (ej: facil curva de aprendizaje, gran comunidad, multitud de paquetes y librerias) y posibles desventajas (menor rendimiento) tiene.
-Hablar sobre la importancia de Python como lenguaje respecto al resto, el gran número de usuarios que tiene, la facilidad en su aprendizaje y su expansión en el mundo académico.
+Los objetos son una herramienta muy útil ya que permiten encapsular el código similar en bloques comunes, haciendo el programa más legible. Esto es lo que se buscaba a la hora de desarrollar Populy ya que el objetivo era crear una población que contendría unos individuos, mediante el paradigma de la orientación a objetos se entiende que tanto población como individuo deben ser dos clases de objetos distintas, que tendrán un tipo de relación determinada que les permitirá interactuar.
   
 ## Jupyter notebook 
 
 El proyecto Jupyter es una colaboración para el desarrollo de herramientas de libre uso (open-source) para realizar análisis exploratorios y computacionales de forma interactiva. El proyecto Jupyter fue creado en 2014 a partir de Ipython* aunque actualmente soporta más de 100 lenguajes de programación diferentes[*r*]. Dentro del ecosistema Jupyter se encuentran las Jupyter notebooks o libretas jupyter, estas libretas son un entorno web que tuvo su origen en la facilidad de realizar y compartir análisis de datos. Sin embargo desde hace unos años esta herramienta se está empleando en las aulas con propósitos educativos de una gran variedad de formas distintas. 
 
-La estructura externa de una libreta Jupyter es muy simple ya que consta de bloques de información, estos bloques pueden ser de texto, escrito en formato Markdown, o bloques de código tal y como se puede observar en la imagen adjunta [imagen](imagen). Las posibilidades que surgen de combinar estos dos elementos son varias, desde explicar de forma detallada un bloque de código, sin tener que recurrir a manuales externos o a libros, hasta la posibilidad de plantear problemas *in situ*. Por otra parte, los bloques de código no son estáticos, el usuario puede interactuar con ellos, ejecutarlos y observar los resultados reales en el momento, así como probar a cambiar ciertos parámetros del bloque o poder crear su propio código, todo en tiempo real y de una forma mucho más dinámica que la que ofrecen los métodos tradicionales, ya sea en un formato word/pdf estático, donde el usuario no puede interactuar con los resultados, o una interfaz gráfica de usuario como puede ser Populus, donde la estructura programática queda oculta a la persona.
+La estructura externa de una libreta Jupyter es muy simple ya que consta de bloques de información, estos bloques pueden ser de texto, escrito en formato Markdown, o bloques de código tal y como se puede observar en la figura adjunta. Las posibilidades que surgen de combinar estos dos elementos son varias, desde explicar de forma detallada un bloque de código, sin tener que recurrir a manuales externos o a libros, hasta la posibilidad de plantear problemas *in situ*. Por otra parte, los bloques de código no son estáticos, el usuario puede interactuar con ellos, ejecutarlos y observar los resultados reales en el momento, así como probar a cambiar ciertos parámetros del bloque o poder crear su propio código, todo en tiempo real y de una forma mucho más dinámica que la que ofrecen los métodos tradicionales, ya sea en un formato word/pdf estático, donde el usuario no puede interactuar con los resultados, o una interfaz gráfica de usuario como puede ser Populus, donde la estructura programática queda oculta a la persona.
+
+![Estructura de una Jupyter Notebook de la documentación de (Jupyter.org)](files/jupyter.png)
 
 Una libreta Jupyter es, por tanto, un documento interactivo, orientado a la computación, que permite crear una narrativa para explicar, analizar o enseñar conceptos. 
 
@@ -214,21 +260,93 @@ Otro recurso web muy utilizado es [Google Colab](https://colab.research.google.c
 
 # Genética de poblaciones
 
-Existen tres leyes en biología, estas son: 1. todos los organismos vivos están sometidos a las leyes de la termodinámica, 2. todos los organismos vivos consisten de célula(s) aisladas mediante membranas y 3. todos los organismos vivos están sometidos a la evolución.
+<!--Existen tres leyes en biología, estas son: 1. todos los organismos vivos están sometidos a las leyes de la termodinámica, 2. todos los organismos vivos consisten de célula(s) aisladas mediante membranas y 3. todos los organismos vivos están sometidos a la evolución.
 Estas leyes implican algo mucho más importante, la creación de un orden interno a costa de un desorden externo, el mantenimiento de ese orden y la propagación de éste a través de otros organismos. Y realmente, de estas tres leyes, solo úna pertenece estrictamente a la biología, tanto la primera como la segunda son consecuencias de las leyes de la termodinámica, la evolución, sin embargo surge única y exclusivamente en los organismos vivos.
 
-Por fasinante que sea la evolución, lo cierto es que en las aulas de las universidades no toma especial relevancia más allá de las (pocas) asignaturas dedicadas a ella en biología, y prácticamente ninguna en ciencias de la salud. Lo cierto es que comprendiendo qué es y como sucede la evolución se comprende una multitud de conceptos como son la similitud de la hemoglobina y mioglobina, la aparición del cáncer e incluso el envejecimiento (cita).
+La evolución tiene otro problema y es que no es sencillo realizar experimentos para ver sus efectos, aunque existen (citas) normalmente estos no se llevan a cabo porque son complejos de realizar, aunque cualquier estudiante de ciencias de la vida habrá podido comprobar de manera indirecta al realizar cultivos bacterianos en medios inhibitorios o letales como antibioticos y comprobar que de vez en cuando aparecen colonias que pueden crecer en él. Esta complejidad se debe, principalmente, a la necesidad de un factor tiempo mucho mayor que para cualquier otro experimento o práctica.-->
 
-La evolución tiene otro problema y es que no es sencillo realizar experimentos para ver sus efectos, aunque existen (citas) normalmente estos no se llevan a cabo porque son complejos de realizar, aunque cualquier estudiante de ciencias de la vida habrá podido comprobar de manera indirecta al realizar cultivos bacterianos en medios inhibitorios o letales como antibioticos y comprobar que de vez en cuando aparecen colonias que pueden crecer en él. Esta complejidad se debe, principalmente, a la necesidad de un factor tiempo mucho mayor que para cualquier otro experimento o práctica.
+Para comprender cómo llevar a cabo una simulación informática de una población primero es necesario conocer los aspectos fundamentales que la definen:
 
-Es por esto por lo que desde hace más de X años han surgido programas de representación y simulación de procesos evolutivos que permiten llevar a cabo este proceso simulado en cuestión de segundos. Estos recursos son particularmente interesantes a la hora de enseñar multitud de conceptos básicos en biología como el concepto de locus, genotipo y fenotipo, selección natural o deriva genética porque permiten ver los efectos que tienen los diversos parámetros de la población en las poblaciones venideras.
+Una población es, **grosso modo**, un conjunto de individuos de la misma especie que coexisten, que comparten una serie de características y que son capaces de generar nuevos individuos viables a nivel reproductivo En el caso de las simulaciones genéticas, la característica más importante de una población es el individuo, y de los individuos es su genoma.
 
-De hecho, desde la rama de la computación y las ingenierías ha ido cobrando relevancia este fenómeno en un campo conocido como los algoritmos genéticos y algoritmos evolutivos, este tipo de algoritmos emplean alguno de los principios de la evolución como la mutación, la recombinación y la selección para optimizar procesos o elementos, e incluso para crear objetos en el mundo material. Estos algoritmos permiten llegar de forma muy rápida a una solución adecuada para un problema.
+El modelo más simple de población es conocido como modelo de Wright-Fisher, este modelo asume una serie de condiciones en la población, estas son:
 
-Existen diversos métodos de implementar un algoritmo evolutivo, los más comunes son los basados en la teoría de la coalescencia, la cual a partir de unas asunciones como una población estática sin estructura de edades y con cruzamientos de forma estocástica permite establecer un ancestro común a una serie de individuos.
-El uso de estos métodos de basados en la teoría de coalescencia otorgan muy poca flexibilidad al usuario, por otro lado existen los métodos basados en individuo o métodos de tipo *forward simulation* que permiten simular un conjunto de individuos para una población y hacerlos evolucionar "tiempo hacia delante" hasta un momento dado.
+- Sin selección: no actúa la selección natural sobre ningún alelo estudiado
+- Sin mutación: no existe mutación en los alelos estudiados
+- Sin migración: los individuos no desaparecen de la población ni se introducen nuevos
+- Discretización de las poblaciones: no existen edades, una generación nunca coexiste con la siguiente generación.
+- Emparejamiento aleatorio: no existe selección sexual, los individuos se generan a partir del muestreo aleatorio de dos individuos de la población parental.
 
-Este tipo de *forward simulation* es la que se ha utilizado para desarrollar Populy, este método permite configurar muchos parámetros de una población, aplicar funciones de fitness y obtener estadísticos de la evolución real para posteriormente realizar cálculos como la pérdida de la heterocigosidad.
+Con estas asunciones se puede llevar a cabo la evolución de la población de forma sencilla. A la hora de hablar de evolución es importante entender qué es y cuál es el proceso que ocurre tras esta.
+
+La evolución es el proceso de adaptación de las especies a lo largo de las generaciones, el estudio de la evolución se hace a nivel de la población y se suele expresar como el cambio en las frecuencias alélicas en el tiempo. Adaptarse significa encontrar una estrategia de supervivencia según las fuerzas que actúan sobre ésta. La frecuencia alélica de una población es la frecuencia de cada alelo, es decir, cada variante de un gen, en una población.
+
+En el contexto de simulación de evolución el concepto es más simple; se dice que una población evoluciona cuando se suceden las diferentes generaciones. Si se hace evolucionar una población del tipo de Wright-Fisher podría esperarse que las frecuencias alélicas de la población se mantuviesen constantes.
+
+Esto, sin embargo, no sucede. Para entender esto es necesario conocer las distintas fuerzas evolutivas, aquellas que permiten el cambio en una población:
+
+### Mutación 
+
+La mutación es la primera fuerza evolutiva, su consecuencia es la aparición de nuevos alelos o el cambio de un alelo a otro, en la población. Esta fuerza es una de las dos que permite introducir nuevos alelos en la **gene pool** de la población, permitiendo que una población salga de un estado de metaestabilidad.
+
+Al contrario que otras fuerzas esta ocurre a nivel de genes. Sin embargo, no todas las mutaciones son objeto de la selección; por lo general solo aquellas que tengan un efecto en el fenotipo y que sean transmisibles a la siguiente generación podrán ser sujeto de la evolución.
+
+Existen varios tipos de mutaciones, de sitio único, indels, cromosómicas, etc. Para la simulación de evolución el modelo más simple de mutación es la mutación que provoca el cambio de un alelo a otro de los existentes.
+
+Se ha de tener en cuenta que las mutaciones por si solas no implican un efecto beneficioso o perjudicial la población; además, esta fuerza evolutiva no provoca grandes cambios en las frecuencias alélicas de una población por sí sola. 
+Para comprender el efecto de las mutaciones en la población es necesario hablar de la selección natural.
+
+### Selección natural
+
+Junto a la mutación, la selección natural es la fuerza evolutiva más conocida. Es la fuerza que "selecciona" unas características sobre otras, el mecanismo de la selección natural es la eficacia diferencial de un genotipo en una población en un ambiente determinado. Es decir, aquellos individuos con unos genes mejor adaptados al ambiente verán aumentada su frecuencia promedio en la siguientes generaciones.
+
+Esta fuerza por lo general es la que provoca un mayor cambio en las frecuencias alélicas de la población. Así como la mutación permite obtener nuevos alelos, la selección actúa haciendo que se vean favorecidos o perjudicados, según el cambio que provoquen.
+
+Entender la selección natural de esta manera es una forma simplificada ya que en la mayoría de ocasiones existe una fuerza similar llamada selección neutral, que actúa modificando las frecuencias alélicas sin existir una presión selectiva, es decir, sin selección natural.
+
+### Deriva genética
+
+Esta fuerza también cambia las frecuencias de los alelos en la población, sin embargo se trata de un fenómeno estocástico. Al existir una población que se reproduce de forma aleatoria no todos los individuos darán descendencia mientras que otros darán varios individuos, esto, sumado al proceso de selección de gametos aleatorio (si no actúa la selección natural) hace que la frecuencia alélica de una población pueda verse incrementada o disminuida de forma neutra, simplemente por el efecto de la deriva genética.
+
+Este efecto es predominante en poblaciones pequeñas, al tener un numero menor de individuos los efectos estocásticos se ven aumentados.
+
+Una consecuencia habitual de la deriva genética es la pérdida de alelos, lo que conlleva una disminución de la variabilidad genética y una pérdida de la heterocigosidad, esto es, de los individuos heterocigotos.
+
+La deriva genética, al contrario que el resto de fenómenos, es una fuerza que actúa de forma implícita al simular una población ya que depende únicamente de su tamaño y del apareamiento aleatorio. Como ambas condiciones son necesarias para llevar a cabo la simulación el efecto de la deriva genética siempre estará presenta aunque será despreciable para poblaciones grandes.
+
+Es por esto que para observar sus efectos es necesario reducir el número de individuos en una población. Debido su estocasticiadad la mejor forma de observarlo es realizando varias simulaciones de forma simultánea o una única simulación para una población con varios loci.
+
+### Migración
+
+La última fuerza que produce cambios en la población es el intercambio genético ( **gene flow**), mediante la migración dos o más poblaciones separadas por alguna barrera física, temporal, comportamental o reproductiva intercambian material genético de forma puntual o periódica. Este intercambio puede generar nuevos alelos en la población o incrementar la presencia de uno minoritario.
+
+Para modelar la migración de forma realista se requiere de otra población y romper el aislamiento durante el proceso de evolución.
+
+Cuando no actúa ninguna de las cuatro fuerzas mencionadas se puede alcanzar una situación de equilibrio llamado Hardy-Weimberg, en este estado se dice que, tras una generación de apareamientos aleatorios, las frecuencias alélicas de la generación padre serán iguales a las de la generación hija. Aunque esto no ocurre en poblaciones reales, simular una población en equilibrio de Hardy-Weimberg ya permite estudiar diversas características de una población, así pues un modelo de Wright-Fisher con bastantes individuos cumplirá las condiciones para que se de el equilibrio de Hardy-Weimberg.
+
+Así pues, la población más sencilla podrá simularse sin ninguna fuerza evolutiva actuando (modelo de Wright-Fisher), en cuyo caso se espera que la frecuencias alélicas lleguen al equilibrio de Hardy Weimberg. 
+
+Con todo esto, es interesante simular las poblaciones sometidas a una o más fuerzas evolutivas para estudiar sus efectos. Así pues es posible incluir tanto una frecuencia de mutación para cada locus; unos valores de eficacia biológica, o índice de supervivencia, para cada genotipo o para cada alelo y cambiar el tamaño de las poblaciones para observar los efectos de la deriva genética.
+
+Estas son las características generales de la población, sin embargo existen otros parámetros que corresponden al individuo: el más relevante es su estructura o arquitectura genética.
+Se puede simular poblaciones haploides o diploides, este último caso es el más habitual por lo que se describirá este caso de uso:
+
+Cada individuo posee dos cromosomas homólogos, en éstos se sitúa todo el conjunto de loci del individuo. Se utiliza la notación de loci en lugar de genes porque es más precisa ya que un locus hace referencia a un lugar del cromosoma que no tiene por qué ser un gen. Sin embargo, para los propositos educativos, se puede utilizar genes para mayor claridad. 
+El conjunto de loci puede ser un único locus o varios, por defecto se encuentran dos loci en el autosoma. Cada loci puede estar sometido a los efectos de la mutación, como se ha visto anteriormente.
+
+A la hora de generar un nuevo individuo pueden presentarse varios casos: si se crea una población de 0 deben generarse los individuos con las características mencionadas, en el caso de tener 2 o más loci también se puede incluir un factor de desequilibrio de ligamiento, esto indica la probabilidad de que dos loci segregen independientemente. Así pues a un menor valor de este número indicará una mayor asociación estadística de los alelos.
+
+Otro parámetro es la recombinación, que tiene lugar cuando se genera un nuevo individuo a partir de unos progenitores. Este factor es similar al desequilibrio de ligamiento en cuanto a su implementación pero en este caso indica cuál es la probabilidad de que a partir de los gametos parentales se generen gametos recombinantes.
+
+Así pues, el desequilibrio de ligamiento se utiliza para crear una población mientras que la frecuencia de recombinación se usa durante la evolución.
+
+Los individuos también tendrán un sexo que podrá ser macho o hembra, la determinación del sexo viene dada por los cromosomas sexuales que podrá ser XY,ZW o X0, de forma similar a cómo se determina, simplificando, el sexo en mamíferos, aves y algunos insectos.
+
+Esta forma de evolucionar una población se la conoce como *forward simulation* o simulaciones de tiempo hacia adelante. Como indica su nombre, la población parte de un estado X en un momento 0 y se hace avanzar en el tiempo (generaciones) hasta llegar a un estado Y. Durante el proceso se aplica una sere de funciones y modelos que permitirán una evolución de la población. Una vez terminada, se obtiene un informe en formato gráfico o tabular donde queda constancia del proceso, del estado inicial y del estado final. Este tipo de simulaciones son más complejas computacionalmente ya que requiere crear diversos individuos durante varias generaciones, sin embargo tanto el proceso como sus resultados son más similares a la evolución de las especies.
+
+Existen otros métodos, como los basados en la teoria de la coalescencia, que parten de una población final y buscan los antepasados más probables para ese estado de forma sucesiva hasta llegar al estado inicial. A estas simulaciones se las conoce como *reverse simulation* o simulaciones tiempo hacia atrás ya que su forma de funcionar es inversa. Son computacionalmente más eficientes y útiles cuando el objetivo es obtener un ancestro común para una población, sin embargo son menos realistas y menos intuitivas.
+
+Se ha optado por las simulaciones de tiempo hacia adelante debido a que uno de los objetivos de Populy es permitir a los alumnos el aprendizaje de conceptos de biología evolutiva y genética de poblaciones, este tipo de simulaciones son muy sencillas de comprender porque emulan el comportamiento de una población y también son más útiles para explicar conceptos clave de la evolucón.
 
 # Populy: funcionamiento y estructura
 
@@ -352,15 +470,13 @@ Este efecto tiene implicaciones importantes para la conservación de la biodiver
 Populy permite hace esto de forma sencilla e interactiva.
 
 Al igual que existe una clase Population, que permite simular la evolución de una población, también se puede hacer esto mediante otra clase llamada Superpopulation, que engloba diversas poblaciones y tiene como objetivo estudiar distintos conceptos que requieren la simulación de más de una población al mismo tiempo
-```{python, eval=FALSE}
-from Populy.populy import superpop.Superpop
-```
-```{python,include=FALSE}
+```{python}
 from populy.superpop import Superpop
 ```
+
 La instanciación ocurre de la misma manera, se le pueden pasar los mismos parámetros que a `Population`pero es necesario indicarle el número `n` de poblaciones que se simularán.
 ```{python}
-super_small = Superpop(n=10,popsize=100)
+super_small = Superpop(n=6,popsize=10)
 ```
 
 Tras la instanciación, se llamarán a los dos métodos `startPops` y `plotPops` que permiten iniciar la población y evolucionarla, así como representarla gráficamente
@@ -376,9 +492,9 @@ super_small.plotPops()
 Como vemos, se puede observar el efecto de la deriva en el cambio de las frecuencias alélicas para ambos locus. Si quisiéramos representar lo mismo 3 veces, para tamaños de población 500 y 1000.
 
 ```{python}
-sizes = [500,1000]
+sizes = [100,1000]
 
-Pops = [Superpop(n=10,popsize=tam) for tam in sizes]
+Pops = [Superpop(n=6,popsize=tam) for tam in sizes]
 ```
 Así se han instanciado dos nuevas superpoblaciones y se guardan en la lista `py$Pops` que se recorrerá para evolucionarla y obtener los gráficos
 ```{python,include=FALSE}
