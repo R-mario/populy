@@ -5,17 +5,9 @@ from pathlib import Path
 from populy import functions
 # from populy.individual import Individual
 
-try:
-    import populy.individual as ind
-    import populy.population as pop
-except ModuleNotFoundError as e:
-    path = Path()
-    popuPath = os.path.join(os.path.dirname(__file__), 'populy')
-    # print(popuPath)
-    sys.path.append(popuPath)
-    # print(sys.path)
-    import populy.individual as ind
-    import populy.population as pop
+import populy.individual as ind
+import populy.population as pop
+
 
 
 class Test_individual(unittest.TestCase):
