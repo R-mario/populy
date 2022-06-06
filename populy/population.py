@@ -9,6 +9,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np 
 import re
+import os
+from IPython.display import clear_output
 
 
 
@@ -45,7 +47,7 @@ class Population:
         self.vida_media = vida_media
         self.d = D
         self.R = R
-        self.steps = 0
+        self.steps = 1
         
         self.rnd = rnd
         
@@ -257,6 +259,7 @@ class Population:
             (pd.DataFrame): Dataframe.
         '''
         labels = ['gen.'+str(x) for x in range(0,self.gen+1,self.steps)]
+        
         if isinstance(which, str):
             if re.match('(.+?)?gamet(ica|o|e)s?',which):
                 data = self.f_gam_acc
@@ -426,8 +429,12 @@ class Population:
                 
                 completed = ((veces+1)/gens)*100
                 if completed < 100:
+                    #os.system('cls') error al ejecutar en rmarkdown
+                    #clear_output(wait=True)
                     print(f"{round(completed,1)}% completado...")
         else:
+            #clear_output(wait=True)
+            #os.system('cls')
             print("¡Evolucion completada!")
                 
         
@@ -543,7 +550,21 @@ class Population:
                     
         return mutated
 
-
+    def info(pop):
+        info = {'tamaño':pop.size, 
+                'ploidía':pop.ploidy, 
+                'frecuencias alelicas iniciales':pop.freq, 
+                'desequilibrio de ligamiento':pop.d, 
+                'frecuencia de recombinacion':pop.R, 
+                'tasa de mutaciones':pop.mu, 
+                'generación actual':pop.gen,
+                'sistema de determinación del sexo': pop.sex_system,
+                'tipo de seleccion': pop.fit}
+        if hasattr(pop,'indiv'):
+            info['frecuencias alelicas actuales'] = pop.alleleFreq()
+        
+        stringInfo = '\n'.join([f'{key}: {value}' for key, value in info.items()])
+        print(stringInfo)
 
    
 if __name__ == '__main__':
