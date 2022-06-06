@@ -154,8 +154,13 @@ class Individual():
     
     # metodo dunder
     def __str__(self):
-        return ("Este individuo es {}, su sexo es {} su genotipo es {}"
-              .format(self.ide,self.sex,self.chromosome))
+        ind_info = {'Individual id:': self.ide,
+                    'sex': self.sex, 
+                    'chromosomes': '\t'.join(**self.chromosomes.values())}
+        if self.parents != 0:
+            ind_info['suffered mutation']= self.isMutated
+            
+        return ('\n'.join(f'{key}: {value}' for key,value in ind_info.items()))
     
     def printParents(self,):
         '''
