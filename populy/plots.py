@@ -3,8 +3,10 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 #local imports
+
 from .population import Population
 from .superpop import Superpop
+
 
 class Plots:
     
@@ -22,7 +24,7 @@ class Plots:
         
         return labels, caption
         
-    def alleles(pop: Population):
+    def alleles(pop):
         '''
         Metodo estatico que recibe un dataframe y lo representa
         graficamente
@@ -30,6 +32,7 @@ class Plots:
         labels,caption = Plots.__populationInfo(pop)
         alleles = pop.getDataFrame('alelos')      
         plt.style.use('ggplot')
+        plt.figure(figsize=(6,4),)
         plt.title("Change in allelic frequencies")
         plt.tight_layout()
         plt.xlabel("Generations")
@@ -38,12 +41,14 @@ class Plots:
         plt.plot(alleles)  
         plt.legend(alleles.columns)
         plt.show()
+    
         
-    def gametes(pop: Population):
+    def gametes(pop):
         labels,caption = Plots.__populationInfo(pop)
         gametes = pop.getDataFrame('gametos')
         
         plt.style.use('ggplot')
+        plt.figure(figsize=(6,4))
         plt.title("Change in gametic frequencies")
         plt.tight_layout()
         plt.xlabel("Generations")
@@ -53,11 +58,12 @@ class Plots:
         plt.legend(gametes.columns)
         plt.show()
         
-    def sex(pop: Population):
+    def sex(pop):
         labels,caption = Plots.__populationInfo(pop)
         sex = pop.getDataFrame('sex')
         
         plt.style.use('ggplot')
+        plt.figure(figsize=(6,4))
         plt.title("Change in sex frequencies")
         plt.tight_layout()
         plt.xlabel("Generations")
@@ -67,11 +73,12 @@ class Plots:
         plt.legend(sex.columns)
         plt.show()
         
-    def mutations(pop: Population):
+    def mutations(pop):
         labels, caption = Plots.__populationInfo(pop)
         mut = pop.getDataFrame('mutantes')
         
         plt.style.use('ggplot')
+        plt.figure(figsize=(6,4))
         plt.title("Number of total mutations per generation")
         plt.tight_layout()
         plt.xlabel("Generations")
@@ -79,4 +86,3 @@ class Plots:
         plt.plot(mut)
         plt.legend(mut.columns)
         plt.show()
-        
