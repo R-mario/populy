@@ -513,7 +513,7 @@ Si lo que se busca es obtener una representación gráfica de este proceso es ne
 ```{python}
 from populy.plots import Plots
 ```
-```{python, out.height="85%", fig.cap = "Representación gráfica de la variación de las frecuencias alélicas para los alelos mayores", fig.show = 'hold'}
+```{python, out.height="75%", fig.cap = "Representación gráfica de la variación de las frecuencias alélicas para los alelos mayores", fig.show = 'hold'}
 Plots.alleles(poblacion)
 ```
 
@@ -560,7 +560,7 @@ Aunque es posible obtener un *dataframe* de cambios en las frecuencias alélicas
 super_small.plotPops() 
 ```
 
-Como se puede observar, el efecto de la deriva ocasiona un cambio en las frecuencias alélicas para ambos locus.
+Para una población de 10 individuos el efecto de la deriva es notorio, pudiendo observar que todas las poblaciones han sufrido una fijación de sus alelos antes de la generación 50.
 
 Cabe la pregunta de ¿qué ocurre en poblaciones de mayor tamaño? Para eso es posible llevar a cabo el proceso anterior pero cambiando el valor de `popsize`. Para compactar el código se ha realizado mediante los siguientes bloques:
 
@@ -587,11 +587,11 @@ for x in pops:
 
 Se puede observar el efecto esperado, a mayor tamaño de población menor es el efecto de la deriva genética y menor es la desviación con respecto al valor esperado en ausencia de otra fuerza evolutiva.
 
-## Estructura
+## Estructura interna
 
-Populy comienza como una idea de aproximar los conceptos de evolución y la programación a alumnos de la rama de la biología debido a las deficiencias observadas en los programas utilizados como Populus, que se han descrito en apartados anteriores. El objetivo es que los alumnos sean partícipes activos en el estudio de los procesos evolutivos mientras aprenden algunos fundamentos básicos de la programación, enfocada en Python.
+Populy, según el objetivo de aproximar conceptos de evolución y la programación a alumnos de la rama de la biología debido a las deficiencias observadas en los programas utilizados como Populus, que se han descrito en apartados anteriores. El objetivo es que los alumnos sean partícipes activos en el estudio de los procesos evolutivos mientras aprenden algunos fundamentos básicos de la programación, enfocada en Python.
 
-Al comienzo se definieron los objetivos generales del paquete, que son:
+Al comienzo se definieron los objetivos específicos del paquete, que son:
 
 1. Obtener un software funcional.
 2. Que un usuario sin experiencia en programación pueda comprender qué está sucediendo.
@@ -599,7 +599,7 @@ Al comienzo se definieron los objetivos generales del paquete, que son:
 
 Más tarde, se comenzó con el desarrollo del software, en esta etapa es necesario establecer un esquema o sistema general. Se pueden establecer tres entidades esenciales a la hora de desarrollar este tipo de simulaciones: la Población, el individuo y el genoma/cromosoma. Desde un principio quedó claro que el usuario debía poder interactuar de forma sencilla con la población, ya que es el objeto de estudio, los objetos individuos y genoma serian características las cuales el usuario no debía interactuar directamente.
 
-Con la ventaja de ser un lenguaje multiparadigma, Python permite definir una estructura de programación muy flexible y poco restrictiva. Se eligió el paradigma orientado a objetos (OOP) debido a la idoneidad de modelar una población creando una plantilla para la creación de objetos con unas características y funciones determinadas. A estas plantillas, en el paradigma de orientación a objetos se les conoce como Clases, cada clase representa una entidad, objeto o concepto determinado. Cada clase está compuesta por unas características y unos comportamientos que la definen. A las características se les conoce como atributos y a los comportamientos como métodos (o funciones de clase/instancia). 
+Con la ventaja de ser un lenguaje multiparadigma, Python permite definir una estructura de programación muy flexible y poco restrictiva. Se eligió el paradigma orientado a objetos (OOP) debido a la idoneidad de modelar una población creando una plantilla para la creación de objetos con unas características y funciones determinadas. A estas plantillas, en el paradigma de orientación a objetos se les conoce como Clases, cada clase representa una entidad, objeto o concepto determinado. Cada clase está compuesta por unas características y unos comportamientos que la definen. A las características se les conoce como atributos y a los comportamientos como métodos (o funciones de clase/instancia), ver [lenguajes de programación](### Lenguajes de programación). 
 
 En el caso de Populy debían existir, como mínimo, dos clases diferentes: la población y el individuo. A partir de este modelo de clases un usuario debía poder crear un nuevo objeto que pertenezca a una de estas clases, esto es, una población determinada. El proceso de crear un nuevo objeto se le conoce como instanciación. Tras crear el objeto y pasarle los valores que debe tener esa población el usuario debería llamar a los métodos correspondientes para llevar a cabo el proceso de evolución, entre otros.
 
@@ -619,13 +619,7 @@ El resultado queda reflejado en el siguiente diagrama de clases, donde se puede 
 
 Tal y como se observa en el diagrama, las clases se relacionan entre ellas mediante una composición, esto es que la clase Superpop contiene objetos de la clase Population, que a su vez contiene objetos de la clase individual. Esto es similar a una población normal, que está compuesta de individuos. Debe distinguirse dos peculiaridades, la primera es que la clase Superpop no es un conjunto de poblaciones que interaccionan, se trata de una clase que permite agrupar la creación de multitud de poblaciones similares pero no interaccionan entre ellas. La segunda se trata de una relación entre los propios individuos, esto se debe a que un individuo tiene unos progenitores, que son a su vez individuos.
 
-
 Además de estos módulos, el paquete también contiene unos tests unitarios, que sirven para hacer comprobaciones automáticas de varios casos posibles y casos límites a la hora de utilizar el paquete. Esto es útil para encontrar errores o comprobar cambios que se han realizado en el paquete durante su creación.
-
-Explicar la diferencia entre paquete y script, describir todos los archivos y la función que cumplen.<br>
-Centrarse en el directorio populy, explicar detalladame que hace cada modulo, cuales son sus atributos y sus metodos, o las funciones que contiene. Al menos las mas relevantes para comprender el paquete.
-Hablar de los tests y su importancia para un buen desarrollo de software.
-
 
 ## Perspectiva y limitaciones
 
