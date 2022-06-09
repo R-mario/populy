@@ -216,16 +216,17 @@ class Individual():
         Provoca el cambio del alelo mayor al menor con una frecuencia mut
         '''
         muType = 'unidirectional'
-        self.adMutated = ''
-        for k,v in self.chromosome.items():
-            for i in range(len(v)):
-                #comprueba si es el alelo mayor
-                if v[i].isupper():
-                    #si muta, cambia el alelo del cromosoma por el alelo menor
-                    if random.random() < self.mu[i]:
-                        self.chromosome[k] = self.chromosome[k].replace(v[i],v[i].lower())
-                        self.isMutated = True
-                        self.adMutated += k
+        if sum(self.mu) != 0:      
+            self.adMutated = ''
+            for k,v in self.chromosome.items():
+                for i in range(len(v)):
+                    #comprueba si es el alelo mayor
+                    if v[i].isupper():
+                        #si muta, cambia el alelo del cromosoma por el alelo menor
+                        if random.random() < self.mu[i]:
+                            self.chromosome[k] = self.chromosome[k].replace(v[i],v[i].lower())
+                            self.isMutated = True
+                            self.adMutated += k
                     
 
             

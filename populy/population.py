@@ -20,7 +20,7 @@ class Population:
 
 
     def __init__(self,size = 100,name="Population",ploidy = 2, vida_media=55,
-                 R=0.5,mu = (1e-4,1e-4),freq={'A':(0.5,0.5),'B':(0.5,0.5)},D=0,
+                 R=0.5,mu = (0,0),freq={'A':(0.5,0.5),'B':(0.5,0.5)},D=0,
                  fit=0,sex_system='XY',rnd=False):
         """Creates a new empty population object.
         
@@ -264,9 +264,11 @@ class Population:
             if re.match('(.+?)?gamet(ica|o|e)s?',which):
                 data = self.f_gam_acc
                 Summary=pd.DataFrame(data,index=labels)
+                Summary.columns = [f'p({i})' for i in Summary.columns]
             elif re.match('(.+?)?all?el(ica|o|e)s?',which):
                 data = self.f_ale_acc
                 Summary = pd.DataFrame(data,index=labels)
+                Summary.columns = [f'p({i})' for i in Summary.columns]
             elif re.match('(.+?)?sexo?s?',which):
                 data = self.f_sex_acc
                 Summary =pd.DataFrame(data,index=labels,columns=['Female','Male'])

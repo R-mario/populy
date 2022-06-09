@@ -32,14 +32,14 @@ class Plots:
         labels,caption = Plots.__populationInfo(pop)
         alleles = pop.getDataFrame('alelos')      
         plt.style.use('ggplot')
-        plt.figure(figsize=(6,4),)
+        plt.figure(figsize=(6,4),constrained_layout=True)
         plt.title("Change in allelic frequencies")
-        plt.tight_layout()
         plt.xlabel("Generations")
-        plt.ylabel("Allelic frequencies")
+        plt.ylabel("p")
         plt.ylim([0,1])
         plt.plot(alleles)  
         plt.legend(alleles.columns)
+        plt.xticks(rotation=45)
         plt.show()
     
         
@@ -48,14 +48,14 @@ class Plots:
         gametes = pop.getDataFrame('gametos')
         
         plt.style.use('ggplot')
-        plt.figure(figsize=(6,4))
+        plt.figure(figsize=(6,4),constrained_layout=True)
         plt.title("Change in gametic frequencies")
-        plt.tight_layout()
         plt.xlabel("Generations")
-        plt.ylabel("Gametic frequencies")
+        plt.ylabel("p")
         plt.ylim([0,1])
         plt.plot(gametes)
         plt.legend(gametes.columns)
+        plt.xticks(rotation=45)
         plt.show()
         
     def sex(pop):
@@ -63,14 +63,14 @@ class Plots:
         sex = pop.getDataFrame('sex')
         
         plt.style.use('ggplot')
-        plt.figure(figsize=(6,4))
+        plt.figure(figsize=(6,4),constrained_layout=True)
         plt.title("Change in sex frequencies")
-        plt.tight_layout()
         plt.xlabel("Generations")
         plt.ylabel("Frequency")
         plt.ylim([0,1])
         plt.plot(sex)
         plt.legend(sex.columns)
+        plt.xticks(rotation=45)
         plt.show()
         
     def mutations(pop):
@@ -78,11 +78,11 @@ class Plots:
         mut = pop.getDataFrame('mutantes')
         
         plt.style.use('ggplot')
-        plt.figure(figsize=(6,4))
+        plt.figure(figsize=(6,4),constrained_layout=True)
         plt.title("Number of total mutations per generation")
-        plt.tight_layout()
         plt.xlabel("Generations")
         plt.ylabel("Mutants")
         plt.plot(mut)
         plt.legend(mut.columns)
+        plt.xticks(rotation=45)
         plt.show()

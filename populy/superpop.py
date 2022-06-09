@@ -83,20 +83,20 @@ class Superpop():
         popListnames = ['p'+str(i) for i in range(len(self.freqs))]
         
         fig,ax=plt.subplots(1,ploidy,figsize=(13,6))
-        plt.suptitle(f"Deriva genética para {self.popsize} indvididuos")
+        plt.suptitle(f"Genetic drift for {self.popsize} individuals")
         plt.style.use('ggplot')
         if "rnd" in self.kwargs and self.kwargs["rnd"] == True:
             caption = ""
         else:
             caption=f"""Caracteristicas iniciales: frecuencia gametica={self.sPop[0].freq}, R={self.sPop[0].R}
                     frecuencia de mutación={self.sPop[0].mu}""" 
-        plt.figtext(0.5, 0.01, caption, wrap=True, horizontalalignment='center', fontsize=10)
+        # plt.figtext(0.5, 0.01, caption, wrap=True, horizontalalignment='center', fontsize=10)
         for j,let in enumerate(self.freqs[0].keys()):
             for i in range(len(self.freqs)): 
                 with plt.style.context("ggplot"):
                     ax[j].set_title(f"Locus {let}")
-                    ax[j].set_ylabel(f'frecuencia de {let}')
-                    ax[j].set_xlabel("Generaciones")
+                    ax[j].set_ylabel(f'p({let})')
+                    ax[j].set_xlabel("Generations")
                     ax[j].plot(self.freqs[i][let])
                     ax[j].set_ylim([0,1])
                     
