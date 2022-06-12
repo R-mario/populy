@@ -52,7 +52,7 @@ class Population:
         self.rnd = rnd
         
         #frecuencia genotipica inicial
-        self.freq = self.allelicFreq(freq)
+        self.freq = self.initialAlleles(freq)
         self.gen = 0
         
         # stops evolve if needed
@@ -65,7 +65,7 @@ class Population:
         self.mu = self.lenMutFreq(mu)
         self.__checkRandom()
         
-    def allelicFreq(self,freq):
+    def initialAlleles(self,freq):
         """
         Checks if dictionary has the correct format
 
@@ -124,7 +124,7 @@ class Population:
             that as a generation 0 population. Defaults to 0.
         '''
         if not pop:     
-            self.indiv = [Individual(i,
+            self.individuals = [Individual(i,
                                     self.name,
                                     self.size,
                                     self.ploidy,
@@ -137,12 +137,18 @@ class Population:
                                     self.gen,
                                     parents=0) 
                         for i in range(self.size)]
-            print("se han generado un total de {} individuos de la poblacion"
-                .format(self.size))
-        else:
+            print(f"Se han generado {self.size} individuos en base a los atributos de la población")
+        elif isinstance(pop,Population):
             # la poblacion sera una parte o toda, dependiendo del tamaño original
-            self.indiv = pop.indiv[0:self.size if self.size < len(pop.indiv) else len(pop.indiv)]
-            print(f"Se han tomado {self.size} individuos de la poblacion")
+            # ERROR: si se quiere crear una población de una población
+            self.individuals = Population.getCurrentIndividuals(pop)
+            print(f"La población se ha iniciado con {len(self.individuals)} individuos de la población introducida ")
+        elif isinstance(pop,list) and isinstance(pop[0],Individual):
+            self.individuals = pop
+            print(f"La población se ha iniciado con {len(self.individuals)} individuos introducidos ")
+        else:
+            print(f"{type(pop)} no es válido")
+            
         
         # se crean nuevas variables de la poblacion
         # print(self.freq,self.alleleFreq())
@@ -175,7 +181,7 @@ class Population:
             print("print chidren")
             objectList = self.childrenInd
         else:
-            objectList = self.indiv
+            objectList = self.individuals
             
         for x in objectList:
             print (*[getattr(x,y) for y in listaAtrib],sep="\t")
@@ -206,40 +212,40 @@ class Population:
         fig,ax = plt.subplots(2,2,figsize=(13,8))
         
         plt.style.context("ggplot")
-        plt.suptitle(f"Población con {self.size} individuos",fontsize=18)
-        caption=f"""Caracteristicas iniciales: frecuencia gametica={self.freq}, R={self.R}
-        frecuencia de mutación={self.mu}"""
+        plt.suptitle(f"Population with {self.size} individuals",fontsize=18)
+        caption=f"""Initial conditions: allelic f.={self.freq}, recombination f.={self.R}
+        mutation f.={self.mu}"""
         plt.figtext(0.5, 0.01, caption, wrap=True, horizontalalignment='center', fontsize=10)
         
         # fig[0].title('Variacion de las frecuencias gameticas')
         with plt.style.context("ggplot"):
           ax[0,0].plot(gam_df)
-          ax[0,0].set_title('frecuencias gaméticas')
+          ax[0,0].set_title('gametic frequencies')
           ax[0,0].legend(gam_df.columns)
           ax[0,0].set_ylim(0,1)
-          ax[0,0].set_ylabel('%')
+          ax[0,0].set_ylabel('p_gamete')
           ax[0,0].set_ylim([0,1])
           # fig[1].title('Variacion de las frecuencias alelicas')
-          ax[0,1].set_title('frecuencias alélicas')
+          ax[0,1].set_title('Major allele frequencies')
           ax[0,1].plot(al_df)
           ax[0,1].legend(al_df.columns)
           ax[0,1].set_ylim(0,1)
-          ax[0,1].set_ylabel('%')
+          ax[0,1].set_ylabel('p_allele')
           ax[0,1].set_ylim([0,1])
           
           ax[1,0].plot(sex_df)
-          ax[1,0].set_title('frecuencia del sexo')
+          ax[1,0].set_title('Sex frecuencies')
           ax[1,0].set_ylim(0.3,0.7)
           ax[1,0].legend(['Female','Male'])
-          ax[1,0].set_ylabel('%')
+          ax[1,0].set_ylabel('f(sex)')
           ax[1,0].set_ylim([0,1])
           
           ax[1,1].bar(height=self.f_mut_acc[1:],x=labels[1:])
-          ax[1,1].set_title('Número de mutaciones')
+          ax[1,1].set_title('Number of mutations')
           maxMutLim = max(self.f_mut_acc)
           ax[1,1].set_ylim(0,maxMutLim+1)
           ax[1,1].plot(self.f_mut_acc[1:], color='red', linewidth=2)
-          ax[1,1].set_ylabel('individuos mutados')
+          ax[1,1].set_ylabel('mutations')
         
         new_steps = int(len(labels)/5) if len(labels)>8 else 1
         plt.setp(ax, xticks=range(0,len(labels),new_steps), xticklabels=labels[::new_steps])
@@ -281,9 +287,7 @@ class Population:
             data = which
             Summary = pd.DataFrame(data,index=labels)
         else:
-            raise TypeError(f'Unknown {which}')
-            
-        
+            raise TypeError(f'Unknown {which}') 
 
         return Summary
                                   
@@ -296,14 +300,18 @@ class Population:
         obsGamf = outer_product(self.freq)
         obsGamf = {k:0 for k in obsGamf.keys()}
         # cuenta las ocurrencias en la poblacion de los distintos genotipos  
-        for individuo in self.indiv:
+        for individuo in self.individuals:
             for key in obsGamf:
                 if individuo.chromosome['c1'] == key:
                     obsGamf[key] += 1
                 if individuo.chromosome['c2']==key:
                     obsGamf[key] += 1
                     
-        return {k: v / (2*len(self.indiv)) for k, v in obsGamf.items()}
+        return {k: v / (2*len(self.individuals)) for k, v in obsGamf.items()}
+    
+    def setGameticFreq(self,gamf):
+        self.gameticFrequencies = gamf
+    
     
     def alleleFreq(self):
         '''
@@ -325,6 +333,9 @@ class Population:
             # ...
 
         return obsAleF
+    
+    def setAllelicFreq(self,alef):
+        self.allelicFrequencies = alef
         
     def sexFreq(self):
         """Obtains sex frequency for current population.
@@ -333,12 +344,12 @@ class Population:
             dict: Keys = Male-Female, Values = frequencies
         """
         sex=[0,0]
-        for individuo in self.indiv:
+        for individuo in self.individuals:
             if individuo.getSex()=='Female':
                 sex[0]+=1
             else:
                 sex[1]+=1
-        return [i/len(self.indiv) for i in sex]
+        return [i/len(self.individuals) for i in sex]
     
             
     
@@ -348,7 +359,7 @@ class Population:
         '''
 
         obsGamf = self.gameticFreq()
-
+        self.setGameticFreq(obsGamf)
         # print(f'Generacion {self.gen}','frecuencia absoluta: ',obsGamf,sep='\n')
         # print(self.cum_gamF)
 
@@ -361,6 +372,7 @@ class Population:
         Adds current allelic frequency to object variable f_ale_acc
         '''
         obsAleF = self.alleleFreq()
+        self.setAllelicFreq(obsAleF)
         for k in obsAleF:
             self.f_ale_acc[k].append(obsAleF[k])
         
@@ -377,7 +389,7 @@ class Population:
         self.f_mut_acc.append(self.findMutated()) 
         
          
-    def evolvePop(self,gens = 50,every=10,ignoreSex=False,printInfo=False):
+    def evolvePop(self,gens = 50,every=10,ignoreSex=False,printInfo=False,fit=None):
         """
         Evolves the population 
 
@@ -390,7 +402,8 @@ class Population:
         """
         
         self.steps = every
-            
+        if fit is not None:
+            self.fit = fit
         for veces in range(0,gens):
             # si hay que parar la evolucion por algun motivo, sale del bucle
             if self.stopEv:
@@ -399,7 +412,7 @@ class Population:
             #aumentamos la generacion
             self.gen += 1
             #hacemos que poblacion apunte a la lista padre
-            currentPop = self.indiv
+            currentPop = self.individuals
             #vaciamos la lista individuos
             self.childrenInd = []
 
@@ -414,7 +427,7 @@ class Population:
 
             #sobreescribimos la generacion padre por la hija
             if self.stopEv == False:
-                self.indiv = self.childrenInd
+                self.individuals = self.childrenInd
 
             # cada x generaciones, printamos
             if self.gen % every == 0:
@@ -437,6 +450,7 @@ class Population:
         else:
             #clear_output(wait=True)
             #os.system('cls')
+            # self.getInfo()
             print("¡Evolucion completada!")
                 
         
@@ -500,17 +514,17 @@ class Population:
         
         Will be obsolete.
         """
-        tam = len(self.indiv)
+        tam = len(self.individuals)
 
         sex = {'Male':0,'Female':0}
         for x in range(tam):
-            sexo = self.indiv[x].sex()
+            sexo = self.individuals[x].sex()
             if sexo == 'Male':
                 sex['Male'] = sex['Male'] + 1
             else:
                 sex['Female'] =sex['Female']+ 1
 
-        print(f'Hay {len(self.indiv)} individuos\n{sex} son machos\t',
+        print(f'Hay {len(self.individuals)} individuos\n{sex} son machos\t',
                 f'{sex} son hembras \n\n el desequilibrio de ligamiento (LD) =',
                 f'{self.d} \n frecuencia de recombinacion = {self.R} ',
                 f' la generacion es {self.gen} las frecuencias gameticas', 
@@ -522,14 +536,14 @@ class Population:
         Parameters:
             id (int, optional): which individual will be shown. Defaults to 0.
         """
-        print(self.indiv[id])
-        self.indiv[id].printParents()
+        print(self.individuals[id])
+        self.individuals[id].printParents()
 
     
     def findMutated(self,show=0):
         """Find mutated individuals
 
-        Args:
+        Parameters:
             show (int, optional): If this search will be shown.
             Defaults to 0.
 
@@ -538,7 +552,7 @@ class Population:
         """
         mutated = 0
         advMutated = {k:0 for k in self.freq.values()}
-        for individuo in self.indiv:
+        for individuo in self.individuals:
             if individuo.isMutated:    
                 mutated += 1
                 if show > mutated:
@@ -553,7 +567,7 @@ class Population:
         return mutated
 
     def info(pop):
-        info = {'tamaño':pop.size, 
+        info = {'tamaño':pop.size,
                 'ploidía':pop.ploidy, 
                 'frecuencias alelicas iniciales':pop.freq, 
                 'desequilibrio de ligamiento':pop.d, 
@@ -561,12 +575,53 @@ class Population:
                 'tasa de mutaciones':pop.mu, 
                 'generación actual':pop.gen,
                 'sistema de determinación del sexo': pop.sex_system,
-                'tipo de seleccion': pop.fit}
+                'tipo de selección': pop.fit}
         if hasattr(pop,'indiv'):
-            info['frecuencias alelicas actuales'] = pop.alleleFreq()
+            info['frecuencias alélicas actuales'] = pop.alleleFreq()
+            info['número de individuos'] = len(pop.individuals)
         
         stringInfo = '\n'.join([f'{key}: {value}' for key, value in info.items()])
         print(stringInfo)
+        
+    def getCurrentIndividuals(self,howMany=None):
+        '''Returns a list of current individuals
+        
+        Parameters:
+            howMany (int, optional): how many individuals will be returned.
+        
+        Returns:
+            list: list of current individuals
+        '''
+        if howMany is not None and howMany < self.size:
+            nList = self.individuals.copy()[:howMany]
+        else:
+            nList = self.individuals.copy()
+        return nList
+    
+    def fixedLoci(self):
+        '''Returns which loci, if any, are fixed
+        
+        Returns:
+            list: list of fixed loci
+        '''
+        loci = list()
+        for k,v in self.allelicFrequencies.items():
+            if v==0:
+                loci.append(k.lower())
+            elif v==1:
+                loci.append(k)
+            else:
+                loci.append(0)
+            
+        
+        return loci
+    
+    #TODO: implementar esta funcion
+    def __iter__(self):
+        pass
+    def __next__(self):
+        pass
+                
 
    
 if __name__ == '__main__':

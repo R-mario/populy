@@ -37,9 +37,11 @@ class Superpop():
         self.n = n
         self.kwargs = kwargs
         self.sPop = [Population(popsize,**kwargs)for x in range(n)] 
+        # inicializamos
+        [x.initIndividuals()  for x in self.sPop]
     
         
-    def startPops(self,gens,**kwargs):
+    def evolvePops(self,gens,**kwargs):
         """Inicializes population individuals and evolves them
 
         Args:
@@ -56,9 +58,6 @@ class Superpop():
 
             
         printInfo = False
-        # inicializamos
-        [x.initIndividuals()  for x in self.sPop]
-        #evolucionamos
         [x.evolvePop(gens,every=cada,printInfo=False) for x in self.sPop]
         # guarda las frecuencias alelicas acumuladas en una lista
         self.freqs = [d.f_ale_acc for d in self.sPop]

@@ -156,7 +156,7 @@ class Individual():
     def __str__(self):
         ind_info = {'Individual id:': self.ide,
                     'sex': self.sex, 
-                    'chromosomes': '\t'.join(**self.chromosomes.values())}
+                    'chromosomes': '\t'.join(**self.chromosome.values())}
         if self.parents != 0:
             ind_info['suffered mutation']= self.isMutated
             
