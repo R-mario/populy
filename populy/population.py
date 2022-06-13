@@ -413,9 +413,7 @@ class Population:
         
     def getExpGenotype(self,locus,what_pop='initial'):
         '''Returns the expected genotype based on allele frequency and population size.
-        
-        The main use is for testing Hardy-Weinberg equilibrium. For this use make sure to compare the expected genotype 
-        for generation 0 with the observed genotype for current generation.
+        The main use is for testing Hardy-Weinberg equilibrium.
         
         Parameters:
             locus (str): Locus of interest.
@@ -636,20 +634,25 @@ class Population:
         stringInfo = '\n'.join([f'{key}: {value}' for key, value in info.items()])
         print(stringInfo)
         
-    def getCurrentIndividuals(self,howMany=None):
+    def getCurrentIndividuals(self,howMany=None,shuffle=False):
         '''Returns a list of current individuals
         
         Parameters:
             howMany (int, optional): how many individuals will be returned.
+            shuffle (bool, optional): if the individuals will be shuffled.
         
         Returns:
             list: list of current individuals
         '''
+        individuos = self.individuals.copy()
+        
+        if shuffle:
+            random.shuffle(individuos)
+ 
         if howMany is not None and howMany < self.size:
-            nList = self.individuals.copy()[:howMany]
-        else:
-            nList = self.individuals.copy()
-        return nList
+            individuos = individuos[:howMany]
+
+        return individuos
     
     def fixedLoci(self):
         '''Returns which loci, if any, are fixed
