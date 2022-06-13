@@ -94,14 +94,11 @@ class Individual():
         return sexo
         
     def getGenotype(self):
+        '''Devuelve el genotipo del individuo'''
         
-        genotype = dict()
-        for i,letra in enumerate(self.chromosome['c1']):
-            if self.spPloidy == 2:
-                genotype[letra.upper()] = ''.join(sorted(self.chromosome['c1'][i] + 
-                                                         self.chromosome['c2'][i]))
-            else:
-                genotype[letra.upper()] = self.chromosome['c1'][i]
+        c = [list(self.chromosome[x]) for x in self.chromosome]
+        array = np.array(c)
+        genotype = [''.join(array[:,i]) for i in range(array.shape[1])]
         
         return genotype
 
@@ -156,7 +153,7 @@ class Individual():
     def __str__(self):
         ind_info = {'Individual id:': self.ide,
                     'sex': self.sex, 
-                    'chromosomes': '\t'.join(**self.chromosome.values())}
+                    'genotype': ' '.join(self.genotype)}
         if self.parents != 0:
             ind_info['suffered mutation']= self.isMutated
             
