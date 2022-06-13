@@ -418,7 +418,7 @@ class Population:
 
             # introduce nuevos individuos hasta llegar al size de la poblacion
             x = 0
-            while len(self.childrenInd)<= self.size:
+            while len(self.childrenInd) < self.size:
                 child = self.__chooseMate(x, currentPop, ignoreSex)
                 # aplicamos una funcion fitness
                 if fitness(self.fit,child.genotype) == True:
