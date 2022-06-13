@@ -51,7 +51,7 @@ class Population:
         
         self.rnd = rnd
         
-        #frecuencia genotipica inicial
+        #frecuencia alelica inicial
         self.freq = self.initialAlleles(freq)
         self.gen = 0
         
@@ -299,7 +299,7 @@ class Population:
         # diccionario tipo {'AB': 0,'Ab':0,...}
         obsGamf = outer_product(self.freq)
         obsGamf = {k:0 for k in obsGamf.keys()}
-        # cuenta las ocurrencias en la poblacion de los distintos genotipos  
+        # cuenta las ocurrencias en la poblacion de los distintos genotipos gameticos
         for individuo in self.individuals:
             for key in obsGamf:
                 if individuo.chromosome['c1'] == key:
@@ -315,7 +315,7 @@ class Population:
     
     def alleleFreq(self):
         '''
-        Obtains number of major alleles from gametic frequency for current population.
+        Obtains frequency of major alleles from gametic frequency for current population.
         
         Returns:
             dict (str:int): Keys = locus(A,B,...), Values=Count
@@ -388,7 +388,60 @@ class Population:
         '''
         self.f_mut_acc.append(self.findMutated()) 
         
-         
+    def getObsGenotype(self,locus):
+        """
+        Obtains observed genotypes for current population.
+        
+        Parameters:
+            locus (str): Locus of interest.
+            
+        Returns:
+            dict: Keys = genotype, Values = number of individuals with that genotype.
+        """
+        try:
+            
+            genotype = {f'{locus}{locus}':0,f'{locus}{locus.lower()}':0,f'{locus.lower()}{locus.lower()}':0}
+            
+            for ind in self.individuals:
+                for x in range(0,len(ind.genotype)):
+                    if ind.genotype[x] in genotype.keys():
+                        genotype[ind.genotype[x]] +=1
+                        
+            return genotype
+        except:
+            print(f'Wrong locus, it should be capitalize and one of {self.freq.keys()}')
+        
+    def getExpGenotype(self,locus,what_pop='initial'):
+        '''Returns the expected genotype based on allele frequency and population size.
+        
+        The main use is for testing Hardy-Weinberg equilibrium. For this use make sure to compare the expected genotype 
+        for generation 0 with the observed genotype for current generation.
+        
+        Parameters:
+            locus (str): Locus of interest.
+            what_pop (str): What population we are using to "expect" the frequencies. Values are "initial",
+            which means that the gen.0 allele frecuencies will be to compute the value instead of current ones, 
+            or "current". Defaults to "initial".
+        
+        Returns:
+            dict: Keys = genotype, Values = number of expected individuals with that genotype.
+        '''
+        if what_pop == 'current':
+            alF = self.alleleFreq()
+        else:
+            alF = {k:v[0] for k,v in self.freq.items()}
+        
+        try:
+            p = alF[locus]
+            q = 1 - p
+            expAlFreq = {f'{locus}{locus}':p*p,f'{locus}{locus.lower()}':2*p*q,f'{locus.lower()}{locus.lower()}':q*q}
+        except:
+            print(f'Wrong locus, it should be capitalize and one of {list(self.freq.keys())}')
+        
+        #returns total expected count for given size
+        return {k:round(v*self.size,2) for k,v in expAlFreq.items()}
+        
+                        
     def evolvePop(self,gens = 50,every=10,ignoreSex=False,printInfo=False,fit=None):
         """
         Evolves the population 
