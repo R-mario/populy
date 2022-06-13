@@ -100,7 +100,9 @@ class Individual():
         array = np.array(c)
         genotype = [''.join(array[:,i]) for i in range(array.shape[1])]
         
-        return genotype
+        gen_sorted = [''.join(sorted(g)) for g in genotype]
+        
+        return gen_sorted
 
     # Calcula la frecuencia gametica a partir de las frecuencias alelicas y D
     # esto quiza deberia estar en population !!!revisar

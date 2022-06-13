@@ -87,7 +87,7 @@ def fitness(fit : dict, genotype):
         
         child_gen (dict[str:int]): genotipo del individuo
     '''
-    def live_die(p):
+    def is_alive(p):
         """
         Función de vida o muerte, si el valor generado
         es mayor que el valor pasado como parametro muere.
@@ -108,44 +108,40 @@ def fitness(fit : dict, genotype):
     # si tiene 1 A = fit[A][0]*fit[A][1]
     # si tiene 0 A = fit[A][1]**2
     # ...
+    
     if type(fit) is not int:
-        # para alelo
-        for k,v in genotype.items():
-            # si el locus esta en los valores de fit
-            if any(k == c for c in fit):
-                # recorremos cada alelo del genotipo para el locus dado k
-                p = 1
-                for letra in v:
-                    # si es el mayor llamamos a una probabilidad, si no a otra
-                    if letra.isupper():
-                        p *= fit[k][0]
-                    else:
-                        p *= fit[k][1]
-                    if live_die(p) == False:
-                        return False     
-        else:
-            # para genotipos completos
-            for k,v in fit.items():
-                genotipo = ''.join(genotype.values())
-                if genotipo == k:
-                    if live_die(v) == False:
-                        return False
+        genotipo = ''.join(genotype)
+        for k,v in fit.items():
+            if len(k)>1:
+                if k in genotipo:
+                    return is_alive(v)
+                else:
+                    return True 
             else:
-                return True 
+                occ = genotipo.count(k)
+                if occ != 0:
+                    if isinstance(v, tuple):
+                        vive = [is_alive(i**occ) for i in v]
+                    else:
+                        vive = is_alive(v**occ)
+                        
+                    return all(vive)
+                else:
+                    return True
             
     # fitness numerico
     if fit==0:
         return True
     if fit==1:
         if 'Aa'== genotype['A']:
-            return live_die(0.9)
+            return is_alive(0.9)
         if 'aa'== genotype['A']:
-            return live_die(0.81)
+            return is_alive(0.81)
     if fit==2:
         if 'Aa'== genotype['A']:
-            return live_die(0.9)
+            return is_alive(0.9)
         if 'AA'== genotype['A']:
-            return live_die(0.81)
+            return is_alive(0.81)
     if fit==3:
         if 'aa'== genotype['A'] and 'bb'== genotype['B']:
             return False
