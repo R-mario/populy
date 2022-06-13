@@ -166,3 +166,7 @@ Populy.code-workspace
 .RData
 .Rhistory
 *.Rproj
+
+# personal
+para_hacer.txt
+files/contenidos.txt

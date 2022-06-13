@@ -35,7 +35,7 @@ class Test_individual(unittest.TestCase):
         chr = ind3.chromosome
         self.assertEqual(list(chr.keys()),['c1'])
         genotype = ind3.genotype
-        self.assertEqual(len(genotype['A']),1)
+        self.assertEqual(len(genotype[0]),1)
     
     def test_oneLocus(self):
         freq={'A':(0.4,0.6)}
@@ -119,11 +119,11 @@ class Test_functions(unittest.TestCase):
         self.assertEqual(len(finalD),2**len(f))
     
     def test_fitness(self):
-        res = functions.fitness({'A':(0,1)},{'A':'AA','B':'BB'})
+        res = functions.fitness({'A':(0,1)},('AA','BB'))
         self.assertFalse(res)
-        res2 = functions.fitness({'A':(1,1),'B':(1,1)},{'A':'AA','B':'BB'})
+        res2 = functions.fitness({'A':(1,1),'B':(1,1)},('AA','BB'))
         self.assertTrue(res2)
-        res3 = functions.fitness({'AaBB':0},{'A':'Aa','B':'BB'})
+        res3 = functions.fitness({'aabb':0},('aa','bb'))
         self.assertFalse(res3)
 
 
