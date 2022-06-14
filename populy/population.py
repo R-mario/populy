@@ -152,9 +152,9 @@ class Population:
         
         # se crean nuevas variables de la poblacion
         # print(self.freq,self.alleleFreq())
-        freq_alelicas = self.alleleFreq()
+        obs_initial_all_freq= self.alleleFreq()
         # frecuencia alelica acumulada = se añadiran valores durante la ev
-        self.f_ale_acc = {k: [v] for k,v in freq_alelicas.items()}
+        self.f_ale_acc = {k: [v] for k,v in obs_initial_all_freq.items()}
         dictc = self.gameticFreq()
         # frecuencia gametica acumulada
         self.f_gam_acc = {k: [v] for k,v in dictc.items()}
@@ -163,7 +163,12 @@ class Population:
         # frecuencia de sexos acumulada
         self.f_sex_acc = [self.sexFreq()]
         
-           
+    def getCurrentSize(self):
+        '''Returns current population size based on number of individuals in the population
+        
+        '''
+        return len(self.individuals)   
+       
     def printIndividuals(self,show=5,children=True):
         '''
         Shows information about the individuals. 
@@ -234,7 +239,7 @@ class Population:
           ax[0,1].set_ylim([0,1])
           
           ax[1,0].plot(sex_df)
-          ax[1,0].set_title('Sex frecuencies')
+          ax[1,0].set_title('Sex frequencies')
           ax[1,0].set_ylim(0.3,0.7)
           ax[1,0].legend(['Female','Male'])
           ax[1,0].set_ylabel('f(sex)')
@@ -291,10 +296,11 @@ class Population:
 
         return Summary
                                   
-    
-    def gameticFreq(self):
-        '''
-        Computes number of different gametes in the population.
+    def gameticCount(self):
+        '''Counts the number of gametes in the population.
+        
+        Returns:
+            dict: dictionary with the number of different gametes in the population.
         '''
         # diccionario tipo {'AB': 0,'Ab':0,...}
         obsGamf = outer_product(self.freq)
@@ -306,10 +312,24 @@ class Population:
                     obsGamf[key] += 1
                 if individuo.chromosome['c2']==key:
                     obsGamf[key] += 1
-                    
-        return {k: v / (2*len(self.individuals)) for k, v in obsGamf.items()}
+        
+        return obsGamf
     
-    def setGameticFreq(self,gamf):
+    def gameticFreq(self):
+        '''
+        Computes de gametic frequency for this population.
+        
+        Returns:
+            dict: dictionary with the gametic frequencies.
+        '''
+        
+        countGametes = self.gameticCount()
+        
+        freqGametes = {k: v / (2*len(self.individuals)) for k, v in countGametes.items()}     
+           
+        return freqGametes
+    
+    def __setGameticFreq(self,gamf):
         self.gameticFrequencies = gamf
     
     
@@ -334,7 +354,7 @@ class Population:
 
         return obsAleF
     
-    def setAllelicFreq(self,alef):
+    def __setAllelicFreq(self,alef):
         self.allelicFrequencies = alef
         
     def sexFreq(self):
@@ -359,7 +379,7 @@ class Population:
         '''
 
         obsGamf = self.gameticFreq()
-        self.setGameticFreq(obsGamf)
+        self.__setGameticFreq(obsGamf)
         # print(f'Generacion {self.gen}','frecuencia absoluta: ',obsGamf,sep='\n')
         # print(self.cum_gamF)
 
@@ -372,7 +392,7 @@ class Population:
         Adds current allelic frequency to object variable f_ale_acc
         '''
         obsAleF = self.alleleFreq()
-        self.setAllelicFreq(obsAleF)
+        self.__setAllelicFreq(obsAleF)
         for k in obsAleF:
             self.f_ale_acc[k].append(obsAleF[k])
         
@@ -411,33 +431,45 @@ class Population:
         except:
             print(f'Wrong locus, it should be capitalize and one of {self.freq.keys()}')
         
-    def getExpGenotype(self,locus,what_pop='initial'):
-        '''Returns the expected genotype based on allele frequency and population size.
+    def getExpGenotype(self,locus,what_pop='current'):
+        '''Returns the ected genotype based on observed genotype count .
         The main use is for testing Hardy-Weinberg equilibrium.
         
         Parameters:
             locus (str): Locus of interest.
-            what_pop (str): What population we are using to "expect" the frequencies. Values are "initial",
-            which means that the gen.0 allele frecuencies will be to compute the value instead of current ones, 
-            or "current". Defaults to "initial".
+            what_pop (str): What population we are using to "ect" the frequencies. Values are "current",
+            which means that we are using the current population observed genotypes, or "initial",
+            which means that we are using the initial population allele frequencies .
         
         Returns:
-            dict: Keys = genotype, Values = number of expected individuals with that genotype.
+            dict: Keys = genotype, Values = number of ected individuals with that genotype.
         '''
-        if what_pop == 'current':
-            alF = self.alleleFreq()
-        else:
-            alF = {k:v[0] for k,v in self.freq.items()}
         
+        if what_pop == 'current':
+            size = self.getCurrentSize()
+            obs = self.getObsGenotype(locus)
+            keys = list(obs.keys())
+            p = (obs[keys[0]]+obs[keys[1]]/2)/size
+            q = (obs[keys[2]]+obs[keys[1]]/2)/size
+        else:
+            size = self.size
+            obs = self.obs_initial_all_freq
+            p = obs[locus]
+            q = 1- p
+            keys = [f'{locus}{locus}',f'{locus}{locus.lower()}',f'{locus.lower()}{locus.lower()}']
+            
         try:
-            p = alF[locus]
-            q = 1 - p
-            expAlFreq = {f'{locus}{locus}':p*p,f'{locus}{locus.lower()}':2*p*q,f'{locus.lower()}{locus.lower()}':q*q}
+            counts = (p**2,2*p*q,q**2)
+            expFreq = dict(zip(keys,counts))
+            
+            expCounts = {k:v*size for k,v in expFreq.items()}
+            
+            return expCounts
+        
         except:
             print(f'Wrong locus, it should be capitalize and one of {list(self.freq.keys())}')
         
-        #returns total expected count for given size
-        return {k:round(v*self.size,2) for k,v in expAlFreq.items()}
+    
         
                         
     def evolvePop(self,gens = 50,every=10,ignoreSex=False,printInfo=False,fit=None):
