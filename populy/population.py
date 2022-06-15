@@ -212,6 +212,8 @@ class Population:
         
         # DataFrame de sexos
         sex_df = pd.DataFrame(self.f_sex_acc,index=labels)
+        
+        mu_df = self.getDataFrame("mutations")
 
         # Hacemos el grafico
         fig,ax = plt.subplots(2,2,figsize=(13,8))
@@ -224,33 +226,38 @@ class Population:
         
         # fig[0].title('Variacion de las frecuencias gameticas')
         with plt.style.context("ggplot"):
-          ax[0,0].plot(gam_df)
-          ax[0,0].set_title('gametic frequencies')
-          ax[0,0].legend(gam_df.columns)
-          ax[0,0].set_ylim(0,1)
-          ax[0,0].set_ylabel('p_gamete')
-          ax[0,0].set_ylim([0,1])
-          # fig[1].title('Variacion de las frecuencias alelicas')
-          ax[0,1].set_title('Major allele frequencies')
-          ax[0,1].plot(al_df)
-          ax[0,1].legend(al_df.columns)
-          ax[0,1].set_ylim(0,1)
-          ax[0,1].set_ylabel('p_allele')
-          ax[0,1].set_ylim([0,1])
-          
-          ax[1,0].plot(sex_df)
-          ax[1,0].set_title('Sex frequencies')
-          ax[1,0].set_ylim(0.3,0.7)
-          ax[1,0].legend(['Female','Male'])
-          ax[1,0].set_ylabel('f(sex)')
-          ax[1,0].set_ylim([0,1])
-          
-          ax[1,1].bar(height=self.f_mut_acc[1:],x=labels[1:])
-          ax[1,1].set_title('Number of mutations')
-          maxMutLim = max(self.f_mut_acc)
-          ax[1,1].set_ylim(0,maxMutLim+1)
-          ax[1,1].plot(self.f_mut_acc[1:], color='red', linewidth=2)
-          ax[1,1].set_ylabel('mutations')
+            ax[0,0].plot(gam_df)
+            ax[0,0].set_title('gametic frequencies')
+            ax[0,0].legend(gam_df.columns)
+            ax[0,0].set_ylim(0,1)
+            ax[0,0].set_ylabel('p_gamete')
+            ax[0,0].set_ylim([0,1])
+            # fig[1].title('Variacion de las frecuencias alelicas')
+            ax[0,1].set_title('Major allele frequencies')
+            ax[0,1].plot(al_df)
+            ax[0,1].legend(al_df.columns)
+            ax[0,1].set_ylim(0,1)
+            ax[0,1].set_ylabel('p_allele')
+            ax[0,1].set_ylim([0,1])
+            
+            ax[1,0].plot(sex_df)
+            ax[1,0].set_title('Sex frequencies')
+            ax[1,0].set_ylim(0.3,0.7)
+            ax[1,0].legend(['Female','Male'])
+            ax[1,0].set_ylabel('f(sex)')
+            ax[1,0].set_ylim([0,1])
+            
+            for x,i in enumerate(mu_df.columns):
+                bottom = 0
+                if x>0:
+                    bottom = mu_df.iloc[:,x-1]
+                ax[1,1].bar(height=mu_df[i],x=mu_df.index, bottom=bottom)
+            
+            maxMutLim = int(max(mu_df.sum(axis=1)))
+            ax[1,1].legend(mu_df.columns)
+            ax[1,1].set_title('Number of mutations per loci')
+            ax[1,1].set_ylim(0,maxMutLim+1)
+            ax[1,1].set_ylabel('mutations')
         
         new_steps = int(len(labels)/5) if len(labels)>8 else 1
         plt.setp(ax, xticks=range(0,len(labels),new_steps), xticklabels=labels[::new_steps])
@@ -286,6 +293,7 @@ class Population:
             elif re.match('(.+?)?mut(.+?)',which):
                 data = self.f_mut_acc
                 Summary = pd.DataFrame(data,index=labels)
+                Summary.columns = [f'mu({i})' for i in Summary.columns]
             else:
                 raise ValueError(f'Unknown {which}')
         elif isinstance(which,list):
@@ -634,20 +642,20 @@ class Population:
             int: number of individuals which were mutated.
         """
         mutated = 0
-        advMutated = {k:0 for k in self.freq.values()}
+        advMutated = {k:0 for k in self.freq.keys()}
         for individuo in self.individuals:
-            if individuo.isMutated:    
+            muValue = individuo.isMutated
+            if muValue:    
                 mutated += 1
+                for x in muValue:
+                    advMutated[x] += 1
                 if show > mutated:
                     print("¡Un individuo ha mutado!, ha ocurrido",
                           f"en la generación {self.gen}",
                           " y se trata de:")
                     print(individuo)
-            # if individuo.adMutated:
-            #     for i in individuo.adMutated:
-            #         advMutated[i] += 1
                     
-        return mutated
+        return advMutated
 
     def info(pop):
         info = {'tamaño':pop.size,

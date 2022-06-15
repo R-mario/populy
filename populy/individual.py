@@ -54,12 +54,12 @@ class Individual():
         Inicializa las variables que no se le pasan al inicializador
         '''
         self.chromosome = dict()
-        self.isMutated = False
+        self.isMutated = 0
         # si tiene padres, es decir, no esta iniciada de 0...
         if self.parents:
             # self.mating()
             self.mating()
-            self.mutation()
+            self.isMutated = self.mutation()
         else:
             self.sex_chromosome = self.generate_sexual_genotype()
             self.chromosome = self.chooseGametes()
@@ -157,7 +157,7 @@ class Individual():
                     'sex': self.sex, 
                     'genotype': ' '.join(self.genotype)}
         if self.parents != 0:
-            ind_info['suffered mutation']= self.isMutated
+            ind_info['suffered mutation']= False if not self.isMutated else self.isMutated
             
         return ('\n'.join(f'{key}: {value}' for key,value in ind_info.items()))
     
@@ -215,8 +215,8 @@ class Individual():
         Provoca el cambio del alelo mayor al menor con una frecuencia mut
         '''
         muType = 'unidirectional'
+        muLoci = list()
         if sum(self.mu) != 0:      
-            self.adMutated = ''
             for k,v in self.chromosome.items():
                 for i in range(len(v)):
                     #comprueba si es el alelo mayor
@@ -224,8 +224,9 @@ class Individual():
                         #si muta, cambia el alelo del cromosoma por el alelo menor
                         if random.random() < self.mu[i]:
                             self.chromosome[k] = self.chromosome[k].replace(v[i],v[i].lower())
-                            self.isMutated = True
-                            self.adMutated += k
+                            muLoci.append(v[i])
+        
+        return muLoci
                     
 
             

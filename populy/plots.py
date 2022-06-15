@@ -75,14 +75,24 @@ class Plots:
         
     def mutations(pop):
         labels, caption = Plots.__populationInfo(pop)
-        mut = pop.getDataFrame('mutantes')
-        
+        mu_df = pop.getDataFrame('mutantes')
+
         plt.style.use('ggplot')
         plt.figure(figsize=(6,4),constrained_layout=True)
-        plt.title("Number of total mutations per generation")
-        plt.xlabel("Generations")
-        plt.ylabel("Mutants")
-        plt.plot(mut)
-        plt.legend(mut.columns)
+
+        for x,i in enumerate(mu_df.columns):
+            bottom = 0
+            if x>0:
+                bottom = mu_df.iloc[:,x-1]
+                plt.bar(height=mu_df[i],x=mu_df.index,bottom=bottom)
+            else:
+                plt.bar(height=mu_df[i],x=mu_df.index)
+
+        maxMutLim = int(max(mu_df.sum(axis=1)))
+        plt.legend(mu_df.columns)
+        plt.title('Number of mutations per loci')
+        plt.ylim(0,maxMutLim+1)
+        plt.ylabel('mutations')
+
         plt.xticks(rotation=45)
         plt.show()
