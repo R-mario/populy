@@ -2,6 +2,7 @@
 #local imports
 from .individual import Individual
 from .functions import fitness,outer_product
+from .plot import Plot
 
 import random
 import itertools
@@ -11,6 +12,8 @@ import numpy as np
 import re
 import os
 from IPython.display import clear_output
+from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
+                               AutoMinorLocator)
 
 
 
@@ -54,6 +57,7 @@ class Population:
         #frecuencia alelica inicial
         self.freq = self.initialAlleles(freq)
         self.gen = 0
+        self.generationList = [0]
         
         # stops evolve if needed
         self.stopEv = False
@@ -159,9 +163,9 @@ class Population:
         # frecuencia gametica acumulada
         self.f_gam_acc = {k: [v] for k,v in dictc.items()}
         # frecuencia de mutacion acumulada
-        self.f_mut_acc = [self.findMutated()]
+        self.f_mut_acc = {k: [v] for k,v in self.findMutated().items()}
         # frecuencia de sexos acumulada
-        self.f_sex_acc = [self.sexFreq()]
+        self.f_sex_acc = {k: [v] for k,v in self.sexFreq().items()}
         
     def getCurrentSize(self):
         '''Returns current population size based on number of individuals in the population
@@ -200,70 +204,40 @@ class Population:
         Graphical representation with matplotlib.
         Allelic and gametic frequencies, sex frequency and number of mutations.
         '''  
-
-        # creamos el indice (eje x) del dataFrame
- 
-        labels = ['gen.'+str(x) for x in range(0,self.gen+1,self.steps)]
-        
-        # DataFrame de frecuencias alelicas acumuladas
-        al_df = pd.DataFrame(self.f_ale_acc,index=labels)
-        # DataFrame de frecuencias gameticas acumuladas
-        gam_df = pd.DataFrame(self.f_gam_acc,index=labels)
-        
-        # DataFrame de sexos
-        sex_df = pd.DataFrame(self.f_sex_acc,index=labels)
-        
+        al_df = self.getDataFrame("alleles")
+        gam_df = self.getDataFrame("gametes")
+        sex_df = self.getDataFrame("sex")
         mu_df = self.getDataFrame("mutations")
 
         # Hacemos el grafico
         fig,ax = plt.subplots(2,2,figsize=(13,8))
+        fig.tight_layout(h_pad=2.1)  
         
         plt.style.context("ggplot")
-        plt.suptitle(f"Population with {self.size} individuals",fontsize=18)
         caption=f"""Initial conditions: allelic f.={self.freq}, recombination f.={self.R}
         mutation f.={self.mu}"""
         plt.figtext(0.5, 0.01, caption, wrap=True, horizontalalignment='center', fontsize=10)
         
-        # fig[0].title('Variacion de las frecuencias gameticas')
         with plt.style.context("ggplot"):
-            ax[0,0].plot(gam_df)
-            ax[0,0].set_title('gametic frequencies')
-            ax[0,0].legend(gam_df.columns)
-            ax[0,0].set_ylim(0,1)
-            ax[0,0].set_ylabel('p_gamete')
-            ax[0,0].set_ylim([0,1])
-            # fig[1].title('Variacion de las frecuencias alelicas')
-            ax[0,1].set_title('Major allele frequencies')
-            ax[0,1].plot(al_df)
-            ax[0,1].legend(al_df.columns)
-            ax[0,1].set_ylim(0,1)
-            ax[0,1].set_ylabel('p_allele')
-            ax[0,1].set_ylim([0,1])
+            Plot.alleles(al_df,show=False,ax=ax[0,0])
+            Plot.gametes(gam_df,show=False,ax=ax[0,1])
+            Plot.sex(sex_df,show=False,ax=ax[1,0])
+            Plot.mutations(mu_df,show=False,ax=ax[1,1])
             
-            ax[1,0].plot(sex_df)
-            ax[1,0].set_title('Sex frequencies')
-            ax[1,0].set_ylim(0.3,0.7)
-            ax[1,0].legend(['Female','Male'])
-            ax[1,0].set_ylabel('f(sex)')
-            ax[1,0].set_ylim([0,1])
-            
-            for x,i in enumerate(mu_df.columns):
-                bottom = 0
-                if x>0:
-                    bottom = mu_df.iloc[:,x-1]
-                ax[1,1].bar(height=mu_df[i],x=mu_df.index, bottom=bottom)
-            
-            maxMutLim = int(max(mu_df.sum(axis=1)))
-            ax[1,1].legend(mu_df.columns)
-            ax[1,1].set_title('Number of mutations per loci')
-            ax[1,1].set_ylim(0,maxMutLim+1)
-            ax[1,1].set_ylabel('mutations')
-        
-        new_steps = int(len(labels)/5) if len(labels)>8 else 1
-        plt.setp(ax, xticks=range(0,len(labels),new_steps), xticklabels=labels[::new_steps])
+        plt.suptitle(f"Population with {self.size} individuals",fontsize=18)
+        plt.subplots_adjust(top=0.85)
         plt.show()
-
         
+    #to be implemented
+    def createdf(data,index=None,columns=None):
+        '''Create a dataframe from a dictionary'''
+        dataF=pd.DataFrame(data,index=index)
+        if columns is not None:
+            dataF.columns = columns
+        dataF.index.name = 'Generations'
+        
+        return dataF
+    
     def getDataFrame(self,which='mutantes'):
         '''
         Generates a pandas dataframe.
@@ -276,32 +250,29 @@ class Population:
         Returns:
             (pd.DataFrame): Dataframe.
         '''
-        labels = ['gen.'+str(x) for x in range(0,self.gen+1,self.steps)]
-        
+        columns=None
+        labels = [x for x in range(0,self.gen+1,self.steps)]
+        index = self.generationList
         if isinstance(which, str):
             if re.match('(.+?)?gamet(ica|o|e)s?',which):
                 data = self.f_gam_acc
-                Summary=pd.DataFrame(data,index=labels)
-                Summary.columns = [f'p({i})' for i in Summary.columns]
+                columns = [f'p({i})' for i in data.keys()]
             elif re.match('(.+?)?all?el(ica|o|e)s?',which):
                 data = self.f_ale_acc
-                Summary = pd.DataFrame(data,index=labels)
-                Summary.columns = [f'p({i})' for i in Summary.columns]
+                columns = [f'p({i})' for i in data.keys()]
             elif re.match('(.+?)?sexo?s?',which):
                 data = self.f_sex_acc
-                Summary =pd.DataFrame(data,index=labels,columns=['Female','Male'])
+                columns= [f'f({i})' for i in data.keys()]
             elif re.match('(.+?)?mut(.+?)',which):
                 data = self.f_mut_acc
-                Summary = pd.DataFrame(data,index=labels)
-                Summary.columns = [f'mu({i})' for i in Summary.columns]
-            else:
-                raise ValueError(f'Unknown {which}')
+                columns = [f'mu({i})' for i in data.keys()]
         elif isinstance(which,list):
             data = which
             Summary = pd.DataFrame(data,index=labels)
         else:
-            raise TypeError(f'Unknown {which}') 
-
+            raise TypeError(f'Unknown {which} dataframe')
+        
+        Summary = Population.createdf(data,index,columns)
         return Summary
                                   
     def gameticCount(self):
@@ -371,13 +342,13 @@ class Population:
         Returns:
             dict: Keys = Male-Female, Values = frequencies
         """
-        sex=[0,0]
+        sex={'Female':0,'Male':0}
         for individuo in self.individuals:
             if individuo.getSex()=='Female':
-                sex[0]+=1
+                sex['Female']+=1
             else:
-                sex[1]+=1
-        return [i/len(self.individuals) for i in sex]
+                sex['Male']+=1
+        return {k:(v/len(self.individuals)) for k,v in sex.items()}
     
             
     
@@ -408,13 +379,17 @@ class Population:
         '''
         Adds current sex frequency to object variable f_sex_acc
         '''
-        self.f_sex_acc.append(self.sexFreq())
+        sex = self.sexFreq()
+        for k in sex:
+            self.f_sex_acc[k].append(sex[k])
 
     def mutAcumulada(self):
         '''
         Adds current mutation numbers to object variable f_mut_acc
         '''
-        self.f_mut_acc.append(self.findMutated()) 
+        mutations = self.findMutated()
+        for k in mutations:
+            self.f_mut_acc[k].append(mutations[k])
         
     def getObsGenotype(self,locus):
         """
@@ -598,6 +573,7 @@ class Population:
         self.freqAleAcumulada()
         self.sexAcumulada()
         self.mutAcumulada()
+        self.generationList.append(self.gen)
 
     def printSummary(self):
         """
@@ -639,7 +615,7 @@ class Population:
             Defaults to 0.
 
         Returns:
-            int: number of individuals which were mutated.
+            dict: number of individuals which were mutated per loci.
         """
         mutated = 0
         advMutated = {k:0 for k in self.freq.keys()}
@@ -717,7 +693,6 @@ class Population:
         pass
     def __next__(self):
         pass
-                
 
    
 if __name__ == '__main__':
