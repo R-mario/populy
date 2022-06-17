@@ -18,7 +18,7 @@ class Plot:
             plt.figure(figsize=(10,6),constrained_layout=True)
             plt.style.use('ggplot')
             
-        axes = Plot.axesConfig(df,ax,
+        axes = Plot.axesConfig(df,ax,set_kwargs,
                                 title=title,
                                 ylabel=ylabel)
         #enseña la figura, que incluye los axis (subplots)
@@ -88,7 +88,10 @@ class Plot:
         xMinor_ticks = df.index[-1]//20
         if ax is None:
             ax = plt.gca()
-        Legend = df.columns
+        if 'legend' not in set_kwargs.keys():
+            print(set_kwargs.keys())
+            legend = df.columns
+            
         if type=='bar':
             for x,i in enumerate(df.columns):
                 bottom = 0
@@ -107,7 +110,7 @@ class Plot:
         ax.set_xlim(0,df.index[-1])
         ax.set_ylim(0,1.05)
         # ax legend,title...
-        ax.legend(Legend)
+        ax.legend(legend)
         ax.set_xlabel(df.index.name)
         
         ax.set(**set_kwargs)

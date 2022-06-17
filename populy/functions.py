@@ -77,26 +77,26 @@ def rename(i,j,iteration,k,finalDict):
 
 def fitness(fit : dict, genotype):
     '''
-    A partir del tipo de seleccion y del genotipo que se le pase
-    Te devuelve si ese individuo vive o muere.
+    Given selection type (fit) and the genotype that is passed
+    Returns you whether that individual lives or dies.
     
     Args:
-        fit ( dict[str : int] ): valor de fitness de genotipo o alelo
-        ej.1: fit = {'locusA':(0.8,0.9)...}
-        ej.2. fit = {'}
+        fit ( dict[str : int] ): genotype or allele fitness value
+        ex.1: fit = {'locusA':(0.8,0.9)...}
+        ex.2. fit = {'}
         
-        child_gen (dict[str:int]): genotipo del individuo
+        child_gen (dict[str:int]): genotype of the individual
     '''
     def is_alive(p):
         """
-        Función de vida o muerte, si el valor generado
-        es mayor que el valor pasado como parametro muere.
+        Life or death function, if the value generated
+        is greater than the value passed as the die parameter.
 
         Args:
-            p (_type_): _description_
+            p(int): probability of death
 
-        Returns:
-            bool: decide si vive(True) o muere(False)
+        returns:
+            bool: decide whether to live(True) or die(False)
         """
         randNum = random.random()
         if randNum <= p:

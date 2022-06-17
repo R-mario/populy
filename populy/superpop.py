@@ -5,6 +5,8 @@ import matplotlib
 import os
 import numpy as np
 
+from .plot import Plot
+
 #local import
 from .population import Population
 
@@ -76,7 +78,7 @@ class Superpop():
         #ploidia
         ploidy = self.sPop[0].ploidy
         
-        labels = ['gen.'+str(x) for x in range(0,gens+1,steps)]
+        labels = [x for x in range(0,gens+1,steps)]
         
               
         popListnames = ['p'+str(i) for i in range(len(self.freqs))]
@@ -98,12 +100,13 @@ class Superpop():
                     ax[j].set_xlabel("Generations")
                     ax[j].plot(self.freqs[i][let])
                     ax[j].set_ylim([0,1])
-                    
-                
         new_steps = int(len(labels)/5) if len(labels)>8 else 1
         plt.setp(ax, xticks=range(0,len(labels),new_steps), xticklabels=labels[::new_steps])
         
         plt.show()
+                    
+                    
+        
         
         
 if __name__ == '__main__':

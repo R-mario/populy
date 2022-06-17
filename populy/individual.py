@@ -1,13 +1,3 @@
-'''
-Clase Individual, solo es llamada por la clase poblacion y contiene
-informacion sobre un individuo concreto
-esto es:
-str sexo: male or female
-str ide: identificador que consta de generacion (g.X) + numero (ID-YYY)
-int age: de momento sin usar
-dict genotype: {'str': 'str'} siendo la clave A o B y los valores
-                su genotipo para ese locus
-'''
 from calendar import c
 import numpy as np
 import random
@@ -26,32 +16,44 @@ class Individual():
                  d=0,R=0.5,mu=(0.1,0.1),
                  sex_system='XY',gen=0,
                  parents=0):
+        '''
+        Creates an individual based on population characteristics.
         
-         
+        Parameters:
+            size (int): population size
+            ploidy (int): number of homologous chromosomes. Defaults to 2.
+            d (float): Linkage desequilibrium. Defaults to 0.
+            R (float): recombination frequency. Defaults to 0.5.
+            mu (tuple): mutation rate. Defaults to (0.1,0.1).
+            sex_system (str): Sex system. Defaults to 'XY'.
+            gen (int): current generation. Defaults to 0.
+            parents (tuple,int): individual parents. Defaults to 0 (no parents).
+            
+        '''
+        
+        #population attributes
         self.spName = name
         self.spSize = size
         self.spPloidy = ploidy
-
         self.vida_media = vida_media
+        self.d = d
+        self.R = R
+        self.mu = mu
+        self.alFreq = freq
         
+        #individual attributes
         self.ide = 'g'+str(gen)+".ID-"+str(nom)
         self.age = 0
         self.parents = parents
         self.sex_system = sex_system
-        self.d = d
-        # diccionario con frecuencias alelicas
-        self.alFreq = freq
-        # frecuencia de recombinacion
-        self.R = R
-        # tasa de mutacion
-        self.mu = mu
+        
         self.__createIndividual()
         
 
         
     def __createIndividual(self):
         '''
-        Inicializa las variables que no se le pasan al inicializador
+        Initialize variables that are not passed to the initializer
         '''
         self.chromosome = dict()
         self.isMutated = 0
@@ -70,11 +72,11 @@ class Individual():
 
             
     def generate_sexual_genotype(self):
-        '''Genera un genotipo sexual, compuesto por dos valores correspondientes
-        a cada un de los cromosomas, los almacena en la variable sex_chromosome
+        '''Generates a sexual genotype, composed of two corresponding values
+        to each of the chromosomes, stores them in the variable sex_chromosome
         
-        Returns:
-            str: cromosoma sexual para el individuo'''
+        returns:
+            str: sex chromosome for the individual'''
         # sex_chromosome= 'XX'or'XY' / 'ZW' or 'ZZ' / 'XO' or 'XX'
         if randint(0,1)==0:
             return self.sex_system[0]+self.sex_system[0]
@@ -82,10 +84,11 @@ class Individual():
             return self.sex_system
         
     def getSex(self):
-        '''Devuelve el sexo segun los chromosomas sexuales
+        '''Returns sex for given sexual chromosome. 
         
         Returns:
-            str: 'Male' or 'Female' '''
+            str: sex (Male/Female)
+            '''
             
         if self.sex_chromosome[0] == self.sex_chromosome[1]:
             sexo = 'Female' if self.sex_system != 'ZW' else 'Male'
@@ -94,7 +97,9 @@ class Individual():
         return sexo
         
     def getGenotype(self):
-        '''Devuelve el genotipo del individuo'''
+        '''Obtain the genotype of the individual
+        Returns:
+            dict(str:str): genotype of the individual'''
         
         c = [list(self.chromosome[x]) for x in self.chromosome]
         array = np.array(c)
@@ -172,6 +177,8 @@ class Individual():
 
     # calculates
     def mating(self):
+        ''' Calculates the mating of the individual: parent recombination,
+        sexual chromosomes and gametes.'''
         # print(self.chromosome,len(self.chromosome))
         if self.spPloidy > 1:
             r = self.R
@@ -190,29 +197,31 @@ class Individual():
             self.chromosome = {'c'+str(k+1):v for k in range(2) for v in random.choice(self.parents[k].chromosome.values())}
 
     def recombination(c1,c2,r):
+        '''Recombination of two chromosomes by r value.
+        If r=0, the chromosomes are not recombined.'''
             # factor de interferencia
             # para que sea menos probable la recombinacion de dos loci seguidos
-            int = 0
-            c1 = list(c1)
-            c2 = list(c2)
-            c1R,c2R = c1.copy(),c2.copy()
-            for i in range(0,len(c1)):
-                if random.random()<=r-int:
-                    # ocurre la recombinacion (solo recombinan los loci A B )
-                    c1R = c1
-                    c2R = c2
-                    c1R[i] = c2[i]
-                    c2R[i] = c1[i]
-                    int = r/2
-                    
-                else:
-                    int = 0      
-            return ''.join(c1R),''.join(c2R)
+        int = 0
+        c1 = list(c1)
+        c2 = list(c2)
+        c1R,c2R = c1.copy(),c2.copy()
+        for i in range(0,len(c1)):
+            if random.random()<=r-int:
+                # ocurre la recombinacion (solo recombinan los loci A B )
+                c1R = c1
+                c2R = c2
+                c1R[i] = c2[i]
+                c2R[i] = c1[i]
+                int = r/2
+                
+            else:
+                int = 0      
+        return ''.join(c1R),''.join(c2R)
             
     
     def mutation(self):
         '''
-        Provoca el cambio del alelo mayor al menor con una frecuencia mut
+        It causes the change from the major to the minor allele with a mut frequency.
         '''
         muType = 'unidirectional'
         muLoci = list()

@@ -457,7 +457,14 @@ class Population:
                         
     def evolvePop(self,gens = 50,every=10,ignoreSex=False,printInfo=False,fit=None):
         """
-        Evolves the population 
+        Evolves the population
+        
+        Args:
+            gens (int): Number of generations to evolve.
+            every (int): Number of generations to print info.
+            ignoreSex (bool): If True, evolution will take as hermaphrodites.
+            printInfo (bool): If True, prints info about the evolution.
+            fit (str): If not None, it will change fitness attribute of the population.
 
         Parameters:
             gens (int, optional): Number of generations. Defaults to 50.
@@ -574,28 +581,6 @@ class Population:
         self.sexAcumulada()
         self.mutAcumulada()
         self.generationList.append(self.gen)
-
-    def printSummary(self):
-        """
-        Get summary about current population.
-        
-        Will be obsolete.
-        """
-        tam = len(self.individuals)
-
-        sex = {'Male':0,'Female':0}
-        for x in range(tam):
-            sexo = self.individuals[x].sex()
-            if sexo == 'Male':
-                sex['Male'] = sex['Male'] + 1
-            else:
-                sex['Female'] =sex['Female']+ 1
-
-        print(f'Hay {len(self.individuals)} individuos\n{sex} son machos\t',
-                f'{sex} son hembras \n\n el desequilibrio de ligamiento (LD) =',
-                f'{self.d} \n frecuencia de recombinacion = {self.R} ',
-                f' la generacion es {self.gen} las frecuencias gameticas', 
-                f'hasta esta generacion son {self.f_gam_acc}')
 
     def printParentIndividuals(self,id=0):
         """Shows an individual an its parents
