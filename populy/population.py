@@ -515,7 +515,8 @@ class Population:
                 if completed < 100:
                     #os.system('cls') error al ejecutar en rmarkdown
                     #clear_output(wait=True)
-                    print(f"{round(completed,1)}% completado...")
+                    # print(f"{round(completed,1)}% completado...")
+                    pass
         else:
             #clear_output(wait=True)
             #os.system('cls')
