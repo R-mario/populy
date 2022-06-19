@@ -6,10 +6,9 @@ output:
   html_document: default
 bibliography: 'bibliography/references1.bib'
 link-citations: true
-fontsize: 11pt
+fontsize: 12pt
 reference-section-title: "Bibliografía"
 ---
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(reticulate)
@@ -24,10 +23,7 @@ knitr::include_graphics("files/uv.png")
 \vspace{1cm}
 
 \LARGE
-{\bf Populy}
-
-\Large
-{\bf Un paquete en Python para enseñar biología evolutiva}
+{\bf Populy, una herramienta de simulación de procesos evolutivos orientada a la enseñanza.}
 
 \vspace{1 cm}
 
@@ -37,7 +33,7 @@ knitr::include_graphics("files/uv.png")
 \Large
 {\bf Curso 2021/2022}
 
-\vspace{1.5 cm}
+\vspace{1 cm}
 
 \large
 {\bf Modalidad: Trabajo de metodologías docentes}
@@ -50,7 +46,7 @@ knitr::include_graphics("files/uv.png")
 \textbf{Autor:}
 
 \large 
-Mario Ruiz
+Mario Ruiz Pérez
 
 \vspace{0.5 cm}
 
@@ -77,45 +73,53 @@ Estos cambios genéticos que se producen a lo largo de las generaciones en una p
 
 El estudio de la biología evolutiva, tanto académico como formativo, ha ido muy parejo con los avances tecnológicos por su propia naturaleza dilatada en el tiempo. Esto no ocurre con tanta relevancia en otros campos como puede ser la genética clásica o la biología celular, donde el abordaje experimental es mucho más viable por la inmediatez de las observaciones.
 
-Además, diversos estudios muestran que la comprensión de los fundamentos teóricos quedan mejor integrados en el alumnado cuando se asimilan de forma activa [@Drexel2009]. A modo general implica una interacción más directa con el contenido que se estudia más allá de una lectura repetitiva. Es bien sabido y está bien estudiado que plantear ejercicios o problemas durante una clase ayuda a afianzar los conceptos enseñados, esta es una forma básica, pero eficaz, de proporcionar un aprendizaje activo [@Chen2015]. 
+Además, diversos estudios muestran que la comprensión de los fundamentos teóricos quedan mejor integrados en el alumnado cuando se asimilan de forma activa [@Drexel2009]. A modo general, implica una interacción más directa con el contenido que se estudia más allá de una lectura repetitiva. Existen diversas formas de lograr la participación de los alumnos, como por ejemplo plantear ejercicios o problemas durante una clase. Estos métodos, aunque básicos, ayudan a afianzar los conceptos enseñados proporcionando un aprendizaje activo en el alumno [@Chen2015]. 
 
-Este aprendizaje activo, enmarcado bajo la teoría filosófica del constructivismo [@Nola2005-dj], aboga que el conocimiento no se adquiere si no que se construye a través de la experiencia e interacción. Existen infinidad de formas distintas, plantear preguntas o incluso realizar experimentos sencillos son ejercicios que permiten al alumnado interactuar de alguna forma con la materia. A mayor nivel de interacción mejores son los resultados académicos.
+Este aprendizaje activo, enmarcado bajo la teoría filosófica del constructivismo [@Nola2005-dj], aboga que el conocimiento no se adquiere, sino que se construye a través de la experiencia e interacción. Existen infinidad de formas distintas, plantear preguntas o incluso realizar experimentos sencillos son ejercicios que permiten al alumnado interactuar de alguna forma con la materia. A mayor nivel de interacción mejores son los resultados académicos.
 
-Más relevante es este concepto de aprendizaje activo en la enseñanza de los conceptos de genética de poblaciones en las aulas; es posible plantear problemas pero difícilmente se puede plantear un experimento clásico en laboratorio para el estudio de los cambios genéticos en una población. Por esto se suelen utilizar programas de simulaciones y/o aproximaciones numéricas, ya que facilitan la comprensión de los fenómenos clave que tienen lugar en la evolución de las especies de forma casi instantánea, normalmente mediante la obtención de gráficos y tablas de frecuencias; varias de estas herramientas permiten simular y visualizr la evolución en un aula mediante el uso de un ordenador. No solo eso, sino que el avance en la capacidad de computación de los ordenadores personales permiten obtener simulaciones más realistas, en menor tiempo y de forma más intiutiva; así como estudiar fenómenos más complejos de forma relativamente sencilla [@Carvajal-Rodriguez2008]. 
+Más relevante es este concepto de aprendizaje activo en la enseñanza de los conceptos de genética de poblaciones en las aulas; es posible plantear problemas pero difícilmente se puede plantear un experimento clásico en laboratorio para el estudio de los cambios genéticos en una población. Por esto se suelen utilizar programas de simulaciones y/o aproximaciones numéricas, ya que facilitan la comprensión de los fenómenos clave que tienen lugar en la evolución de las especies de forma casi instantánea, normalmente mediante la obtención de gráficos y tablas de frecuencias; varias de estas herramientas permiten simular y visualizar la evolución en un aula mediante el uso de un ordenador. No solo eso, sino que el avance en la capacidad de computación de los ordenadores personales permiten obtener simulaciones más realistas, en menor tiempo y de forma más intuitiva; así como estudiar fenómenos más complejos de forma relativamente sencilla [@Carvajal-Rodriguez2008]. 
 
-El potencial de estas herramientas de forma pedagógica es inmenso; por una parte permite a un alumno realizar un experimento de forma virtual; por la otra el estudiante puede manipular las condiciones para obtener distintos resultados en formato gráfico y compararlos. La comparación de un resultado esperado frente al resultado obtenido es muy importante ya que permite a la persona deshacerse de falsas creencias o preconcepciones erróneas de una materia. Fuerza al estudiante a establecer una reflexión interna o externa, con el profesor u otros alumnos, acerca de los resultados y las conclusiones. También puede promover la curiosidad casi científica de averiguar el porqué de ese resultado, todo esto mientras se aprende lo estudiado.
+El potencial de estas herramientas de forma pedagógica es inmenso; por una parte permite a un alumno realizar un experimento de forma virtual; por la otra el estudiante puede manipular las condiciones para obtener distintos resultados en formato gráfico y compararlos. La comparación de un resultado esperado frente al resultado obtenido es muy importante ya que permite a la persona deshacerse de falsas creencias o pre concepciones erróneas de una materia. Fuerza al estudiante a establecer una reflexión interna o externa, con el profesor u otros alumnos, acerca de los resultados y las conclusiones. También puede promover la curiosidad casi científica de averiguar el porqué de ese resultado, todo esto mientras se aprende lo estudiado.
 
-Populus, desarrollado por la universidad de Minnesota, es una de estas herramientas de modelización de procesos evolutivos. Su objetivo principal enseñar biología evolutiva en las aulas. Con este mismo fin, Populus se ha utilizado ampliamente por muchas universidades del mundo durante décadas debido a que es un programa muy sencillo de instalar desde su web, así como de utilizar. Consiste de una única interfaz gráfica con un pequeño menú donde seleccionar el tipo de "evento" evolutivo. Una vez seleccionado aparece una nueva ventana puedes ajustar algún parámetro del modelo; al final se obtiene el gráfico en una ventana adyacente, tal y como muestra la figura.
+Populus, desarrollado por la universidad de Minnesota, es una de estas herramientas de modelización de procesos evolutivos. Su objetivo principal enseñar biología evolutiva en las aulas. Con este mismo fin, Populus se ha utilizado ampliamente por muchas universidades del mundo durante décadas debido a que es un programa muy sencillo de instalar desde su web, y fácil de mostrar un gráfico que represente un proceso evolutivo. Consiste de una única interfaz gráfica con un pequeño menú donde seleccionar el tipo de "evento" evolutivo. Una vez seleccionado, aparece una nueva ventana puedes ajustar algún parámetro del modelo. Al final se obtiene el gráfico en una ventana adyacente, tal y como muestra la figura.
 
 ![Interfaz gráfica de Populus para simular la deriva genética](files/populus.png)
 
-Tanto Populus como otras herramientas similares supusieron una gran revolución a la hora de enseñar conceptos de biología ya que permitía una forma sencilla, novedosa y rápida de interactuar con la materia. Sin embargo, con el paso de los años, el programa no se ha adaptado ni a las necesidades educativas de los alumnos de hoy en día ni a los avances en el campo de la programación.
+Tanto Populus como otras herramientas similares supusieron una gran revolución a la hora de enseñar conceptos de biología ya que permitía una forma sencilla, novedosa y rápida de interactuar con la materia. Sin embargo, con el paso de los años el programa no se ha adaptado ni a las necesidades educativas de los alumnos de hoy en día ni a los avances en el campo de la programación.
 
-Populus es un programa que ya no supone una novedad en su uso, los alumnos están acostumbrados al manejo constante de programas y aplicaciones mucho más complejas y sofisticadas en su día a día. 
-Su interfaz es extremadamente simple, esto hace que el usuario pueda obtener un gráfico cualquiera simplemente pulsando de dos a tres botones, sin comprender exactamente cuál es el proceso subyacente. Para asimilar conceptos es necesario que ocurra una interacción real entre el software y la persona, esta sencillez puede ser útil si lo que se busca es un producto o programa convencional, sin embargo en el ámbito de la enseñanza es muy superficial. 
+Populus es un programa que ya no supone una novedad en su uso, los alumnos están acostumbrados al manejo constante de programas y aplicaciones, esto hace que estén en contacto con dispositivos digitales más que analógicos. Por ello, hoy día se encuentra una serie de carencias que dificultan el proceso de aprendizaje:
 
-Si a un alumno se le plantea un problema que debe resolver con este programa el estudiante simplemente accederá a la aplicación y obtendrá el gráfico que se buscaba. Tal y como se ha comentado anteriormente, esto no estimula la curiosidad porque, por su simpleza, es muy complicado equivocarse a la hora de utilizarlo o plantear un problema que suponga un verdadero reto al alumno.
+1. Falta de interactividad. Populus se vale de una interfaz gráfica que consiste en una serie de botones, con unos comandos predeterminados que permiten al usuario obtener un gráfico. Esto hace que el uso de la aplicación sea un proceso monótono y poco estimulante. A la hora de asimilar conceptos es necesario que ocurra una interacción real entre el software y la persona. Cuando el objetivo del programa es obtener un resultado, un gráfico en este caso, este tipo de interfaces pueden resultar adecuadas. Sin embargo, en el ámbito de la enseñanza, es más importante entender el proceso antes que el resultado. 
 
 La interactividad con un programa es un paso necesario al hablar de aprendizaje, de la misma manera que ocurre en la vida real al aprender a usar herramientas. El usuario, alumno en este caso, primero debe familiarizarse con esa nueva herramienta para conocer lo que puede y no puede hacer; incluso hasta cómo funciona o por qué lo hace. Una vez aprehendido, el usuario podrá utilizarla de una mejor forma, y podrá interpretar mejor lo que está ocurriendo.
 
-Cuando interactividad se reduce a la mínima expresión la curva de aprendizaje previo se reduce, esto lleva a que el usuario lleve a cabo el proceso con éxito, pero sin comprender el propio modelo, sin explorar las limitaciones de éste e incluso perdiendo el interés en cómo se ha llevado a cabo. Esto resulta, en definitiva, en un aprendizaje incompleto y deficiente.
+2. Falta de transparencia. El uso de este tipo de interfaces hace oculto el proceso que ocurre tras ellos, simplificando el proceso de cara al usuario pero impidiendo conocer cuál es el procedimiento que se lleva a cabo tras ellos. Si a un alumno se le plantea un problema que debe resolver con este programa éste simplemente accederá a la aplicación y obtendrá el gráfico que se buscaba. El estudiante no puede acceder de ninguna forma al proceso subyacente tras los botones, cuál es el algoritmo que se aplica para obtenerlo y, en definitiva, cuál es el mecanismo estudiado.
 
-Este déficit en el aprendizaje es, además, muy difícil de encontrar y solventar hasta que ya es tarde. Al fin y al cabo, el alumno ha podido realizar la tarea o problema pedido con éxito y en tan solo unos minutos, es normal que el profesor asuma que los alumnos han comprendido hasta cierto punto el fundamento teórico que subyace al modelo, sin embargo esto no es así; este problema de aprendizaje se debe al propio programa por lo comentado anteriormente. La sencillez crea una falsa ilusión de comprensión, del mismo modo que ver la imagen obtenida en un microscopio no hace que comprendas lo que se ha observado, ni el propio funcionamiento del microscopio.
+3. Falta de flexibilidad. La interfaz gráfica de Populus hace inviable llevar a cabo otro tipo de simulaciones que no sean las que tienen disponibles, no solo ésto sino que tampoco permite modificar otros parámetros para el modelo, ni modificar el estilo del gráfico o combinar distintos tipos de simulaciones. En definitiva, limita la experiencia del usuario.
 
-A todo esto se le suma otro factor: la importancia de la programación. La programación está tomando cada vez más relevancia en la sociedad debido a la digitalización de la mayoría de procesos, también en el mundo académico donde se utilizan con mucha frecuencia diversos lenguajes de programación para llevar a cabo tareas repetitivas, tediosas, complejas o específicas de un campo como puede ser el análisis de datos biológicos. 
-A esto se le une la utilidad de la programación como herramienta de aprendizaje, conocer un lenguaje de programación permite analizar los problemas desde una perspectiva diferente, más analítica, incluso otra forma de pensar[@Liao1995]. 
+Cuando la interactividad es mínima, lo que ocurre tras la interfaz es inaccesible y las modificaciones posibles son nulas la curva de aprendizaje del programa se reduce, esto lleva a que el usuario lleve a cabo el proceso con éxito, pero sin comprender el propio modelo, sin explorar las limitaciones de éste e incluso perdiendo el interés en el tema estudiado. Esto resulta, en definitiva, en un aprendizaje incompleto y deficiente.
 
-Hace años suponía un gran obstáculo añadido, ya que lo que se buscaba era enseñar una materia en concreto, y muchas personas no tenían un ordenador en sus casas. En la actualidad, los alumnos pueden desenvolverse con facilidad en los ordenadores por lo que introducirlos en el mundo de la programación a través de programas de este estilo proporciona un doble beneficio. Por un lado, permite obtener un conocimiento que va más allá de la propia herramienta utilizada, por otro lado permite al alumnado aproximarse a un nuevo mundo como es el de la computación a través de conceptos familiares, en este caso la biología. Populus carece de todo esto al tener una interfaz gráfica sencilla. Ofrecer al alumnado de una interacción más directa con el software no tiene por qué suponer un problema a día de hoy y puede permitir que el propio usuario conozca y se interese por lo que ocurre tras el "botón" que se pulsa. 
+Estos tres puntos son carencias en el programa que pueden llevar a un mayor desinterés por la materia. Ya que el alumno no puede conocer qué es lo que sucede tras los botones, no puede modificarlo de acuerdo a sus intereses, sin depender de unas opciones predefinidas y limitadas y hace que una simulación de procesos se convierta en una tarea monótona y poco gratificante. 
 
-Por último, otro problema de Populus es su poca reproducibilidad. Tal y como se observa en la Figura 1, el resultado es un gráfico sobre el cual es muy complicado obtener conclusiones, analizar el procedimiento y, en definitiva, entender el experimento virtual que se ha llevado a cabo. Para los estudiantes de ciencias, comprender el procedimiento es igual o más importante que los resultados, por lo que no permite estudiar los pasos llevados a cabo ya que estos están ocultos bajo la interfaz. Ofrecer herramientas de simulación genética puede aumentar la reproducibilidad de una simulación[@Adamack2014].
+Este déficit en el aprendizaje es, en ocasiones, difícil de encontrar y solventar hasta que ya es tarde. Al fin y al cabo, el alumno ha podido realizar la tarea o problema pedido con éxito y en tan solo unos minutos, es normal que el docente asuma que los alumnos han comprendido hasta cierto punto el fundamento teórico que subyace al modelo y sin embargo, esto no es así, este problema de aprendizaje se debe al propio programa por lo comentado anteriormente. Obtener un resultado crea una falsa ilusión de comprensión, del mismo modo que ver la imagen obtenida en un microscopio no hace que comprendas lo que se ha observado, ni el propio funcionamiento del microscopio.
 
-Más allá de Populus existen otros simuladores de evolución como simuPop [@Peng2005] o SLiM [@messer2013slim], ambos programas surgen con una finalidad muy distinta a Populus aunque vienen a solucionar algunos de sus problemas. Sin embargo, ejecutar estos programas supone una barrera de entrada alta para usuarios inexpertos debido a que su funcionamiento requiere de ciertos conocimientos en programación, y para ello es necesario saber como instalar un intérprete/compilador, cómo y dónde descargar el programa, entre otros obstáculos que dificultan su uso.
+Otro problema de Populus es su poca reproducibilidad, estrechamente ligado al concepto de transparencia. Tal y como se observa en la Figura 1, el resultado es un gráfico sobre el cual es muy complicado obtener conclusiones, estudiar los datos obtenidos, operar sobre ellos y en definitiva, entender el experimento virtual que se ha llevado a cabo. Además, al no poder conocer lo que sucede tras los botones, es complicado poder replicar el procedimiento. Para los estudiantes de ciencias, el análisis de resultados y la reproducibilidad es igual o más importante que obtener el resultado en sí mismo. Populus no permite estudiar los pasos llevados a cabo ya que estos están ocultos bajo la interfaz ni compartirlos de forma reproducible con otros usuarios. Ofrecer herramientas de simulación genética puede aumentar la reproducibilidad de una simulación[@Adamack2014].
 
-La genética de poblaciones es un campo que puede aprovechar bien los avances técnicos para brindar una aprendizaje adecuado, contextualizado e interdisciplinar de sus conceptos. 
+A todo esto se le suma otro factor: la importancia de la programación. La programación está tomando cada vez más relevancia en la sociedad debido a la digitalización de la mayoría de procesos, también en el mundo académico donde se utilizan con mucha frecuencia diversos lenguajes de programación para llevar a cabo tareas repetitivas, tediosas, complejas o específicas de un campo como puede ser el análisis de datos biológicos. Conocer un lenguaje de programación permite analizar los problemas desde una perspectiva diferente, más analítica, incluso otra forma de pensar[@Liao1995]. 
+
+Hace años suponía un gran obstáculo añadido, ya que lo que se buscaba era enseñar una materia en concreto, y muchas personas no tenían un ordenador en sus casas. En la actualidad, los alumnos pueden desenvolverse con facilidad en los ordenadores por lo que introducirlos en el mundo de la programación a través de programas de este estilo proporciona un doble beneficio. Por un lado, permite obtener un conocimiento que va más allá de la propia herramienta utilizada, por otro lado permite al alumnado aproximarse a un nuevo mundo como es el de la computación a través de conceptos familiares, en este caso la biología. Populus carece de todo esto al tener una interfaz gráfica basada en botones. Ofrecer al alumnado de una interacción más directa con el software no tiene por qué suponer un problema a día de hoy y puede permitir que el propio usuario conozca y se interese por lo que ocurre tras el "botón" que se pulsa. 
+
+La programación no es solo un objetivo de aprendizaje sino una herramienta en sí misma. Mediante la programación es posible aprender multitud de conceptos diferentes, desde economía, química o biología. Una ventajas de la programación frente a las interfaces gráficas es que permite al usuario decidir qué, cuándo y cómo quiere que un programa se comporte. Esto lo hace una herramienta versátil y flexible, permitiendo modificar el comportamiento del programa en cualquier momento y planteando escenarios diferentes. Populus, por el contrario, tiene una serie de funciones predefinidas que no permiten esto.
+
+Además, una de las ventajas de los lenguajes de programación de "scripting" es que todo el procedimiento llevado a cabo queda registrado en un archivo, el cual es posible compartir con otros usuarios para que puedan llevar a cabo el mismo ensayo y verificar que los resultados son acordes a lo que se obtiene. Esto viene a solventar gran parte de los problemas de reproducibilidad que tienen programas de interfaz como populus, donde registrar el procedimiento es más complicado, ineficiente y poco estandarizado.
+
+Más allá de Populus existen otros simuladores de evolución como simuPop [@Peng2005] o SLiM [@messer2013slim], ambos programas surgen con una finalidad muy distinta a Populus aunque vienen a solucionar algunos de sus problemas. Sin embargo, ejecutar estos programas supone una barrera de entrada alta para usuarios inexpertos debido a que su funcionamiento requiere de ciertos conocimientos en programación, y para ello es necesario saber como instalar un intérprete/compilador, cómo y dónde descargar el programa, entre otros obstáculos que dificultan su uso a usuarios primerizos.
+
+La genética de poblaciones es un campo que puede aprovechar bien los avances técnicos para brindar una aprendizaje contextualizado, interdisciplinar y adecuado a las necesidades de los alumnos. 
 
 ## Objetivos
 
-Bajo las premisas de aprender sobre procesos evolutivos e introducirse en la programación para estudiantes de ciencias biológicas nace Populy, un paquete de código abierto desarrollado en Python de simulación de procesos evolutivos. El paquete, aunque sencillo de utilizar, requiere de conceptos de programación básicos, es por ello por lo que también se han creado unos materiales adicionales que servirán como complemento al programa, permitiendo una interactividad mayor con el software, un aprendizaje dinámico de los conceptos clave de la programación y de los procesos fundamentales de la evolución de las especies.
+Bajo las premisas de aprender sobre procesos evolutivos para estudiantes de ciencias biológicas y utilizar la programación como herramienta nace Populy, un paquete de código abierto desarrollado en Python de simulación de procesos evolutivos. El paquete, aunque sencillo de utilizar, requiere de conceptos de programación básicos, es por ello por lo que también se han creado unos materiales adicionales que servirán como complemento al programa, permitiendo una interactividad mayor con el software, un aprendizaje dinámico de los conceptos clave de la programación y de los procesos fundamentales de la evolución de las especies.
 
 Los objetivos de Populy son, por tanto:
 
@@ -125,49 +129,44 @@ Los objetivos de Populy son, por tanto:
 - Introducir a los estudiantes de biología a la programación. No se pretende enseñar a programar pero sí familiarizarse con algunos de los conceptos clave.
 - Flexibilidad. El programa debe permitir modificaciones y cambios con el tiempo.
 
-Al tratarse de un programa de código abierto el software puede ser utilizado por cualquier persona. Además de esto, debido a su implementación, Populy puede adaptarse con el tiempo a los requerimientos de los alumnos, mejorando su funcionalidad e incluyendo nuevos tipos de simulaciones.
+Al tratarse de un programa de código abierto el software puede ser utilizado por cualquier persona. Además, debido a su implementación, Populy puede adaptarse con el tiempo a los requerimientos de los alumnos y las mejoras técnicas, mejorando su funcionalidad e incluyendo nuevos tipos de simulaciones.
 
-Mediante este paquete el usuario podrá invocar una o múltiples poblaciones, crear a sus individuos, hacerla evolucionar y obtener un *output* gráfico y tabular donde poder estudiar y comprender de forma más visual algunos de los mecanismos que se enseñan en las clases como son el equilibrio mutación-selección, la eficacia biológica en una población, la recombinación, la deriva genética, entre otros en menos de 10 lineas de código. Todo esto junto a una serie de explicaciones sobre el funcionamiento del paquete y de sus métodos clave, unos ejercicios o casos problema que podrán ser implementados o modificados en las aulas, permitiendo al estudiante un aprendizaje activo de los conceptos y una libertad mayor que la brindada por programas como Populus.
+Mediante este paquete el usuario podrá invocar una o múltiples poblaciones, crear a sus individuos, hacerla evolucionar y obtener un *output* gráfico y tabular donde poder estudiar y comprender de forma más visual algunos de los mecanismos que se enseñan en las clases como son el equilibrio mutación-selección, la eficacia biológica en una población, la recombinación, la deriva genética, entre otros; todo en menos de 10 lineas de código. 
+
+Junto al software, se ha desarrollado algo similar a un laboratorio virtual donde se encuentran unas [libretas Jupyter](## Jupyter notebook). En estas libretas se encuentran una serie de explicaciones sobre el funcionamiento del entorno virtual, de la programación en Python y del funcionamiento del paquete y de sus métodos clave. Además de unos ejercicios o casos problema que podrán ser implementados o modificados en las aulas, permitiendo al estudiante un aprendizaje activo de los conceptos y una libertad mayor que la brindada por programas como Populus.
 
 
 # Computación como herramienta educativa
 ## Alfabetización informática 
 
-La tecnología está cada vez más presente en una sociedad digitalizada, muchas de las interacciones sociales se llevan a cabo por medios virtuales, el usuario promedio pasa más de X horas interactuando con un dispositivo electrónico: transacciones bancarias,compra-venta de productos, consumo de nuevos contenidos como juegos y películas, etc son algunos de los muchos lugares donde la digitalización ha acaparado por completo el mundo tradicional.
-
-Es innegable el impacto que estas herramientas están teniendo en la sociedad. La educación también debe adaptarse a estas nuevas tecnologías a un ritmo mayor incluso del que lo hace la sociedad[@Iskrenovic2018]. Al fin y al cabo, parte de la educación consiste en proporcionar al alumno unas herramientas para que se desenvuelva correctamente en el futuro. Por lo tanto, las competencias informáticas debe procurar ser vértebra del resto de contenidos.
+La tecnología está cada vez más presente en una sociedad digitalizada, es innegable el impacto que estas herramientas están teniendo en la sociedad. La educación también debe adaptarse a estas nuevas tecnologías a un ritmo mayor incluso del que lo hace la sociedad[@Iskrenovic2018]. Al fin y al cabo, parte de la educación consiste en proporcionar al alumno unas herramientas para que se desenvuelva correctamente en el futuro. Por lo tanto, las competencias informáticas debe procurar ser vértebra del resto de contenidos.
 
 No solo ésto, sino que estas herramientas tienen un gran potencial para mejorar o complementar la enseñanza ya tradicional. La inmensa cantidad de recursos web que están a disposición del alumnado ya de por sí facilita tareas como la búsqueda de información. El uso de diapositivas en clase puede complementarse con una actividad en grupo utilizando herramientas como Kahoot, que permite evaluar los conocimientos, llevar un registro actualizado de cada alumno, favorecer el trabajo en equipo, entre otros.
 
 Las herramientas informáticas también facilitan el trabajo de los profesores. Hasta aplicaciones tan sencillas como Excel pueden actuar como una pequeña base de datos donde realizar cálculos sencillos de la nota.
 
-A todo esto se le conoce como alfabetización informática: la capacidad de utilizar las tecnologías de la información y la comunicación para realizar tareas cotidianas. Se trata de un conjunto de competencias básicas que todos los ciudadanos deben tener para vivir y trabajar en un mundo cada vez más digitalizado.
+El uso de las herramientas ofimáticas, internet e incluso calculadoras son competencias de la alfabetizacion digital. Sin embargo, estas herramientas son necesarias pero no suficientes para desenvolverse en la sociedad de hoy en día. Una de las nuevas tareas pendientes en la educación es el aprendizaje de la programación [@Mishra2013].
 
-La alfabetización informática es una habilidad esencial en la sociedad de hoy. A medida que la tecnología se vuelve cada vez más integral, es esencial que pueda ser utilizada por todos de manera efectiva. La alfabetización informática no solo se refiere a saber cómo usar una computadora, sino también a entender cómo funcionan los sistemas y aplicaciones informáticas.
+En los últimos años surge un movimiento que pretende ir más allá de la alfabetización digital, llamado *"coding literacy"*[@codingLiteracy] o alfabetización computacional, que consiste en resaltar la importancia de la programación en el sistema educativo del siglo XXI.
 
-En un mundo en el que la tecnología está cambiando constantemente, es vital que las habilidades informáticas se mantengan al día. La alfabetización informática permite estar mejor preparados para el futuro, ya que proporciona herramientas para adaptarnos a los cambios y aprender nuevas habilidades.
+La integración de los contenidos digitales en las aulas resalta la importancia que tiene la computación en la sociedad actual, la alfabetización computacional por tanto no solo se refiere a saber cómo usar utilizar herramientas digitales, si no también a entender cómo los programas y a ser capaz de utilizar los lenguajes de programación como si fuesen un lenguaje natural.
 
-Tener un buen nivel de alfabetización informática proporciona mejores habilidades para desenvolverte en una sociedad cada vez más digitalizada y competitiva. Las personas con buenas habilidades informáticas tienden a tener mayores oportunidades de éxito en la vida(???), ya que están mejor preparadas para aprovechar las nuevas tecnologías [@Liao1995].
+Las diferencias entre un lenguaje natural y un lenguaje de programación no son tanto cuantitativas si no cualitativas, al fin y al cabo ambos requieren de una sintaxis y gramática definidas y sirven para comunicarse. 
+No obstante, las diferencias en sus objetivos de uso sí son relevantes. Un idioma se utiliza para comunicarse en el día a día entre personas y habitualmente situaciones cotidianas. Un lenguaje de programación, por el contrario, es una comunicación más especializada, que sólo se da entre máquinas y que representa conceptos abstractos[@Robertson1995].
 
-La alfabetización informática también es importante para la seguridad personal y la protección de la privacidad. A medida que más y más de nuestra vida se lleva a cabo en línea, es crucial que sepamos cómo proteger nuestros datos. Las personas con buenas habilidades informáticas son menos propensas a ser víctimas de fraude o robo de identidad, por ejemplo.
+Esto ha llevado a que durante muchos años la programación se estudiase de forma rígida, aprendiendo mediante el estudio de sus materias fundamentales: variables, estructuras de datos, estructuras de control y clases y objetos. Este método de aprendizaje busca garantizar un conocimiento especializado en base a sus aspectos teóricos. En realidad, es similar al método de enseñanza tradicional de los idiomas, donde el alumno comienza estudiando sustantivos simples, verbos y continúa avanzando a conjugaciones, adjetivos, expresiones,...en definitiva, se pretende conocer con profundidad las estructuras y reglas que rigen el idioma.
 
-En resumen, la alfabetización informática es una habilidad esencial para el éxito en la sociedad de hoy a medida que la tecnología se vuelva cada vez más integral.
+Uno de los mayores avances en la didáctica de los idiomas fue que el aprendizaje de un idioma es más eficaz cuando se enfoca en un sentido práctico, orientado a la comunicación efectiva, más allá de las reglas sintácticas y ortográficas. Existen distintos métodos que buscan este enfoque interactivo y todos ellos tienen como objetivo el uso del segundo lenguaje más allá de la teoría, basan el enfoque en uso de trabajos en equipo y ejercicios o utilizando el lenguaje fuera de la propia aula[@Cummins1998], lo que coloquialmente se conoce como aprender haciendo.
 
-En cuanto a la educación, los estudiantes conviven con multitud de herramientas informáticas en su día a día; están habituados a una interacción digital mucho más profunda y como tal requieren de más recursos y herramientas de alfabetización informática. El objetivo educativo debe ser incrementar la alfabetización informática de los estudiantes para que estén mejor preparados para el mundo laboral y la sociedad en general.
+El enfoque interactivo aboga por el uso del lenguaje en contextos diferentes, esto permite una mayor generalización y asimilación de los conceptos. En el caso de los lenguajes de programación implica su uso en otras asignaturas que no sean específicas de informática o programación. Es decir, utilizar la programación como una herramienta de aprendizaje que está, a su vez, siendo asimilada.
 
-Esta alfabetización debe estar presente en todas las etapas de la vida y en todos los niveles educativos, se trata de dar a la persona la habilidad de usar las nuevas herramientas para que pueda desenvolverse correctamente en su entorno. Así pues, aunque todas las personas deben tener una alfabetización mínima no será para todos la misma. La educación debe adaptarse a estas nuevas tecnologías que permiten realizar de forma más eficiente, dinámica e interactiva muchas tareas que anteriormente resultaban tediosas e incluso imposibles de realizar.
+La programación, como herramienta de comunicación entre ordenadores, requiere de una abstracción mayor que un lenguaje natural. Esta abstracción y "forma de ver el mundo" se le ha denominado pensamiento computacional[@Wing2008,@Shute2017], siendo éste un subgrupo del denominado pensamiento analítico. La esencia de este modelo de pensamiento centrado en la abstracción y la automatización de procesos. De hecho, existe un debate público donde se le otorga el aprendizaje de la programación la misma importancia que aprender a escribir. La capacidad de abstracción es un buen indicador de la capacidad de resolución de problemas, aunque este marco teórico esté en debate actualmente[@Bergmann1996], la programación es relevante por aspectos más allá de sus beneficios cognitivos.
 
-El avance en la educación y en la capacidad de abstracción de los alumnos se debe, en parte, a un aprendizaje y uso de las herramientas informáticas correspondientes ya que permiten ahorrar tiempo y dedicar el esfuerzo a aquellas tareas que requieren de razonamiento, así como la presencia de nuevos estímulos y problemas.
+La programación abre una nueva vía de comunicación al igual que un lenguaje natural ya que la capacidad de transmitir información a un ordenador permite, potencialmente, hacer casi cualquier cosa que le puedas pedir a un ordenador. Esto abarca desde una sencilla suma hasta el uso de programas informáticos complejos como simulaciones espaciales o tratamiento de datos. El usuario medio interactúa con las aplicaciones mediante el uso de interfaces gráficas, estas interfaces facilitan enormemente el uso pero restringen las posibilidades de muchos programas y servicios web, esto es, no permiten explotar el potencial. Al introducir al alumnado a la programación se le abre un nuevo campo de conocimiento donde poder utilizar programas menos "intuitivos" pero mucho más potentes, en virtualmente cualquier ámbito, incluido la biología.
 
-El uso de las herramientas ofimáticas, internet e incluso calculadoras son competencias de la alfabetizacion informática. Sin embargo, estas herramientas son necesarias pero no suficientes para desenvolverse en la sociedad de hoy en día. Una de las nuevas tareas pendientes en la educación es el aprendizaje de la programación [@Mishra2013].
+No solo eso, sino que la demanda social de un conocimiento de programación está en auge. Una gran cantidad de trabajos requieren de unos conocimientos básicos de programación: estructuras y tipos de datos, bases de datos o análisis de información. Proporcionar a los alumnos unas competencias mínimas puede repercutir favorablemente en su integración al mundo laboral [@Liao1995].
 
-La programación es una herramienta más, y como cualquier lenguaje natural requiere un cierto nivel de abstracción. Esta abstracción y "forma de ver el mundo" se le ha denominado pensamiento computacional [@Wing2008,@Shute2017], siendo éste un subgrupo del denominado pensamiento analítico. La esencia de este modelo de pensamiento centrado en la abstracción y la automatización de procesos. De hecho, existe un debate público donde se le otorga el aprendizaje de la programación la misma importancia que aprender a escribir. La capacidad de abstracción es un buen indicador de la capacidad de resolución de problemas [@Bergmann1996].
-
-Esta herramienta, aunque similar a las anteriores, también es diferente en el sentido de que es mucho más abierta que el resto. Potencialmente permite hacer casi cualquier cosa que le puedas pedir a un ordenador, lo que abarca desde una sencilla suma hasta el uso de programas informáticos complejos. El usuario medio interactúa con las aplicaciones mediante el uso de interfaces gráficas, estas interfaces facilitan el uso pero restringen las posibilidades de muchos programas y servicios web, esto es, no permiten explotar el potencial. Al introducir al alumnado a la programación se le abre un nuevo campo de conocimiento donde poder utilizar programas menos "intuitivos" pero mucho más potentes, en virtualmente cualquier ámbito, incluido la biología.
-
-No solo eso, sino que la demanda social de un conocimiento de programación está en auge. Una gran cantidad de trabajos requieren de unos conocimientos básicos de programación: estructuras y tipos de datos, bases de datos o análisis de información. Proporcionar a los alumnos unas competencias mínimas puede repercutir favorablemente en su integración al mundo laboral.
-
-La capacidad de indicar a una máquina las instrucciones para ejecutar una acción ha existido desde hace siglos; ya en el siglo IX se describe una máquina que toca la flauta de forma automática [@Koetsier2001], sin embargo el primer programa surge en 1843 por Ada Lovelace desarrollado para la máquina analítica que nunca llegó a construirse. La programación va ligada a la creación y uso de las máquinas para instruirlas. Actualmente el objetivo es el mismo que hace cien años, comunicarse con una máquina para que lleve a cabo determinadas operaciones, es una forma de dar instrucciones que un ordenador pueda traducir a su propio lenguaje, para ejecutar una tarea. Con la ubicuidad de los ordenadores en los hogares y las aulas y la creación de multitud de lenguajes de programación de alto nivel y con sintaxis similar a la lengua humana surge la posibilidad y la necesidad de aprender a programar.
+La capacidad de indicar a una máquina las instrucciones para ejecutar una acción ha existido desde hace siglos; ya en el siglo IX se describe una máquina que toca la flauta de forma automática [@Koetsier2001]. Fue en 1843 cuando se desarrolla el primer programa informático teórico por Ada Lovelace construido para la máquina analítica que nunca llegó a construirse. La programación va ligada a la creación y uso de las máquinas para instruirlas. Actualmente el objetivo es el mismo que hace cien años, comunicarse con una máquina para que lleve a cabo determinadas operaciones, es una forma de dar instrucciones que un ordenador pueda traducir a su propio lenguaje, para ejecutar una tarea. Con la ubicuidad de los ordenadores en los hogares y las aulas y la creación de multitud de lenguajes de programación de alto nivel y con sintaxis similar a la lengua humana surge la posibilidad y la necesidad de aprender a programar.
 
 Sin embargo, la programación ha evolucionado: existen multitud de lenguajes de programación diferentes con propósitos diferentes. También los recursos para aprender en la web son enormes.
 
@@ -177,6 +176,8 @@ Un lenguaje de programación es un un medio de comunicación con una computadora
 
 Existen multitud de lenguajes de programación, que se clasifican históricamente según dos criterios:
 1. Nivel de abstracción: esto es, según la similitud al lenguaje empleado por los ordenadores, también conocido como lenguaje máquina. Se le denomina de alto nivel a un lenguaje con una sintaxis más abstracta, es decir, similar al lenguaje humano y menos dependiente del *hardware* de la máquina mientras que uno de bajo nivel es más similar al lenguaje máquina pero más dependiente.
+Generalmente los lenguajes de alto nivel son interpretados, por lo que se pueden ejecutar línea a línea. Esto lleva a que la creación de un *script* que contenga las instrucciones (código) sea más sencilla de usar, aunque más lenta.
+
 2. Según el paradigma: aunque la mayoría de lenguajes de programación permiten llevar a cabo las mismas tareas e implementar los mismos algoritmos no todos lo hacen de la misma manera, existen diferentes formas de estructurar el código, los paradigmas más conocidos son Orientado a Objetos, funcional y multiparadigma.
 3. Según su propósito: Aquellos con una utilidad muy restringida, pensados para una tarea concreta se conocen como lenguajes de propósito específico mientras que el resto son de propósito general.
 
@@ -186,15 +187,17 @@ Sin embargo, en los últimos años está cobrando relevancia la enseñanza de le
 
 De este tipo de lenguajes existen dos que son ampliamente usados en el ámbito académico: Python y R.
 
-Para el propósito del presente trabajo ambos eran igualmente útiles ya que son de alto nivel y multipropósito, tienen sintaxis similares y tipado dinámico. En definitiva, son lenguajes sencillos de aprender. 
+Para el propósito del presente trabajo ambos eran igualmente útiles ya que son lenguajes de scripting, de alto nivel y multipropósito, tienen sintaxis similares y tipado dinámico. En definitiva, son lenguajes sencillos de aprender y fáciles de utilizar y compartir. 
 
 La instalación es sencilla, poseen una enorme cantidad de recursos para aprender gratis de forma autodidacta y la sintaxis es intuitiva. Todo esto hace que un alumno sin conocimientos de programación puede programar y entender las primeras lineas de código en menos de 15 minutos.
 
 Para la experiencia de usuario las diferencias son minúsculas, en todo caso R es un lenguaje muy usado en el ámbito académico, en especial para realizar análisis y tratamiento de datos. Por otra parte, Python es más utilizado en el ámbito profesional y la industria, con múltiples enfoques aunque destaca por sus aplicaciones en aprendizaje máquina.
 
+Al ser ambos lenguajes de scripting, es posible crear un fichero que contenga el código utilizado. Este mismo código puede ser utilizado en cualquier otro momento por cualquier otra persona siempre que se tenga en intérprete instalado. Las ventajas de este tipo de lenguajes es que no son dependientes del hardware del dispositivo, haciendo mucho más fácil la distribución del código, su reutilización y la reproducibilidad del proceso.
+
 No obstante, a la hora de desarrollar el paquete Populy sí se presentaron algunas diferencias:
 
-- R no es estrictamente multi-propósito. Este lenguaje fue creado por y para estadistas[@R], su paradigma es principalmente el funcional: creación y uso de funciones de manera similar al comportamiento de las funciones matemáticas. Python sí es multi-propósito y soporta de forma adecuada la orientación a objetos, que se explicará más adelante.
+- R no es estrictamente multipropósito. Este lenguaje fue creado por y para estadistas[@R], su paradigma es principalmente el funcional: creación y uso de funciones de manera similar al comportamiento de las funciones matemáticas. Python sí es multipropósito y soporta de forma adecuada la orientación a objetos, que se explicará más adelante.
 
 - Soporte con libretas *Jupyter*, como se menciona en el [siguiente capítulo](## Jupyter Notebook). Estas libretas fueron creadas para Python y, aunque a día de hoy soportan R y otros lenguajes es mucho más común encontrarse utilizando estas libretas en Python antes que en R.
 
@@ -212,31 +215,31 @@ Los objetos son una herramienta que permiten encapsular el código similar en bl
   
 ## Jupyter notebook 
 
-El proyecto Jupyter es una colaboración para el desarrollo de herramientas de libre uso (open-source) para realizar análisis exploratorios y computacionales de forma interactiva. El proyecto Jupyter fue creado en 2014 a partir de Ipython aunque actualmente soporta más de 100 lenguajes de programación diferentes [@Kluyver2016jupyter]. Dentro del ecosistema Jupyter se encuentran las *Jupyter notebooks* o libretas Jupyter, estas libretas son un entorno web que tuvo su origen en la facilidad de realizar y compartir análisis de datos. Sin embargo desde hace unos años esta herramienta se está empleando en las aulas con propósitos educativos de una gran variedad de formas distintas. 
+El proyecto Jupyter es una colaboración para el desarrollo de herramientas de libre uso (open-source) para realizar análisis exploratorios y computacionales de forma interactiva. El proyecto Jupyter fue creado en 2014 a partir de Ipython aunque actualmente soporta más de 100 lenguajes de programación diferentes [@Kluyver2016jupyter]. Dentro del ecosistema Jupyter se encuentran las Jupyter *notebooks*, libretas Jupyter de ahora en adelante, estas libretas son un entorno web que tuvo su origen en la facilidad de realizar y compartir análisis de datos. Sin embargo desde hace unos años esta herramienta se está empleando en las aulas con propósitos educativos de una gran variedad de formas distintas. 
 
-La estructura externa de una libreta Jupyter es muy simple ya que consta de bloques de información, estos bloques pueden ser de texto, escrito en formato Markdown, o bloques de código tal y como se puede observar en la figura adjunta. Las posibilidades que surgen de combinar estos dos elementos son varias, desde explicar de forma detallada un bloque de código, sin tener que recurrir a manuales externos o a libros, hasta la posibilidad de plantear problemas *in situ*. Por otra parte, los bloques de código no son estáticos, el usuario puede modificarlos, ejecutarlos y observar los resultados reales en el momento, así como probar a cambiar ciertos parámetros del bloque o poder crear su propio código, todo en tiempo real y de una forma mucho más dinámica que la que ofrecen los métodos tradicionales, ya sea en un formato word/pdf estático, donde el usuario no puede interactuar con los resultados, o una interfaz gráfica de usuario como puede ser Populus, donde la estructura programática queda oculta a la persona.
+La estructura externa de una libreta Jupyter es muy simple ya que consta de bloques de información, estos bloques pueden ser de texto, escrito en formato *markdown*, o bloques de código tal y como se puede observar en la figura adjunta. Las posibilidades que surgen de combinar estos dos elementos son varias, desde explicar de forma detallada un bloque de código, sin tener que recurrir a manuales externos o a libros, hasta la posibilidad de plantear problemas *in situ*. Por otra parte, los bloques de código no son estáticos, el usuario puede modificarlos, ejecutarlos y observar los resultados reales en el momento, así como probar a cambiar ciertos parámetros del bloque o poder crear su propio código, todo en tiempo real y de una forma mucho más dinámica que la que ofrecen los métodos tradicionales, ya sea en un formato word/pdf estático, donde el usuario no puede interactuar con los resultados, o una interfaz gráfica de usuario como puede ser Populus, donde la estructura programática queda oculta a la persona.
 
-![Estructura de una Jupyter Notebook de la documentación de (Jupyter.org)](files/jupyter.png)
+![Estructura de una libreta Jupyter de la documentación de (Jupyter.org)](files/jupyter.png)
 
 Una libreta Jupyter es, por tanto, un documento interactivo, orientado a la computación, que permite crear una narrativa para explicar, analizar o enseñar conceptos. 
 
-### Métodos de uso libreta Jupyter en el aula
+### Metodologías didácticas con Jupyter
 
 Estas libretas se pueden utilizar igual que una presentación de PowerPoint, el profesor puede crear o utilizar una nueva libreta y en la misma clase quedará accesible a los alumnos para que éstos la ejecuten, al tiempo que se realiza una explicación más detallada de los conceptos. 
 
 Este método de uso de las libretas se conoce como se conoce como *Shift-Enter* [@jupyteredu], que es el comando utilizado para ejecutar un bloque de código. El alumno únicamente deberá leer el texto y a continuación ejecutar el código. Esta forma de usarlo puede ser útil para introducir al alumnado a este tipo de libretas aunque no explota todo el potencial que tienen las libretas Jupyter para la enseñanza.
 
-El método más acorde con la filosofía de las libretas Jupyter es el de poder modificar el código y probar cosas nuevas, experimentar los cambios que se producen e interpretar tus propios resultados. Esto se puede lograr de diversas formas, la manera que se ha seguido a la hora de desarrollar las libretas para Populy es la del ejemplo trabajado o worked example [@Sweller1985]. Este método consiste en la introducción de un concepto teórico, junto al código necesario y más básico para llevarlo a cabo de forma guiada.Tras esto, el estudiante deberá realizar pequeñas modificaciones al código o crear un bloque de código propio y finalmente observar el cambio en los resultados o los errores que surjan durante el proceso. Por último, cuando el concepto teórico que se explique y el código que lo lleva a cabo queden claros se procederá a realizar un ejercicio desde 0, siguiendo los pasos explicados en la libreta anterior.
+El método más acorde con la filosofía de las libretas Jupyter es el de poder modificar el código y probar cosas nuevas, experimentar los cambios que se producen e interpretar tus propios resultados. Esto se puede lograr de diversas formas, la manera que se ha seguido a la hora de desarrollar las libretas para Populy es la del ejemplo trabajado o *worked example* [@Sweller1985]. Este método consiste en la introducción de un concepto teórico, junto al código necesario y más básico para llevarlo a cabo de forma guiada.Tras esto, el estudiante deberá realizar pequeñas modificaciones al código o crear un bloque de código propio y finalmente observar el cambio en los resultados o los errores que surjan durante el proceso. Por último, cuando el concepto teórico que se explique y el código que lo lleva a cabo queden claros se procederá a realizar un ejercicio desde 0, siguiendo los pasos explicados en la libreta anterior.
 
-Este método puede suponer un reto, en especial la parte del problema, sin embargo este desafío intelectual junto a la interactividad de las notebooks fuerza al que estudiante  a reflexionar sobre el problema o concepto teórico de forma activa. Demandar la resolución de una tarea de complejidad variable para obtener un resultado, ya sea correcto o incorrecto es una de las técnicas más eficaces para asentar un conocimiento.
+Este método puede suponer un reto, en especial la parte del problema, sin embargo este desafío intelectual junto a la interactividad de las libretas fuerza al que estudiante  a reflexionar sobre el problema o concepto teórico de forma activa. Demandar la resolución de una tarea de complejidad variable para obtener un resultado, ya sea correcto o incorrecto es una de las técnicas más eficaces para asentar un conocimiento.
 
-### ¿Cómo utilizar una libreta Jupyter?
+### Abrir un entorno Jupyter
 
 Las libretas Jupyter son documentos en formato json, este formato es particular y como tal requiere de herramientas específicas para su ejecución, no es posible abrir una libreta Jupyter con un procesador de textos convencional. Es por ello por lo que existen herramientas que pueden leer la información de las libretas de forma adecuada.
 
 En local:
 
-Para la ejecución de una libreta Jupyter en local se requiere una distribución de software "programa" que incluya Ipython. La distribución Anaconda es la más utilizada, Anaconda es una distribución de Python y R [@anaconda]. Al instalar Anaconda se instala el software necesario para utilizar las libretas Jupyter entre otras cosas. Tras su instalación simplemente consiste en abrir Jupyter desde Anaconda, tal y como se muestra en la figura, se abrirá una ventana en un navegador web y se podrá acceder al entorno Jupyter de forma sencilla.
+Para la ejecución de una libreta Jupyter en local se requiere una distribución de software "programa" que incluya Ipython. La distribución Anaconda es la más utilizada, Anaconda es una distribución de Python y R [@anaconda]. Al instalar Anaconda se instala el software necesario para utilizar las libretas Jupyter y otras funcionalidades. Tras su instalación simplemente consiste en abrir Jupyter desde Anaconda, tal y como se muestra en la figura, se abrirá una ventana en un navegador web y se podrá acceder al entorno Jupyter de forma sencilla.
 
 ![Navegador anaconda, en rojo se muestra la forma de abrir el entorno Jupyter](files/anaconda.png){width=75%,height=75%}
 
@@ -245,13 +248,24 @@ Además, Anaconda instala también Python y R por lo que podrá crear y ejecutar
 
 En remoto:
 
-Una de las ventajas Jupyter *Notebooks* es que no requieren de forma obligatoria el proceso de instalación de un compilador o intérprete en local, de un editor de textos avanzado o de un IDE (Entorno de Desarrollo Integrado), únicamente es necesario una conexión a una libreta un servidor remoto.
+Una de las ventajas estas libretas es que no requieren de forma obligatoria el proceso de instalación de un compilador o intérprete en local, de un editor de textos avanzado o de un IDE (Entorno de Desarrollo Integrado), únicamente es necesario una conexión a una libreta un servidor remoto.
 
-Esta conexión a un servidor remoto se puede hacer mediante [MyBinder](https://mybinder.org/) [@Jupyter2018]. El estudiante simplemente deberá abrir una notebook ya creada que se encuentre en mybinder y podrá utilizarla. Si el uso de estas libretas no va a ser frecuente el trabajo mediante mybinder es una buena forma de introducir a usuarios inexpertos a la programación o para aulas donde Jupyter no sea una herramienta común.
+Esta conexión a un servidor remoto se puede hacer mediante [MyBinder](https://mybinder.org/) [@Jupyter2018]. El estudiante simplemente deberá abrir un enlace donde se encuentra algo similar a un laboratorio o entorno de trabajo virtual que contiene una o más libretas. Si el uso de estas libretas no va a ser frecuente el trabajo mediante *mybinder* es una buena forma de introducir a usuarios inexpertos a la programación.
 
 Otro recurso web muy utilizado es [Google Colab](https://colab.research.google.com/), la forma de uso es muy sencilla ya que simplemente requiere una cuenta de Google y la instalación de una extensión de navegador para crear o abrir las libretas.
 
-Dado que el software está pensado para el uso en aulas se ha creado un repositorio en MyBinder donde se incluyen las libretas. La forma de acceder es tan simple como accediendo al enlace.
+Dado que el Populy está pensado para el uso interactivo en aulas se ha creado un repositorio en *MyBinder* donde se incluyen las libretas. Se puede acceder a estas ellas pulsando al siguiente enlace [Populy repositorio](https://mybinder.org/v2/gh/R-mario/Populy-notebooks/HEAD).
+
+En este laboratorio virtual el estudiante puede acceder a un total de 4 libretas, situadas en el menú izquierdo de la web. El contenido de estas libretas es:
+
+1_Comienza en Jupyter: Contiene una introducción con ejercicios simples acerca del entorno Jupyter y sus libretas. En ésta se explica como ejecutar un bloque de código, modificar las celdas, guardar una libreta o reiniciar el entorno de forma segura. Esta libreta está pensada para usuarios que accedan por primera vez a un laboratorio virtual como es Jupyter.
+
+2_Fundamentos de Python: Contiene una breve explicación de los conceptos más básicos de la programación aplicada a Python: variables, estructuras y funciones. En cada sección se incluyen varios ejercicios y recursos adicionales en caso de que el usuario desee o necesite explorar las bases de Python con mayor profundad. El objetivo de esta libreta es introducir a un usuario al lenguaje de programación Python. Debido a la naturaleza y enfoque de este trabajo es imposible abarcar la enseñanza de un lenguaje de programación, sin embargo es necesario que el usuario qué es un lenguaje de programación y las posibilidades que ofrece Python en comparación a otros lenguajes.
+
+3_Guía de Populy: Tal y como su nombre indica, esta libreta pretende ser una guía de uso del paquete de Populy. En ella se encuentra lo necesario para saber instalar y cargar el paquete, así como las formas de utilizarlo. Al igual que en el resto de libretas, esta también incluye una serie de ejercicios breves y preguntas que el usuario deberá contestar mientras lee y ejecuta la libreta. Con esta libreta se buscan tres objetivos: 1. comprender los aspectos básicos de la evolución, 2. familiarizase con Python como objetivo didáctico 2. explorar las posibilidades que ofrece un lenguaje de programación como herramienta pedagógica.
+
+4_Problema: En esta última libreta se incluyen dos ejercicios de complejidad variable que requieren haber superado y comprendido las tres anteriores libretas. Para hacer estos ejercicios el usuario deberá: conocer el funcionamiento de Jupyter, saber crear variables y estructuras de control sencillas con Python y saber utilizar Populy como herramienta de simulación de procesos evolutivos.
+
 
 # Genética de poblaciones
 
@@ -263,7 +277,7 @@ Así pues, la amplitud de este campo de estudio es tanta como el número de pobl
 
 A modo de norma, una población se observa en un tiempo determinado X, en el cual se pueden medir sus propiedades e inferir otras. Dependiendo del tipo de aproximación, se puede intentar extrapolar las condiciones del tiempo X a una población a tiempo 0 o por el contrario hacer avanzar la población hasta un tiempo X+n, siendo n un número de generaciones.
 
-Existen numerosas aproximaciones a este tipo de problemas, normalmente tratadas mediante análisis numérico. En los últimos años han cobrado popularidad las simulaciones de población porque permiten, como su nombre indica, simular todo el proceso evolutivo en una u otra dirección, obteniendo no solo el resultado final si no información del proceso [@Carvajal-Rodriguez2008].
+Existen numerosas aproximaciones a este tipo de problemas, normalmente tratadas mediante análisis numérico. En los últimos años han cobrado popularidad las simulaciones de población porque permiten, como su nombre indica, simular todo el proceso evolutivo en una u otra dirección, obteniendo tanto el resultado final como la información del proceso [@Carvajal-Rodriguez2008].
 
 A la primera forma de evolucionar una población (`X -> X+n`)se la conoce como *forward simulation* o simulaciones de tiempo hacia adelante [@Peng2010-ie]. En estas simulaciones la población parte de un estado X en un momento 0 y se hace avanzar en el tiempo (generaciones) hasta llegar a otro estado. Durante el proceso se aplica una serie de funciones y/o modelos que permitirán una evolución de la población. Una vez terminada, se obtiene un informe en formato gráfico o tabular donde queda constancia del proceso, del estado inicial y del estado final. Este tipo de simulaciones son más complejas computacionalmente ya que requiere crear diversos individuos durante varias generaciones; sin embargo, tanto el proceso como sus resultados son más similares a la evolución de las especies.
 
@@ -303,7 +317,7 @@ Aun con este modelo simple se puede observar un cambio en las frecuencias aléli
 
 ## Evolución y fuerzas evolutivas
 
-La evolución es el proceso de cambio de las especies a lo largo de las generaciones, el estudio de la evolución se hace a nivel de la población y se suele expresar como el cambio en las frecuencias alélicas en el tiempo. La frecuencia alélica de una población es la frecuencia de cada alelo, es decir, cada variante de un gen, en una población. En una población diploide cada individuo podrá tener hasta 2 alelos diferentes.
+La evolución es el proceso de cambio de las especies a lo largo de las generaciones, el estudio de la evolución se hace a nivel de la población y se suele expresar como el cambio en las frecuencias alélicas en el tiempo. La frecuencia alélica de una población es la frecuencia de cada alelo, es decir, cada variante de un gen, en una población. En una población diploide cada individuo podrá tener hasta 2 alelos diferentes en cada locus.
 
 En el contexto de simulación de evolución el concepto es más simple; se dice que una población evoluciona cuando se suceden las diferentes generaciones. Si se hace evolucionar una población del tipo de Wright-Fisher podría esperarse que las frecuencias alélicas de la población se mantuviesen constantes.
 
@@ -317,7 +331,7 @@ Al contrario que otras fuerzas esta ocurre a nivel de genes. Sin embargo, no tod
 
 Las mutaciones se pueden clasificar por su efecto en la población; existen mutaciones beneficiosas, perjudiciales o neutras.La inmensa mayoría de mutaciones, especialmente las de sitio único e indels tienen un efecto neutro. En el contexto evolutivo, se dirá que una mutación es beneficiosa cuando aumenta la eficacia biológica del individuo (en esa población) mientras que una perjudicial la disminuye. Por poner un ejemplo, una mutación que cause una disminución en la supervivencia de un individuo pero que aumente su índice reproductivo podría ser una mutación beneficiosa, a pesar de suponer un perjuicio al individuo.
 
-Aunque los tipos de mutaciones son variados (SNPs,indels,cromosómicas...), para la simulación de evolución se tomará el el modelo más simple de mutación: una mutación es el cambio de un alelo mayor al menor `P -> q`. Las mutaciones son transmisibles, por lo que su punto de origen en caso de ser un individuo real ocurriría en los gametos de los padres.
+Aunque los tipos de mutaciones son variados (SNPs,indels,cromosómicas...), para la simulación de evolución se tomará el el modelo más simple de mutación: una mutación es el cambio de un alelo al otro de forma unidireccional `A -> a`. Las mutaciones son transmisibles, por lo que su punto de origen en caso de ser un individuo real ocurriría en los gametos de los padres.
 Ademas, la frecuencia de mutación será independiente para cada locus.
 
 ### Selección natural
@@ -326,8 +340,8 @@ Junto a la mutación, la selección natural es la fuerza evolutiva más conocida
 
 1. Los individuos son diferentes entre ellos (variación)
 2. Parte de esa variación es transmisible generacionalmente (herencia)
-3. Algunos individuos sobreviven y se reproducen más que otros
-4. El éxito de supervivencia y reproducción no es aleatoria, sino debida a las diferencias entre los individuos.
+3. Algunos individuos sobreviven y se reproducen más que otros (éxito diferencial)
+4. El éxito de supervivencia y reproducción no es aleatoria, sino debida a las diferencias entre los individuos. (éxito diferencial debido a variaciones genéticas heredables)
 
 Bajo estos 4 principios, el mecanismo de selección natural se comprende como la eficacia diferencial de un genotipo en una población en un ambiente determinado, también llamado evolución adaptativa. Es decir, aquellos individuos con unas características genéticas (variación) heredables mejor adaptadas a un ambiente sobrevivirán y darán más descendencia en promedio, haciendo que esas características genéticas se vean más representadas en la generación siguiente.
 
@@ -343,12 +357,12 @@ Por tanto, para simular el proceso de selección natural se requiere una poblaci
 
 2. variación heredable: la características genéticas de un individuo deben ser heredables, esta transmisión de las características genéticas viene determinada por la [arquitectura genética](# Arquitectura genética).
 
-3 y 4. Supervivencia/éxito reproductivo diferencial: es posible simular la aptitud biológica de dos formas: asignando un valor que indique el numero promedio de descendientes según su genotipo o un valor que indique su tasa de supervivencia. Para esta simulación el *fitness* de un individuo según una probabilidad de supervivencia para cada genotipo o alelo, es decir
+3 y 4. Supervivencia/éxito reproductivo diferencial: es posible simular la aptitud biológica de dos formas: asignando un valor que indique el numero promedio de descendientes según su genotipo o un valor que indique su tasa de supervivencia. Para esta simulación el *fitness* de un individuo según una probabilidad de supervivencia para cada genotipo, es decir
 , que la variación genética resulte en diferente éxito reproductivo. A modo de ejemplo: aquellos individuos con un genotipo cuyo *fitness* sea `0.2`tendrán un 20% de probabilidades de supervivencia.
 
 ### Migración
 
-La migración se puede entender como el intercambio genético (*gene flow*) entre dos poblaciones, para que se lleve a cabo estas dos poblaciones han debido estar separadas por alguna barrera física, temporal, comportamental o reproductiva hasta un punto determinado donde esa barrera desaparece e intercambian material genético de forma puntual o periódica. Este intercambio puede generar nuevos alelos en la población o incrementar la presencia de uno minoritario.
+La migración se puede entender como el intercambio genético (*gene flow*) entre dos poblaciones. Para que tenga lugar ambas poblaciones han debido estar separadas por alguna barrera física, temporal, comportamental o reproductiva. En el momento en que esa barrera desaparece las poblaciones intercambian individuos, en particular material genético, de forma puntual o periódica. Este intercambio puede introducir nuevos alelos en la población que antes no existían o incrementar la presencia de alguno de ellos. A mayor intercambio genético más drástico será el cambio en las frecuencias alélicas. 
 
 Para modelar la migración de forma realista se requiere de otra población y romper el aislamiento durante el proceso de evolución. En la simulación no se encuentra implementada la migración.
 
@@ -364,15 +378,15 @@ Una consecuencia habitual de la deriva genética es la pérdida de alelos, lo qu
 
 Este mecanismo está presente en todas las poblaciones con reproducción sexual aunque el efecto es despreciable para poblaciones grandes ya que el error en el muestreo (en la selección de padres) será prácticamente despreciable. Sin embargo, al reducir el número de individuos en una población es posible observar sus efectos.
 
-Para simular la deriva genética, es conveniente reducir el tamaño de la población a 10-50 individuos, eliminar el resto de fuerzas (selección y mutación) e incluir varios loci en la población para ver la pérdida de alelos que se produce. Tras las suficientes generaciones, todos los alelos quedarán fijados.
+Para simular la deriva genética, es conveniente reducir el tamaño de la población a 10-50 individuos, eliminar el resto de fuerzas (selección y mutación) e incluir varios loci en la población para ver la pérdida de alelos que se produce. Tras las suficientes generaciones, todos los loci quedarán fijados para uno u otro alelo.
 
 ## Equilibrio de Hardy-Weimberg
 
-Cuando no actúa ninguna de las cuatro fuerzas mencionadas se puede alcanzar una situación de equilibrio llamado Hardy-Weimberg. En este estado se dice que, tras una generación de apareamientos aleatorios, las frecuencias alélicas de la generación padre serán iguales a las de la generación hija. Una población en equilibrio se trata de una población sin cambio evolutivo. Aunque esto no ocurre en poblaciones reales, simular una población en equilibrio de Hardy-Weimberg ya permite estudiar diversas características de una población y permite compararlas con otros casos donde actúe una o más fuerzas. Un modelo de Wright-Fisher con un tamaño de población infinito cumplirá las condiciones para que se de el equilibrio de Hardy-Weimberg.
+Cuando no actúa ninguna de las cuatro fuerzas mencionadas se puede alcanzar una situación de equilibrio llamado Hardy-Weinberg. En este estado se dice que, tras una generación de apareamientos aleatorios, las frecuencias alélicas de la generación padre serán iguales a las de la generación hija. Una población en equilibrio se trata de una población sin cambio evolutivo. Aunque esto no ocurre en poblaciones reales, simular una población en equilibrio de Hardy-Weinberg ya permite estudiar diversas características de una población y permite compararlas con otros casos donde actúe una o más fuerzas. Un modelo de Wright-Fisher con un tamaño de población infinito cumplirá las condiciones para que se de el equilibrio de Hardy-Weinberg.
 
-Tener una población en equilibrio permite, por un lado, realizar una simulación de forma sencilla y por otro, tener una población de "referencia" con la que comparar las medidas. Asumiendo una población en equilibrio se puede realizar un test estadístico para comprobar frecuencias alélicas esperadas vs observadas y analizar si la simulación se desvía de forma significativa de lo esperado, en cuyo caso se dirá que la población se encuentra sometida a cambio evolutivo.
+Tener una población en equilibrio permite, por un lado, realizar una simulación de forma sencilla y por otro, tener una población de "referencia" con la que comparar las medidas. Asumiendo una población en equilibrio se puede realizar un test estadístico para comprobar frecuencias alélicas esperadas-observadas y analizar si la simulación se desvía de forma significativa de lo esperado. Si la población es suficientemente grande y con apareamientos aleatorios se dirá que la población se encuentra sometida a cambio evolutivo.
 
-Con todo esto, es más habitual simular las poblaciones sometidas a una o más fuerzas evolutivas para estudiar sus efectos. Es posible incluir tanto una frecuencia de mutación para cada locus; unos valores de eficacia biológica, o índice de supervivencia, para cada genotipo o para cada alelo y cambiar el tamaño de las poblaciones para observar los efectos de la deriva genética.
+Con todo esto, es más habitual simular las poblaciones sometidas a una o más fuerzas evolutivas para estudiar sus efectos. Es posible incluir tanto una frecuencia de mutación para cada locus; unos valores de eficacia biológica, o índice de supervivencia, para cada genotipo y cambiar el tamaño de las poblaciones para observar los efectos de la deriva genética.
 
 Estas son las características generales de la población, sin embargo existen otros parámetros que corresponden al individuo, de todos ellos el más relevante es su estructura o arquitectura genética.
 
@@ -386,7 +400,7 @@ Al tratarse de una población con reproducción sexual, los individuos también 
 
 Así pues, un individuo está constituido por su autosoma, sus cromosomas sexuales, unos padres y un identificador único, que incluye su número de individuo y la generación a la que pertenecen.
 
-Existen otras dos características de la población que intervienen durante el proceso de creación y evolución únicamente cuando se estudian dos o más genes. Cuando se genera la generación 0, esto es, la generación inicial, puede intervenir un factor llamado desequilibrio de ligamiento, este valor indica la probabilidad de que dos genes segregen independientemente. Así pues a un menor valor de este número indicará una mayor asociación estadística de los alelos.
+Existen otras dos características de la población que intervienen durante el proceso de creación y evolución únicamente cuando se estudian dos o más genes. Cuando se genera la generación 0, esto es, la generación inicial, puede intervenir un factor llamado desequilibrio de ligamiento, este valor indica la probabilidad de que dos genes segreguen independientemente. Así pues a un menor valor de este número indicará una menor asociación estadística de los alelos.
 
 Durante el proceso evolutivo es el valor de la frecuencia de recombinación el que representa la independencia estadística. En términos biológicos, este valor numérico  indica la frecuencia con la que dos cromosomas homólogos intercambian su material genético durante el proceso de recombinación que tiene lugar en la meiosis. Este factor es similar al desequilibrio de ligamiento en cuanto a su implementación pero en este caso indica cuál es la probabilidad de que a partir de los gametos parentales se generen gametos recombinantes.
 
@@ -394,13 +408,13 @@ Así pues, el desequilibrio de ligamiento se utiliza para crear una población m
 
 # Populy: uso y estructura
 
-## Métodos de uso
+## Método de uso
 
-Tras el desarrollo del paquete, se han creado unos *notebooks* para mostrar cuáles son los métodos esenciales para llevar a cabo la creación, iniciación, evolución y obtención de resultados de una población, así como algunos ejercicios para que el usuario pueda experimentar y crear diferentes poblaciones. Como se ha comentado anteriormente, Populy está pensado para su uso en un *notebook*, aunque se puede utilizar de forma local con un editor de texto como *visual studio code* o un IDE como *Pycharm* o Rstudio. A continuación, se procederá a explicar el proceso que se debe seguir para el uso correcto del paquete desde 0:
+El paquete está pensado para su uso junto a las libretas Jupyter diseñadas específicamente para usuarios nuevos en este entorno virtual. El objetivo es mostrar cuáles son los métodos esenciales para llevar a cabo la creación, iniciación, evolución y obtención de resultados de una población, así como algunos ejercicios para que el usuario pueda experimentar y crear diferentes poblaciones. Aún con ésto, Populy se puede utilizar de forma local como un paquete cualquiera siempre y cuando Python esté correctamente instalado. A continuación, se procederá a explicar el proceso que se debe seguir para el uso correcto del paquete desde 0:
 
 ***
 
-Lo primero es necesario instalar, ya sea en local o remoto, el paquete Populy. El proceso de instalación de paquetes en una *jupyter notebook* de Python es muy sencillo, únicamente es necesario ejecutar la siguiente linea de código.
+Lo primero es necesario instalar, ya sea en local o remoto, el paquete Populy. El proceso de instalación de paquetes en una libreta Jupyter de Python es muy sencillo, únicamente es necesario ejecutar la siguiente linea de código.
 ```{python, eval=FALSE}
 !pip install Populy
 ```
@@ -429,12 +443,7 @@ from populy.population import Population
 
 En definitiva, con este tipo de importación se selecciona qué archivo se va a utilizar de todo el paquete y facilita el manejo de sus objetos.
 
-Una vez completado el proceso de instalación ya es posible crear una población: el diagrama de uso habitual del paquete queda reflejado en el siguiente esquema:
-
-<!--[]()-->
-
 Así pues, el primer paso es la creación de una población. Este proceso también se le conoce como instanciación y se lleva a cabo con la siguiente linea de código:
-
 
 ```{python}
 # creación de una población
@@ -460,20 +469,17 @@ poblacion = Population(size=tam,
 
 Aunque pueda parecer complejo lo que ocurre es que se asigna un nuevo valor a la población de frecuencias alélicas. En este caso, tanto el gen A como el gen B tendrán una frecuencia de 0.5 para ambos alelos en la población.
 
-
 En estos momentos la población se encuentra vacía, es decir, se le han definido sus características pero no hay individuos en ella. Es por ello que es necesario llamar a un *método* del objeto población.
 ```{python}
 poblacion.initIndividuals()
 ```
 
-Este método inicia a los individuos, que tendrán las características especificadas anteriormente. 
-
-En este caso, iniciará `r `py$tam` individuos que tendrán unos valores de frecuencias alélicas próximos a los especificados.
+Este método inicia a los individuos, que tendrán las características especificadas anteriormente. En este caso, iniciará `r py$tam` individuos, la población tendrá unos valores de frecuencias alélicas próximos a los especificados.
 
 Para ver información sobre algunos de estos individuos se puede ejecutar el siguiente código
 
 ```{python}
-poblacion.printIndividuals(show=5)
+poblacion.printIndividuals(show=3)
 ```
 
 Una vez iniciados los individuos en la población se considera que éstos son la generación número 0.
@@ -486,7 +492,7 @@ poblacion.evolvePop(gens=100)
 
 El parámetro más importante de `evolvePop` es `gens`, se trata del número de generaciones que tomará la evolución.
 
-Tras la evolución el proceso ya queda completado, sin embargo la información no queda accesible. Para ello es posible obtener una tabla de valores o una representación gráfica.
+Tras la evolución el proceso ya queda completado. Sin embargo, la información no queda accesible. Para ello es posible obtener una tabla de valores o una representación gráfica.
 
 Si lo que se busca es una tabla de valores, más conocido como *dataframe*, se puede recurrir al siguiente código:
 
@@ -496,28 +502,28 @@ allelicF = poblacion.getDataFrame("frecuencias alelicas")
 ```{python, include=FALSE}
 df = allelicF.round(decimals = 2)
 ```
-
-
-```{r,results='asis',echo=FALSE} 
+```{r,results='asis',echo=FALSE, warning=FALSE} 
 library(kableExtra)
 knitr::kable(py$df,caption = "Cambio en las frecuencias alélicas a lo largo de las generaciones", align=c(rep("c",3))) %>%
   column_spec(1,width = "0.8in") %>%
   column_spec(2,width = "0.6in") %>%
-  column_spec(3,width = "0.6in")
+  column_spec(3,width = "0.6in") %>%
+  kable_styling(latex_options = "HOLD_position")
 ```
-
 
 Como se indica dentro del paréntesis, el código devuelve una tabla donde quedan registrados todos los cambios que ha habido en las frecuencias alélicas tras el paso de las generaciones.
 
 Si lo que se busca es obtener una representación gráfica de este proceso es necesario ejecutar el siguiente código:
-```{python}
-from populy.plots import Plots
-```
-```{python, out.height="75%", fig.cap = "Representación gráfica de la variación de las frecuencias alélicas para los alelos mayores", fig.show = 'hold'}
-Plots.alleles(poblacion)
+
+
+```{python, fig.cap = "Representación gráfica de la variación de las frecuencias alélicas para los alelos mayores", out.height="50%", out.width="75%", fig.env='figure'}
+from populy.plot import Plot
+Plot.alleles(allelicF)
+
 ```
 
-La sintaxis es diferente porque se utiliza otro módulo del paquete Populy ([estructura](## estructura)).
+
+La sintaxis es diferente porque se utiliza `Plots` del paquete Populy ([estructura](## estructura interna)) para representar gráficamente.
 
 Tal y como se observa, la población ha evolucionado ya que las frecuencias alélicas han sufrido cambios durante las generaciones.
 
@@ -525,9 +531,9 @@ Para este caso de uso en el que no se ha introducido al principio ningún parám
 
 *****
 
-Este es el funcionamiento más básico, una vez comprendido es posible introducir una o más fuerzas de cambio evolutivo como son la mutación y la selección y estudiar su efecto, o el equilibrio entre ambas.
+Este es el funcionamiento más sencillo del paquete. En el caso de que se desee, es posible introducir una o más fuerzas de cambio evolutivo como son la mutación y la selección y estudiar su efecto, o el equilibrio entre ambas.
 
-Para una explicación más detallada e interactiva es recomendable acudir a la [Guía de uso](guia de uso.ipynb) LINK MYBINDEER, donde es posible ejecutar el código y trabajar con éste tal y como se ha pensado su uso.
+Para una explicación más detallada e interactiva es recomendable acudir al [laboratorio virtual](https://mybinder.org/v2/gh/R-mario/Populy-notebooks/HEAD), donde es es posible explorar las funcionalidades adicionales del programa, ejecutar el código y trabajar con éste tal y como se ha pensado su uso.
 
 ### Caso práctico: la deriva genética
 
@@ -543,8 +549,8 @@ from populy.superpop import Superpop
 ```
 
 La instanciación ocurre de la misma manera, se le pueden pasar los mismos parámetros que a `Population`pero es necesario indicarle el número `n` de poblaciones que se simularán.
-```{python}
-super_small = Superpop(n=6,popsize=10)
+```{python,include=FALSE}
+sPop_peq = Superpop(n=6,popsize=10)
 ```
 En este caso se crean 6 poblaciones, cada una con un tamaño de 10 individuos.
 
@@ -552,13 +558,15 @@ Tras la instanciación, se debe ejecutar el siguiente código, que condensa las 
 
 ```{python,include=FALSE}
 #gens=numero de generaciones
-super_small.startPops(gens=100)
+sPop_peq.evolvePops(gens=100)
 ```
 
 Aunque es posible obtener un *dataframe* de cambios en las frecuencias alélicas; es mucho más recomendable  representar gráficamente el resultado.
+
 ```{python, fig.show = 'hold', fig.cap = "Representación gráfica de los efectos de la deriva genética para las frecuencias alélicas de dos locus A (izq.) y B (der.) de 6 poblaciones con 10 individuos"}
-super_small.plotPops() 
+sPop_peq.plotPops() 
 ```
+
 
 Para una población de 10 individuos el efecto de la deriva es notorio, pudiendo observar que todas las poblaciones han sufrido una fijación de sus alelos antes de la generación 50.
 
@@ -566,7 +574,7 @@ Cabe la pregunta de ¿qué ocurre en poblaciones de mayor tamaño? Para eso es p
 
 En esta parte se crea una lista de 2 valores, que serán el tamaño de cada población. Posteriormente se crean y almacenan ambas poblaciones en una lista.
 
-```{python}
+```{python, include=FALSE}
 sizes = [100,1000]
 
 pops = [Superpop(n=6,popsize=tam) for tam in sizes]
@@ -576,16 +584,20 @@ Tras esto se lleva a cabo, para cada población en `Pops` el proceso de iniciaci
 
 ```{python,include=FALSE}
 for x in pops:
-  x.startPops(gens=100)
+  x.evolvePops(gens=100)
 ```
 
 Por último se representan en dos gráficos independientes los valores obtenidos de frecuencias alélicas para cada locus.
-```{python, fig.cap=c("Efecto de la deriva genética para dos locus A y B de 6 poblaciones de tamaño 100","Efecto de la deriva genética para dos locus A y B de 6 poblaciones de tamaño 1000"), fig.show = 'hold'}
+
+```{python, fig.cap=c("Efecto de la deriva genética para dos locus A y B de 6 poblaciones de tamaño 100","Efecto de la deriva genética para dos locus A y B de 6 poblaciones de tamaño 1000")}
 for x in pops:
   x.plotPops()
 ```
 
-Se puede observar el efecto esperado, a mayor tamaño de población menor es el efecto de la deriva genética y menor es la desviación con respecto al valor esperado en ausencia de otra fuerza evolutiva.
+
+Figure 7: Efecto de la deriva genética para dos locus A y B de 6 poblaciones de tamaño 100 (arriba) y 1000 (abajo)
+
+Se puede observar el efecto esperado: a mayor tamaño de población menor es el efecto de la deriva genética y menor es la desviación con respecto al valor esperado en ausencia de otra fuerza evolutiva, es decir, la población se acerca más al equilibrio de Hardy-Weinberg.
 
 ## Estructura interna
 
@@ -597,29 +609,56 @@ Al comienzo se definieron los objetivos específicos del paquete, que son:
 2. Que un usuario sin experiencia en programación pueda comprender qué está sucediendo.
 3. Obtener unos resultados, preferiblemente en formato gráfico, que permitan visualizar el fenómeno estudiado.
 
-Más tarde, se comenzó con el desarrollo del software, en esta etapa es necesario establecer un esquema o sistema general. Se pueden establecer tres entidades esenciales a la hora de desarrollar este tipo de simulaciones: la Población, el individuo y el genoma/cromosoma. Desde un principio quedó claro que el usuario debía poder interactuar de forma sencilla con la población, ya que es el objeto de estudio, los objetos individuos y genoma serian características las cuales el usuario no debía interactuar directamente.
+Más tarde, se comenzó con el desarrollo del software, en esta etapa es necesario establecer un esquema o sistema general. Se pueden establecer tres entidades esenciales a la hora de desarrollar este tipo de simulaciones: la Población, el individuo y el genoma/cromosoma. Desde un principio quedó claro que el usuario debía poder interactuar de forma sencilla con la población, ya que es el objeto de estudio, los objetos individuos y genoma serian características las cuales el usuario no debía interactuar directamente pero debían quedar accesibles a través de la población.
 
 Con la ventaja de ser un lenguaje multiparadigma, Python permite definir una estructura de programación muy flexible y poco restrictiva. Se eligió el paradigma orientado a objetos (OOP) debido a la idoneidad de modelar una población creando una plantilla para la creación de objetos con unas características y funciones determinadas. A estas plantillas, en el paradigma de orientación a objetos se les conoce como Clases, cada clase representa una entidad, objeto o concepto determinado. Cada clase está compuesta por unas características y unos comportamientos que la definen. A las características se les conoce como atributos y a los comportamientos como métodos (o funciones de clase/instancia), ver [lenguajes de programación](### Lenguajes de programación). 
 
 En el caso de Populy debían existir, como mínimo, dos clases diferentes: la población y el individuo. A partir de este modelo de clases un usuario debía poder crear un nuevo objeto que pertenezca a una de estas clases, esto es, una población determinada. El proceso de crear un nuevo objeto se le conoce como instanciación. Tras crear el objeto y pasarle los valores que debe tener esa población el usuario debería llamar a los métodos correspondientes para llevar a cabo el proceso de evolución, entre otros.
 
-La forma de empaquetar estas estructuras de clase se le conoce como crear un paquete, un paquete está compuesto principalmente de dos tipos de archivo: módulos e init. Un módulo contendrá la estructura de una clase en particular y tiene extensión `.py`, el archivo init, indica al intérprete de Python que ese directorio se debe tratar como un paquete y no como módulos separados.
+Tras establecer la estructura se comenzó su creación. Para ello fueron esenciales dos herramientas: un editor de texto, para escribir el código, y un control de versiones para registrar los cambios.
 
-Así pues, el desarrollo comienza creando 2 módulos dentro del paquete Populy, llamados *population* e *individual*, estos módulos contienen las clases Population e Individual, respectivamente.
+Se empleó Visual Studio Code como un editor de textos avanzado, una de las ventajas de este editor es que permite ejecutar código un gran cantidad de lenguajes, incluido Python, así como leer y modificar libretas Jupyter (archivos `.ipynb`). Dado que el paquete está especialmente pensado para ser utilizado en este tipo de libretas era conveniente tener una forma rápida y accesible de editar estos archivos.
 
-Population debía tener los atributos generales de la población y métodos que permitieran llevar a cabo los diferentes procedimientos para iniciar, evolucionar y obtener información de ella.
+El sistema de control de versiones empleado fue git y github. Este software permite llevar un registro de todos los cambios realizados en el programa de forma profesional, crear ramas sobre las que tener registros diferentes, recuperar versiones anteriores, entre otros. Github, por otro lado, permite la integración web del programa desarrollado y sus versiones, su funcionamiento consiste en un repositorio online en la página web donde se encuentra tanto los archivos del programa, sus ramas y el historial de versiones. Con estas herramientas (git+github) es posible acceder y descargar el software de forma gratuita. También permite realizar proyectos colaborativos, donde cada usuario contribuye con una parte del proyecto, proponer cambios a una versión y sincronizarlos con otro usuario.
 
-Individual debía tener atributos particulares de cada individuo y también generales, de la población a la cual pertenecen, así como métodos que permitan crear ese individuo desde 0 o a partir de unos padres.
+Para el desarrollo de Populy se empleo como un control de versiones simple, donde cada actualización del trabajo queda registrada como una nueva versión, posteriormente estos cambios se actualizan en el repositorio web de [https://github.com/R-mario/populy](https://github.com/R-mario/populy), donde quedan visibles y se pueden consultar.
 
-Más tarde se incluyó un nuevo módulo con una clase llamada Superpop, donde se recogería la capacidad de realizar simulaciones de varias poblaciones al mismo tiempo.
+Cuando se desarrolla un software es habitual estructurar las distintas funcionalidades en archivos distintos. A esta estructuración se le conoce como 'paquete' o 'librería'. Un paquete está compuesto de módulos, a su vez, un módulo contendrá la funcionalidades similares agrupadas. En el caso de Populy cada módulo consiste de de una clase en particular y tiene extensión `.py`.
 
-El resultado queda reflejado en el siguiente diagrama de clases, donde se puede observar los atributos y métodos más relevantes de cada clase:
+Así pues, el desarrollo comienza creando 2 módulos dentro del paquete Populy, llamado `population` e `individual`, estos módulos contienen las clases Population e Individual, respectivamente.
 
-![diagrama de clases de Populy](files/Class Diagram Populy.jpg)
+La clase `population` debía tener los atributos generales de la población (tamaño, ploidía, frecuencias alélicas iniciales,...) y métodos que permitieran llevar a cabo los diferentes procedimientos para iniciar, evolucionar y obtener información de ella.
 
-Tal y como se observa en el diagrama, las clases se relacionan entre ellas mediante una composición, esto es que la clase Superpop contiene objetos de la clase Population, que a su vez contiene objetos de la clase individual. Esto es similar a una población normal, que está compuesta de individuos. Debe distinguirse dos peculiaridades, la primera es que la clase Superpop no es un conjunto de poblaciones que interaccionan, se trata de una clase que permite agrupar la creación de multitud de poblaciones similares pero no interaccionan entre ellas. La segunda se trata de una relación entre los propios individuos, esto se debe a que un individuo tiene unos progenitores, que son a su vez individuos.
+La clase `individual` debía tener atributos particulares de cada individuo (cromosomas,sexo,padres,..) y también generales, de la población a la cual pertenecen, así como métodos que permitan crear ese individuo desde 0 o a partir de unos padres.
 
-Además de estos módulos, el paquete también contiene unos tests unitarios, que sirven para hacer comprobaciones automáticas de varios casos posibles y casos límites a la hora de utilizar el paquete. Esto es útil para encontrar errores o comprobar cambios que se han realizado en el paquete durante su creación.
+Más tarde se incluyeron dos nuevos módulos, el primero contendría la clase Superpop, que agrupa la funcionalidad de `population` para llevar a cabo simulaciones de varias poblaciones al mismo tiempo.
+
+El otro módulo, llamado `plot`, haría posible la representación gráfica de las características de la población.
+
+El resultado queda reflejado en el siguiente diagrama de clases de la figura 7, donde se puede observar los atributos y métodos más relevantes de cada clase.
+
+
+![diagrama de clases de Populy](files/Class Diagram Aggregation Example.png)
+
+
+
+Tal y como se observa en el diagrama, las clases se relacionan entre ellas mediante de diferentes formas. La clase `Superpop` está compuesta de objetos de la clase `Population`, que a su vez está compuesta de objetos de la clase individual. La composición refleja que un objeto contienen uno o más objetos de la otra clase. Esto es similar a una población normal, que está compuesta de individuos. 
+
+Debe distinguirse dos peculiaridades, la primera es que la clase `Superpop` no es un conjunto de poblaciones que interaccionan, se trata de una clase que permite agrupar la creación de multitud de poblaciones similares pero sin intercambiar individuos entre ellas. La segunda se trata de una relación entre los propios individuos, esto se debe a que un individuo tiene unos progenitores, que son a su vez individuos.
+
+Tanto `Superpop` como `Population` implementan la clase `Plot`, esto significa que tienen acceso a los métodos de ésta clase, que son los que permiten representar la población.
+
+Todas las clases requieren también de paquetes adicionales. Las dos más importantes son pandas, un paquete orientado al análisis de datos que permite obtener y modificar tablas de forma rápida, flexible y potente y matplotlib, una librería para obtener gráficos de todo tipo. Además de otros paquetes que se han utilizado de forma puntual como numpy, random o scipy.
+
+Además de estos módulos, el paquete también contiene otros archivos necesarios para construir y documentar el paquete como la licencia, el README o los archivos de configuración. Junto a éstos se encuentran unos tests unitarios, que sirven para hacer comprobaciones automáticas de varios casos posibles y casos límites a la hora de utilizar el paquete. Esto es ha sido útil durante el desarrollo para encontrar errores y comprobar cambios que se realicen.
+
+Tras finalizar una versión el paquete se subió a PyPi[@pypi], el repositorio de paquetes de Python, para que pudiese ser instalado en cualquier ordenador con Python mediante el comando `pip`.
+
+Para finalizar el trabajo se creó el laboratorio virtual utilizando *mybinder*. Este laboratorio contiene 3 libretas Jupyter que pretenden introducir al alumnado a los conceptos esenciales del trabajo, que son: el entorno Jupyter, la programación en Python y el paquete Populy. Junto a un ejercicio que requiere la integración de los conocimientos adquiridos, especialmente en lo que respecta al uso de Populy. Para conocer más sobre el entorno Jupyter y las libretas creadas puede consultarlo en la sección de [Jupyter notebook](# Jupyter notebook).
+
+Por último, el formato de redacción de este trabajo ha sido posible mediante r-markdown, un formato de archivos para hacer documentos dinámicos e integrar código junto a texto de forma orgánica. Aunque internamente sea diferente a las libretas Jupyter, los archivos r-markdown también permiten escribir texto en formato markdown y bloques de código ejecutables, junto a la capacidad de construir archivos pdf o html estilizados.
+
+Puede consultarse todo el código y sus versiones en el siguiente [Repositorio de Populy](https://github.com/R-mario/populy).
 
 ## Perspectiva y limitaciones
 
@@ -639,9 +678,15 @@ Es una realidad que las herramientas tecnológicas están cambiando la forma que
 
 Es esencial proporcionar al alumnado aquellas herramientas que permitan comprender mejor los contenidos de la asignatura y que se adapten a los cambios tecnológicos. En ocasiones estos cambios son complejos pero no por ello se debe dejar de explorar las posibilidades que ofrecen los nuevos medios tecnológicos de enseñanza.
 
-Populy ha sido construido mediante la programación, a partir de los conceptos de la evolución y la genética de poblaciones pero siempre orientada a la enseñanza dinámica e interactiva. Como tal, Populy y sus *jupyter notebooks* reivindican que los métodos más anticuados de enseñanza como son el uso de programas del estilo de Populus ya no tienen sentido en las aulas; Populy pretende ser una herramienta actualizada y adaptada a las nuevas necesidades y avances técnicos para modelar procesos simples.
+Populy ha sido construido mediante la programación, a partir de los conceptos de la evolución y la genética de poblaciones pero siempre orientada a la enseñanza dinámica e interactiva. Como tal, Populy y sus libretas Jupyter reivindican que algunos de los métodos más tradicionales de enseñanza como son el uso de programas del estilo de Populus ya no tienen sentido en las aulas; Populy pretende ser una herramienta actualizada y adaptada a las nuevas necesidades y avances técnicos para modelar procesos simples.
 
-Para concluir, el trabajo está orientado para estudiantes en los primeros cursos de las ciencias biológicas y ciencias de la vida. En primer lugar porque la evolución es una pieza fundamental en estas enseñanzas y como tal requiere ser abordada en las aulas desde múltiples perspectivas ya sea teóricas, experimentales o computacionales; en segundo lugar porque pretende introducir conceptos sencillos de programación, una habilidad muy demandada y útil, en especial con los avances que tienen lugar en la biocomputación.
+Para concluir, el trabajo está orientado para estudiantes en los primeros cursos de las ciencias biológicas y ciencias de la vida. Aunque tanto Populy como el laboratorio virtual Jupyter puede ser utilizado por cualquiera, son éstos los estudiantes que más pueden valerse de la herramienta por varios motivos. 
+
+En primer lugar porque la evolución es una pieza fundamental en estas enseñanzas y como tal requiere ser abordada en las aulas desde múltiples perspectivas, ya sea teóricas, experimentales y/o computacionales.
+
+En segundo lugar porque explora las nuevas herramientas de computación interactiva como son el entorno Jupyter, proporcionando una forma de trabajo más estimulante para el alumnado, donde puede crear, ejecutar y comprobar sus propios resultados.
+
+Y por último, pretende introducir conceptos sencillos de programación a estudiantes con pocas o nulas nociones, una habilidad muy demandada y útil, en especial con los avances que tienen lugar en la biocomputación.
 
 # Referencias
 
