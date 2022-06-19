@@ -9,9 +9,7 @@ from .functions import outer_product
 class Individual():
 
 
-    def __init__(self,nom='1',name='n',
-                 size=1,ploidy=2,
-                 vida_media=0,
+    def __init__(self,nom='1',ploidy=2,
                  freq={'A':(0.4,0.6),'B':(0.6,0.4)},
                  d=0,R=0.5,mu=(0.1,0.1),
                  sex_system='XY',gen=0,
@@ -32,10 +30,7 @@ class Individual():
         '''
         
         #population attributes
-        self.spName = name
-        self.spSize = size
         self.spPloidy = ploidy
-        self.vida_media = vida_media
         self.d = d
         self.R = R
         self.mu = mu

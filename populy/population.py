@@ -22,7 +22,7 @@ from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
 class Population:
 
 
-    def __init__(self,size = 100,name="Population",ploidy = 2, vida_media=55,
+    def __init__(self,size = 100,name="Population",ploidy = 2,
                  R=0.5,mu = (0,0),freq={'A':(0.5,0.5),'B':(0.5,0.5)},D=0,
                  fit=0,sex_system='XY',rnd=False):
         """Creates a new empty population object.
@@ -47,7 +47,6 @@ class Population:
         self.name = name
         self.size = size
         self.ploidy = ploidy
-        self.vida_media = vida_media
         self.d = D
         self.R = R
         self.steps = 1
@@ -129,10 +128,7 @@ class Population:
         '''
         if not pop:     
             self.individuals = [Individual(i,
-                                    self.name,
-                                    self.size,
                                     self.ploidy,
-                                    self.vida_media,
                                     self.freq,
                                     self.d,
                                     self.R,
@@ -560,10 +556,7 @@ class Population:
         Ind_Name = x
         # genera un nuevo individuo y lo devuelve al metodo evolvePop
         return Individual(Ind_Name,
-                         self.name,
-                         self.size,
                          self.ploidy,
-                         self.vida_media,
                          self.freq,
                          self.d,
                          self.R,
@@ -634,6 +627,7 @@ class Population:
         
         stringInfo = '\n'.join([f'{key}: {value}' for key, value in info.items()])
         print(stringInfo)
+        
         
     def getCurrentIndividuals(self,howMany=None,shuffle=False):
         '''Returns a list of current individuals

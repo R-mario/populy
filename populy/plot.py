@@ -15,7 +15,7 @@ class Plot:
         ylabel= 'p'
         
         if show==True:
-            plt.figure(figsize=(10,6),constrained_layout=True)
+            plt.figure(figsize=(8,4),constrained_layout=True)
             plt.style.use('ggplot')
             
         axes = Plot.axesConfig(df,ax,set_kwargs,
@@ -32,7 +32,7 @@ class Plot:
         ylabel = 'freq'
         
         if show==True:
-            plt.figure(figsize=(10,6),constrained_layout=True)
+            plt.figure(figsize=(8,4),constrained_layout=True)
             plt.style.use('ggplot')
         axes = Plot.axesConfig(df,ax,
                                 title=title,
@@ -48,7 +48,7 @@ class Plot:
         ylabel = 'f'
         
         if show==True:
-            plt.figure(figsize=(10,6),constrained_layout=True)
+            plt.figure(figsize=(8,4),constrained_layout=True)
             plt.style.use('ggplot')
             
         axes = Plot.axesConfig(df,ax,
@@ -67,7 +67,7 @@ class Plot:
         ylim = [0,maxMutLim+1]
         
         if show==True:
-            plt.figure(figsize=(10,6),constrained_layout=True)
+            plt.figure(figsize=(8,4),constrained_layout=True)
             plt.style.use('ggplot')
             
         axes = Plot.axesConfig(df,ax,
@@ -89,7 +89,6 @@ class Plot:
         if ax is None:
             ax = plt.gca()
         if 'legend' not in set_kwargs.keys():
-            print(set_kwargs.keys())
             legend = df.columns
             
         if type=='bar':

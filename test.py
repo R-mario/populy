@@ -14,14 +14,14 @@ class Test_individual(unittest.TestCase):
 
     def test_individual_activation(self):
         # instanciamos
-        ind1 = ind.Individual('nombre_ind','nombre_pob',1,2,0,freq={'A':(0.4,0.6),'B':(0.6,0.4)},
+        ind1 = ind.Individual('nombre_ind',2,freq={'A':(0.4,0.6),'B':(0.6,0.4)},
                           d=0,R=0.5,mu=(0.1,0.1),sex_system='XY')
         # comprobamos que devuelve un string
         self.assertTrue(ind1)
         
     def test_gametic(self):
         # instanciamos
-        ind2 = ind.Individual('nombre_ind','nombre_pob',1,2,0,freq={'A':(0.4,0.6),'B':(0.6,0.4)},
+        ind2 = ind.Individual('nombre_ind',2,freq={'A':(0.4,0.6),'B':(0.6,0.4)},
                           d=0,R=0.5,mu=(0.1,0.1),sex_system='ZW')
         # guardamos la frecuencia gametica
         gam_freq = ind2.gameticFreq()
@@ -29,7 +29,7 @@ class Test_individual(unittest.TestCase):
         self.assertDictEqual(gam_freq,{'AB': 0.24, 'Ab': 0.16000000000000003, 'aB': 0.36, 'ab': 0.24})
         
     def test_haploid(self):
-        ind3 = ind.Individual('nombre_ind','nombre_pob',1,1,0,freq={'A':(0.4,0.6),'B':(0.6,0.4)},
+        ind3 = ind.Individual('nombre_ind',1,freq={'A':(0.4,0.6),'B':(0.6,0.4)},
                           d=0,R=0.5,mu=(0.1,0.1),sex_system='XY')
         #chromosomes 
         chr = ind3.chromosome
@@ -39,7 +39,7 @@ class Test_individual(unittest.TestCase):
     
     def test_oneLocus(self):
         freq={'A':(0.4,0.6)}
-        ind3 = ind.Individual('nombre_ind','nombre_pob',1,2,0,freq,
+        ind3 = ind.Individual('nombre_ind',2,freq,
                           d=0,R=0.5,mu=(0.1,0.1),sex_system='XY')
         gamFreq=ind3.gameticFreq()
         self.assertEqual(gamFreq,{'A':0.4,'a':0.6})
@@ -47,13 +47,13 @@ class Test_individual(unittest.TestCase):
     def test_mating_oneLocus(self):
         freq = {'A':(0.4,0.6)}
         # padres del individuo
-        p1 = ind.Individual('nombre_ind','nombre_pob',1,2,0,freq,
+        p1 = ind.Individual('nombre_ind',2,freq,
                           d=0,R=0.5,mu=(0.1,0.1))
-        p2 = ind.Individual('nombre_ind','nombre_pob',1,2,0,freq,
+        p2 = ind.Individual('nombre_ind',2,freq,
                           d=0,R=0.5,mu=(0.1,0.1))
         parents = [p1,p2]
         # individuo
-        ind5 = ind.Individual('nombre_ind','nombre_pob',1,2,0,freq,
+        ind5 = ind.Individual('nombre_ind',2,freq,
                           d=0,R=0.5,mu=(0.1,0.1),parents=parents)
         
         print(ind5.chromosome)
@@ -61,13 +61,13 @@ class Test_individual(unittest.TestCase):
     def test_mating_multipleLoci(self):
         freq = {'A':(0.4,0.6),'B':(0.6,0.4),'C':(0.7,0.3)}
         # padres del individuo
-        p1 = ind.Individual('nombre_ind','nombre_pob',1,2,0,freq,
+        p1 = ind.Individual('nombre_ind',2,freq,
                           d=0,R=0.5,mu=(0.1,0.1))
-        p2 = ind.Individual('nombre_ind','nombre_pob',1,2,0,freq,
+        p2 = ind.Individual('nombre_ind',2,freq,
                           d=0,R=0.5,mu=(0.1,0.1))
         parents = [p1,p2]
         # individuo
-        ind5 = ind.Individual('nombre_ind','nombre_pob',1,2,0,freq,
+        ind5 = ind.Individual('nombre_ind',2,freq,
                           d=0,R=0.5,mu=(0.1,0.1,0.1),parents=parents)
         
         print(ind5.chromosome)
