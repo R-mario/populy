@@ -152,9 +152,9 @@ class Population:
         
         # se crean nuevas variables de la poblacion
         # print(self.freq,self.alleleFreq())
-        obs_initial_all_freq= self.alleleFreq()
+        self.obs_initial_all_freq= self.alleleFreq()
         # frecuencia alelica acumulada = se añadiran valores durante la ev
-        self.f_ale_acc = {k: [v] for k,v in obs_initial_all_freq.items()}
+        self.f_ale_acc = {k: [v] for k,v in self.obs_initial_all_freq.items()}
         dictc = self.gameticFreq()
         # frecuencia gametica acumulada
         self.f_gam_acc = {k: [v] for k,v in dictc.items()}

@@ -121,11 +121,12 @@ def fitness(fit : dict, genotype):
                 occ = genotipo.count(k)
                 if occ != 0:
                     if isinstance(v, tuple):
-                        vive = [is_alive(i**occ) for i in v]
+                        viveTuple = [is_alive(i**occ) for i in v]
+                        vive = all(viveTuple)
                     else:
                         vive = is_alive(v**occ)
                         
-                    return all(vive)
+                    return vive
                 else:
                     return True
             
