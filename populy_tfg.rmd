@@ -254,7 +254,7 @@ Esta conexión a un servidor remoto se puede hacer mediante [MyBinder](https://m
 
 Otro recurso web muy utilizado es [Google Colab](https://colab.research.google.com/), la forma de uso es muy sencilla ya que simplemente requiere una cuenta de Google y la instalación de una extensión de navegador para crear o abrir las libretas.
 
-Dado que el Populy está pensado para el uso interactivo en aulas se ha creado un repositorio en *MyBinder* donde se incluyen las libretas. Se puede acceder a estas ellas pulsando al siguiente enlace [Populy repositorio](https://mybinder.org/v2/gh/R-mario/Populy-notebooks/HEAD).
+Dado que el Populy está pensado para el uso interactivo en aulas se ha creado un repositorio en *MyBinder* donde se incluyen las libretas. Se puede acceder a estas ellas pulsando al siguiente enlace [Populy repositorio](https://mybinder.org/v2/gh/R-mario/Populy-notebooks/HEAD). Estas cuatro libretas también se han añadido al [apéndice](# Apéndice) como archivos de texto plano.
 
 En este laboratorio virtual el estudiante puede acceder a un total de 4 libretas, situadas en el menú izquierdo de la web. El contenido de estas libretas es:
 
@@ -599,6 +599,8 @@ Figure 7: Efecto de la deriva genética para dos locus A y B de 6 poblaciones de
 
 Se puede observar el efecto esperado: a mayor tamaño de población menor es el efecto de la deriva genética y menor es la desviación con respecto al valor esperado en ausencia de otra fuerza evolutiva, es decir, la población se acerca más al equilibrio de Hardy-Weinberg.
 
+En el [apéndice](# Apéndice) se muestra otro ejemplo de mayor complejidad que incluye mutación, selección y más de dos alelos.
+
 ## Estructura interna
 
 Populy, según el objetivo de aproximar conceptos de evolución y la programación a alumnos de la rama de la biología debido a las deficiencias observadas en los programas utilizados como Populus, que se han descrito en apartados anteriores. El objetivo es que los alumnos sean partícipes activos en el estudio de los procesos evolutivos mientras aprenden algunos fundamentos básicos de la programación, enfocada en Python.
@@ -691,5 +693,792 @@ Y por último, pretende introducir conceptos sencillos de programación a estudi
 # Referencias
 
 <div id="refs"></div>
+\newpage
+# Apéndice
 
-# Appéndice
+\addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
+
+## Ejercicio extra
+
+Se incluye otro ejemplo más avanzado del paquete Populy, donde se combina mutación, selección y se utilizan otros métodos no vistos en el apartado [método de uso](## Método de uso).
+
+Población de tamaño 500, diploide, con tres locus (A,B,C) y dos alelos por locus. El alelo mayor domina sobre el otro en la población inicial con una frecuencia de 0.9 vs 0.1 para los tres loci.
+
+El locus A tiene una frecuencia de mutación 10 veces menor a B y C. La mutación es unidireccional.
+
+```{python}
+poblacion2 = Population(size=500,
+                        freq={'A':(0.9,0.1),'B':(0.9,0.1),'C':(0.9,0.1)},
+                        mu=(0.001,0.01,0.01))
+
+poblacion2.initIndividuals()
+```
+
+Se evoluciona la población 100 generaciones.
+
+```{python}
+poblacion2.evolvePop(gens=100)
+```
+
+Se obtiene el cambio en las frecuencias alélicas. Se espera una disminución del alelo mayor (representado en el gráfico) debido a la presencia de mutaciones.
+
+```{python, fig.cap="Variación de las frecuencias alélicas en la poblacion"}
+alle = poblacion2.getDataFrame("frecuencias alelicas")
+Plot.alleles(alle)
+```
+
+Se obtiene su representación en formato de tabla y gráfico del cambio del número de mutaciones por generación. Se espera una reducción en el número total conforme se reduce la frecuencia del alelo mayor para cada locus.
+
+```{python, fig.cap="Número de mutaciones en cada locus por generación"}
+mut =poblacion2.getDataFrame("mutaciones")
+Plot.mutations(mut)
+```
+
+La población avanza 100 generaciones más, esta vez añadiendo un nuevo parámetro `fit` que actuará sobre aquellos individuos cuyo genotipo posea el alelo mayor A. 
+
+Para este locus, el alelo mayor A actuaría como dominante y la selección actuaría contra este, ya que la eficacia biológica se vería reducida tanto en homocigotos como heterocigotos por igual.
+
+```{python}
+poblacion2.evolvePop(gens=100,fit={'A':0.1})	
+```
+
+Se obtiene una representación de las frecuencias alélicas, gaméticas, de sexo y número de mutaciones para la población.
+Se espera observar una reducción abrupta en el alelo mayor A así como una reducción paulatina en la frecuencia de todos los alelos mayores debido a la mutación unidireccional, también un aumento paulatino en frecuencia del gameto 'ABC'.
+
+```{python, fig.show="hold",fig.cap="Se muestran cuatro tablas que representan, de izquierda a derecha y de arriba a abajo la variación en las frecuencias alélicas, variación en las frecuencias gaméticas, variación en la frecuencia de los sexos y número de mutaciones por generación"}
+poblacion2.plotAll()
+```
+
+Por último, es posible estudiar la desviación de los genotipos observados frente a los esperados para cada locus según el modelo de Hardy-Weinberg mediante los siguientes dos métodos.
+
+```{python}
+
+obs = poblacion2.getObsGenotype('B')
+
+exp = poblacion2.getExpGenotype('B',what_pop='initial')
+roundexp = {k:round(v,2) for k,v in exp.items()}
+
+print(obs,roundexp,sep="\n")
+
+```
+
+Tal y como era esperado el número de genotipos observados no coinciden con las esperados. A partir de los resultados obtenidos se puede realizar el test chi-cuadrado para rechazar la hipótesis nula.
+
+*****
+
+## Libreta 1: Comienza en Jupyter
+
+Bienvenido al entorno de programación interactiva llamado Jupyter. 
+
+Si has abierto esto, significa que has abierto un archivo llamado *Jupyter Notebook*. Estos cuadernos son una herramienta de programación interactiva. Están formados por texto y código intercalado. Estos párrafos son una celda de texto.
+
+Las céldas de código se muestran en un recuadro de fondo gris. La celda de abajo es bloque de código que contiene una sencilla instrucción.
+
+
+```python
+print("Hola mundo!")
+```
+
+Las celdas de código son ejecutables, es decir, es posible llevar a cabo la instrucción.
+
+Para ejecutarla es necesario situarse sobre ella (deberá aparecer una línea azul a su izquierda), después debes hacer una de estas dos opciones:
+
+1. Buscar en la barra de herramientas el símbolo de play que aparece en la imagen.
+
+2. Pulsar `ctr+Enter` o `shift+Enter` en windows. En macOS pulsar `cmd+Enter`.
+
+![Botón](./files/images/play.png)
+
+Prueba a ejecutarla para ver el resultado.
+
+Si todo ha funcionado correctamente habrá aparecido el texto "Hola mundo!" bajo el bloque de código. Eso es el output de la consola.
+
+En el caso de que no funcione es posible que tengas que reiniciar el [kernel](##kernel).
+
+**Nota**: ves a *settings*>*Theme*>*Jupyterlab dark* para cambiar a modo oscuro si quieres.
+
+
+
+Una de las ventajas de estas libretas es que puedes explicar y ejecutar código al mismo tiempo. Los bloques de código no son independientes por lo que si se crea una variable en uno de ellos es posible acceder a ésta en otro bloque cualquiera.
+
+Primero vamos a crear una nueva variable llamada `numero`.
+
+
+```python
+# esto es un comentario dentro del codigo
+numero = 1234
+```
+
+## Crear bloques de código
+
+Además de los bloques de código y texto que estás viendo, es posible crear nuevos. La forma de hacerlo es pulsando sobre el botón más ( + ) en la barra de navegación. Los bloques se crearán inmediatamente después del bloque seleccionado. 
+
+Prueba a crear un bloque de código justo abajo y muestra por pantalla ( usando `print` ) el valor que contiene la variable `numero`
+
+
+```python
+## Modificar tipo de celda
+
+Para cambiar de código a texto y viceversa debes seleccionar la celda que
+desees cambiar y pulsar el último botón de la derecha de la barra de navegación.
+En este ejemplo debe poner **Code**. Seleccionalo y cambia a **Markdown**, que son
+las celdas de texto.
+
+Cambia esta celda a una de tipo **Markdown**
+```
+
+## Guardar y cargar una libreta
+Para guardar los cambios en la libreta pulsa al botón de guardar, esto permite que si recargas la página no se pierdan los cambios.
+
+Aun así estas libretas Jupyter se ejecutan en remoto, es decir, están alojada en un servidor externo. Esto es lo que permite que puedas acceder mediante un enlace; sin embargo, una vez cierres la página se cerrará la libreta y se perderán los cambios.
+
+Para evitar esto puedes descargar la libreta mediante el botón *Download*. Esto descargará un archivo con extensión `.ipynb`.
+
+Para volver a cargar la libreta debes pulsar en el botón de subida de archivos que se encuentra en la esquina superior izquierda, en la barra de navegación de la lista de archivos. 
+
+![carga](./files/images/upload.png)
+
+<a id=’kernel’></a>
+## Kernel
+El kernel es el núcleo y es lo que permite a Jupyter interpretar que el código escrito pertenece a un lenguaje determinado, en este caso Python.
+
+Existen dos motivos principales por los que el kernel no funciona:
+
+1. Desconexión
+El kernel se desconecta cuando pasan varios minutos sin ejecutarse ningún bloque de código, es decir, cuando la libreta está inactiva.
+
+Para saber si el kernel está apagado podemos fijarnos en la esquina superior derecha, donde se encuentra un círculo. Si todo está correcto debería aparecer algo así como `Python 3` al lado de éste.
+
+En caso de que esté desconectado aparecerá `No kernel`, para **solucionarlo** debemos pulsar sobre ésto y seleccionar el kernel de Python.
+
+![kernel](./files/images/kernel.png)
+
+2. En ejecución
+Es posible que se haya ejecutado un bloque de código que requiere de mucho tiempo de procesamiento, en estos casos el kernel estará ocupado con ese bloque y no permitirá la ejecución del resto. La
+
+Para saber si el kernel está en uso podemos fijarnos también en la esquina superior derecha, si está ocupado donde antes el círculo era blanco ahora será negro.
+
+Para encontrar el bloque de código en ejecución podemos fijarnos en los paréntesis a la izquierda del bloque. Si hay un asterisco en ellos \[*\] en lugar de un número significa que está procesando la información.
+
+Para **solucionarlo** debemos pulsar al botón de *stop* que se encuentra al lado del de *start* en la barra de navegación. 
+
+En caso de que no funcione ninguna de estas dos opciones prueba a reiniciar el kernel dandole al botón al lado del *stop*, el primero reinicia el kernel y el segundo reinicia y ejecuta todas las celdas. 
+
+![restart](./files/images/restart_kernel.png)
+
+Recuerda que esta opcion elimina todas las variables en memoria, por lo que deberás volver a ejecutar los bloques anteriores.
+
+El siguiente código es un bucle, prueba a ejecutarlo a ver qué sucede.
+
+
+```python
+while True:
+    i = 0
+```
+
+Parece que el bloque no para de ejecutarse, fuerza la interrupción con lo visto hasta ahora.
+
+Si todo ha ido correctamente habrán sucedido dos cosas:
+
+1. habrá saltado una excepción (texto en rojo) bajo el código, indicando que ha habido un problema durante la ejecución. Esto es normal ya que hemos **interrumpido** el proceso.
+2. El círculo de la derecha estará blanco otra vez, indicando que el kernel está disponible.
+
+Muy bien, ya conoces el funcionamiento de las *Jupyter notebooks*, ahora prueba a abrir el siguiente archivo [Fundamentos de Python](./2_Fundamentos%20de%20Python.ipynb).
+
+
+******
+
+## Libreta 2: Aprendiendo Python
+
+### Fundamentos esenciales de programación a través de python
+El objetivo de este notebook es hacer una breve introducción a las estructuras esenciales en Python, orientado al uso de Populy. 
+
+Python es un lenguaje de programación sencillo de utilizar y aprender. 
+Este cuaderno tiene como objetivo hacer una rápdia introducción a Python, para aprender con más detalle los fundamentos recomiendo especialmente [W3Schools](https://www.w3schools.com/python/python_intro.asp) y siempre acudir a la [documentación](https://docs.python.org/3/tutorial/index.html) cuando surja alguna duda.
+
+### Tipos de datos
+
+
+```python
+entero = 2 # esto es un comentario
+decimal = 3.14 # los comentarios no se ejecutan
+frase = "esto es una cadena de caracteres" # sirven para dar contexto
+verdad = True
+```
+
+Eso de arriba son variables, las variables guardan información sobre algo. ¿Sencillo, no? Para definir cualquier variable siempre se sigue esta estructura de "nombre_de_la_variable = valor''.
+
+El valor puede ser multitud de cosas, en este caso son un numero entero (`int`, de *integer*), un numero decimal (`float`, de *floating point*), un texto (`string`) y un valor dicotomico Verdadero/Falso (`bool`, de *boolean*). A esto se le conoce como tipos de datos o estructura de datos. 
+
+En otros lenguajes de programación es necesario definir qué tipo de dato va a almacenar la variable. En nuestro ejemplo seria `int entero = 2` ya que almacena valores enteros. Por suerte Python interpreta el tipo de dato de forma automática.
+
+#### Ejercicio 1
+Crea una nueva variable (dale el nombre que quieras. Ej: `numero`) que sume los valores de las variables `entero` y `decimal` creadas previamente. **Nota 1**: para poder sumar las variables primero es necesario que se carguen en la memoria, por lo que primero deberás haber ejecutado el bloque de código que las contiene.
+
+ ¿De qué tipo es la nueva variable? Investiga cómo conocer el tipo de una variable cualquiera. **Nota 2**: debe sumarse los valores almacenados en las variables, esos números podrían ser otros diferentes 2 y 3.14. 
+
+**Extra**: ¿existe alguna forma de convertir un valor decimal a entero? 
+
+
+```python
+
+```
+
+#### Ejercicio 2
+- ¿Qué intentaba hacer este pobre inepto en el bloque de abajo?
+- ¿Cómo se puede solucionar el error?
+
+Pista: Los errores son tremendamente útiles (y comunes) a la hora de programar, utiliza la información que te proporcionan para saber qué puede estar sucediendo.
+
+Pista 2: Utiliza google, está todo ahí.
+
+**Nota**: `print` permite enseñar en la consola el contenido de una variable.
+
+
+```python
+# Prueba a sumar
+frase = frase + entero
+print(frase)
+```
+
+
+    ---------------------------------------------------------------------------
+
+    TypeError                                 Traceback (most recent call last)
+
+    <ipython-input-2-c7a7006e9bf4> in <module>
+          1 # Prueba a sumar
+    ----> 2 frase = frase + entero
+          3 print(frase)
+    
+
+    TypeError: can only concatenate str (not "int") to str
+
+
+Además de los tipos de datos simples existen otro tipo de datos que permiten almacenar conjuntos de datos. Es decir, un tipo de dato entero `int` solamente almacena un valor numérico. Con estas estructuras podemos almacenar varios de estos valores en una sola variable. A este tipo de datos almacenan colecciones de otros tipos de datos.
+
+Los más comunes son:
+
+
+```python
+# Lista
+numeros = [1,2,3]
+# tupla
+letras = ("a","b","c")
+# diccionario
+abecedario = {"a":1,"b":2,"c":3}
+# set
+identificadores = {'1a','2b','3c'}
+```
+
+- Una lista, como su nombre indica, contiene una lista de valores (generalmente del mismo tipo aunque no es necesario). Esta lista se puede modificar.
+- Una tupla es igual a una lista aunque **no** es modificable; una vez creada la variable contendrá siempre los mismos valores. A no ser que la reescribamos.
+- Un diccionario consiste en pares clave:valor (**key:value**). Permiten asociar dos datos distintos. En este ejemplo asocian una letra con un número.
+- Un set es una tupla que no puede contener valores repetidos.
+
+Cuando una variable está formada por sub-elementos es posible acceder a cada uno de ellos por su posición. La primera posición en la mayoría de lenguajes, incluido Python, es el 0. Así pues el primer elemento en la tupla `letras` se accede de la siguiente forma:
+
+
+```python
+letra_a = letras[0]
+print(letra_a)
+```
+
+#### Ejercicio 3
+
+¿Muestra el primer elemento de la lista `numeros`, el segundo elemento del set `identificadores` y el tercer elemento del diccionario `abecedario`. ¿Funciona correctamente?
+
+**Pista1**: existen tipos de datos no ordenados, por lo no es posible acceder mediante su posición.
+
+**Pista 2**: recuerda que es posible convertir unos tipos de datos a otros.
+
+
+
+```python
+# escribe aquí tu código
+```
+
+#### Ejercicio 4
+¿Pueden los valores de un diccionario (*values*) ser tuplas en lugar de un único numero? ¿Y las claves (*keys*)? 
+
+Crea un diccionario que almacene 3 puntos (P1,P2,P3) en un eje de coordenadas tridimensional (X,Y,Z).
+
+
+```python
+# escribe aquí tu código
+```
+
+**Recuerda**
+- Los caracteres `char` y cadenas `string` siempre van acompañados de comillas simples `'hola'` o dobles `"hola"`.
+- Los diccionarios se definen con llaves { } y cada par clave-valor se separa por comas ( , ).
+- La lista se define con corchetes [ ] mientras que las tuplas lo hacen con paréntesis ( ).
+
+## Estructuras de control: if & else
+
+Un condicional es un tipo de estructura que permite ejecutar un codigo según si se cumple o no una condición. Ejemplo:
+
+
+```python
+if 8 > 5: # si se cumple...
+    print("La condición se cumple")
+else: # si no se cumple...el else es opcional
+    print("La condición no se cumple")
+```
+
+La condición se introduce justo después de la palabra `if`, en este caso se evalúa si el 8 es **mayor que** 5. El resultado de esta comparación es un tipo booleano, esto es, un verdadero o falso. Si el resultado es verdadero se ejecutará lo que se encuentra dentro de el if, si es falso se ejecutará lo que se encuentra en el `else`. Como en este caso es veradero se enseña por pantalla.
+
+La condición `else` es opcional, es decir, puedes comprobar solamente si se cumple una condición. También es posible concatenar varios condicionales mediante la sintaxis [`elif`](https://www.w3schools.com/python/python_conditions.asp).
+
+Los operadores lógicos son los de toda la vida, aunque hay que respetar el orden y la sintaxis de los signos:
+
+- `>` mayor que
+- `<` menor que
+- `==` igual a
+- `>=` mayor o igual a
+- `<=` menor o igual a
+- `!=` diferente a
+
+Atentos: El *igual a* se escribe como *"=="* para diferenciarlo de la asignación "=".
+```Python
+#asignación
+variable = 8
+#comparación
+variable == 8
+```
+
+**Recuerda**: tras la condición en el if van los dos puntos **:** , seguidos de una tabulación que indica la pertenencia a esa condición. Todo el codigo tabulado inmediatamente posterior se ejecutará **solamente** si se cumple la condición.
+
+#### Ejercicio 5
+
+Crea otro condicional que compruebe si la `var1` es mayor o igual a la `var2`, si lo es que printe la informacion de `var1`.
+
+**Nota**: recuerda seguir la estructura vista en el código anterior, no te olvides de tabular el código dentro de las condiciones:
+```
+if condicion:
+    código
+else:
+    otro código
+```
+
+
+```python
+var1 = 1
+var2 = 1.0
+# escribe aquí el codigo
+```
+
+### Estructuras de control: for & while
+Los bucles son estructuras que permiten ejecutar el código de su interior varias veces, básicamente permite repetir una acción sin tener que escribirlo mismo muchas veces.
+
+El siguiente bloque de código recorre la lista que hemos creado y enseña por pantalla los números que contiene.
+
+La forma de leer esta sentencia es "desde...hasta".
+
+
+```python
+numeros = [1,2,3,5,8]
+for i in numeros:
+    print(i)
+```
+
+Este tipo de bucles en otros lenguajes de programación se les conoce como *for each* ya que lo que hacen es recorrer una variable para cada sub-elemento de esa variable. En nuestro ejemplo la variable números contiene 5 números, por lo que el bucle se repetirá 5 veces (0 a 4).
+
+¿Qué es esa `i`? Es una variable temporal o variable local, que se crea solamente para el bucle y desaparece cuando termina de ejecutarse. Así pues, `i` va tomando los valores que se encuentran en cada posición de `numeros`. i = 1, i = 2,..., i = 8.
+
+
+Conociendo el funcionamiento del bucle for, ¿sabrías decir qué hace este bloque? Prueba a ejecutarlo.
+
+
+```python
+i = 0
+while i < 8:
+    i += 1
+    print(i)
+```
+
+¿Qué diferencia a la variable `i` en este bloque en comparación a la variable `i` del bloque anterior?
+
+Tanto el for como el while se pueden usar indistintamente en la mayoría de ocasiones. Sin embargo el `for` es mucho más comun para recorrer elementos mientras que el `while` (mientras que...) se utiliza para llevar acabo acciones hasta que se cumpla una condición.
+
+#### Ejercicio 6
+Haz un bucle que sume los valores de la lista siguiente y los guarde en una nueva variable:
+
+
+```python
+lista2 = [1,2,3,4]
+
+# aqui abajo va el bucle
+```
+
+#### Ejercicio 7
+¿Es posible recorrer un diccionario y mostrar tanto su clave como su valor? Intenta recorrer el diccionario creado anteriormente `abecedario`. 
+
+**Nota** Recuerda que está formado por un par clave:valor.
+
+
+```python
+diccionario = {'a':1,'b':2,'c':3}
+```
+
+### Funciones
+
+Una función es un bloque de código autocontenido que cumple una... función, un propósito. En un principio puede parecer que todas las celdas de código ya cumplen una función. Es cierto, sin embargo lo bueno y útil de las funciones es que las puedes utiliar cuando quieras una vez creadas.
+
+Se podría decir que una función es una variable extendida, así como una variable contiene un valor (o conjunto de valores) una función contiene una serie de pasos, un algoritmo.
+
+Las funciones aceptan una entrada de datos (variables) y pueden devolver (o no) un resultado, de forma similar a una función matemática.
+
+$f(x,y) = x+y$
+
+Donde $x$ e $y$ serían la entrada, la suma sería la operación ( el "algoritmo") y el resultado de la suma sería lo que devuelve la función
+
+Ejemplo:
+
+
+```python
+# todas las funciones empiezan con def
+def sqr(x,u):
+    
+    y = x**u
+    
+    return y #esto devuelve el valor que se le pase
+```
+
+¿Qué crees que hace? Prueba a ejecutar la celda, verás que no sucede nada. 
+
+En el bloque anterior la función se ha declarado, es decir, se ha creado y por tanto existe en memoria. Sin embargo, para usarla es necesario "llamarla" desde otra parte. Esto se hace de la siguiente manera.
+
+
+```python
+resultado = sqr(2,2)
+
+print(resultado)
+```
+
+A la función se le pasan dos valores separados por comas (2,2) y te devuelve un valor, en este caso será ese mismo número (2) elevado a 2.
+
+**Nota**: es posible que una función no devuelva nada, esto se hace eliminando la palabra `return`.
+
+### Ejercicio final
+2. Crea una función vacía llamada **resta**.
+3. Haz que resta reciba dos **parámetros** (llámalos como quieras, antes eran `x` y `u` pero pueden tener cualquier nombre).
+4. **Si** el valor que se le pasa primero es mayor que el segundo, que haga la resta y la guarde en una variable, **si no**, que haga la resta del segundo menos el primero.
+5. Haz que la funcion **devuelva** el resultado.
+6. **Llama** la función y printalo por pantalla.
+
+
+
+```python
+# aqui abajo iria la definicion de la función
+```
+
+Una vez termines, puedes probar a utilizar el paquete [Populy](./3_Guia%20de%20populy.ipynb)
+
+******
+
+## Libreta 3: Populy
+### Guía de uso en *jupyter notebook*
+
+### Pasos previos: instalación
+
+Populy es un paquete desarrollado en Python para la simulación de procesos evolutivos de tipo *forward evolution*.
+
+La instalación es el primer paso antes de utilizar cualquier paquete o librería que no esté incluida en la instalación base de python. El siguiente código permite instalar el paquete utilizando la herramienta pip.
+
+El símbolo de exclamación o el de porcentaje indican que no es un bloque de código normal, si no un comando de [`shell`](https://jakevdp.github.io/PythonDataScienceHandbook/01.05-ipython-and-shell-commands.html).
+
+La instalación solo es necesaria una vez. Copia el código en una celda, pégalo y ejecútalo.
+
+```
+%pip install Populy
+```
+
+
+
+```python
+# ejecutar solo una única vez
+%pip install Populy
+```
+
+Sin embargo, como no solo es necesario instalar este paquete se hará uso de un de el siguiente comando para instalar las dependencias del paquete:
+
+
+```python
+%pip install -r requirements.txt
+```
+
+### Importar el paquete
+
+La instalación hace disponible el paquete, la importación "carga" el paquete en la memoria para que sea accesible.
+La forma de importar, aunque parece complicada viene a decir que "desde este archivo importa este código".
+
+De momento importaremos tanto `Population` como `Plots`, el primero nos permite crear la población y el segundo representarla.
+
+
+```python
+from populy.population import Population
+from populy.plots import Plots
+```
+
+### Crear una población
+
+La forma correcta de referirse a la creación de objetos es la instanciación. En el siguiente bloque se está instanciando una nueva población.
+
+Tenemos una nueva poblacion vacía a la cual le hemos llamado 'poblacion'. Esta poblacion tiene una serie de características, llamadas <b>atributos</b>, que la definen. En este caso sus valores son unos predeterminados pero se pueden cambiar pasandole el nuevo valor del atributo dentro del paréntesis, tal y como se ha hecho con `tamaño`, `freq`, `fit` y `mu`.
+
+
+```python
+# se crea una nueva poblacion donde se especifican caracteristicas generales de esta
+poblacion = Population(size=1000,
+                       freq={'A':(0.4,0.6),'B':(0.6,0.4)},	
+                       fit={'AABB':0.2},
+                       mu=(0.01,0.01))
+```
+
+#### Ejercicio 1: atributos
+
+**Genes**
+En nuestro ejempolo `poblacion`, ¿sabrías decir cuantos genes hay? ¿sabrías interpretar los valores del diccionario freq?
+
+**Fitness**
+¿Qué puede indicar el atributo `fit`?
+
+**mu**
+¿Qué puede significar el atributo `mu`?
+
+Si se quiere saber más sobre los posibles parámetros que incluir se puede consultar la documentación mediante la función help
+
+
+```python
+help(Population.__init__)
+```
+
+Este método nos da la información de la población que se le pase.
+
+
+```python
+Population.info(poblacion)
+```
+
+### Generar individuos en la población
+
+Una vez creada la población se puede operar sobre ella. Para hacerlo se requiere de una estructura llamada método. Un método es una función asociada a un objeto, por lo que se sigue la siguiente notación:
+
+`objeto.metodo()`
+
+Siendo poblacion el nombre de nuestro objeto en cuestión.
+Como la población que hemos creado previamente estaba vacía, es necesario introducir unos individuos en ella mediante la siguiente linea de código:
+
+
+```python
+poblacion.initIndividuals()
+```
+
+#### Ejercicio 2: mostrar individuos 
+
+Utilizando el método `printIndividuals` haz que se muestren por pantalla algunos individuos de la población.
+
+
+```python
+# escribe aqui el codigo
+```
+
+### Evolución
+
+El estado actual de la población es su estado inicial, es decir, se encuentra en la primera generación (generación 0).
+
+Al igual que se ha hecho con los otros métodos `initIndividuals` y `printIndividuals` es necesario llamar ahora al método que permite hacer que la población evolucione, es decir, que vayan sucediendo nuevas generaciones.
+
+
+```python
+poblacion.evolvePop(gens=100)
+```
+
+No es necesario conocer el proceso de evolución en detalle, sin embargo es importante saber que el método de reproducción se lleva a cabo teniendo en cuenta el sexo del individuo y haciendo un **muestreo aleatorio con reemplazamiento**. Esto es: Se toman 2 individuos de forma aleatoria, se comprueba que son de sexos distintos, se genera un descendiente y devuelve a la población original (no se eliminan).
+
+A modo de información adicional, el algoritmo que el método evolvePop sigue es el siguiente:
+
+1. Se escogen 2 individuos de forma aleatoria de nuestra población
+2. Se comprueban una serie de parámetros (si ambos son de sexos diferentes, por ejemplo)
+3. Si se cumplen estos parámetros se genera un nuevo individuo (recordemos que individuo es una forma de referirse a un objeto de la clase individuo)
+4. Dentro de cada individuo se genenera su genoma (sus cromosomas homólogos ya que se trabaja con un único cromosoma)
+5. Se realizan algunas operaciones más, como la posibilidad de una mutación o la recombinación
+6. Se aplica (o no) una función de selección que vendrá dada por su genoma, si sobrevive se añadirá a la siguiente generación (pasará el filtro)
+8. Repetir el proceso hasta que tengamos una nueva población del mismo tamaño
+9. Repetir el proceso hasta llegar al número de generaciones especificada
+
+**Nota**: el concepto de evolución en la simulación no es exactamente igual al siginficado biológico, se dice que una población evoluciona cuando pasan las generaciones, independientemente del resultado.
+
+#### Ejercicio 3: evolución
+En el bloque anterior se ha evolucionado la población 100 generaciones. `poblacion` ha pasado de encontrarse en la generación 0 a la generación 100. Vuelve a utilizar `evolvePop`(ya sea volviendo a ejecutar o en un nuevo bloque de código) y comprueba en qué generación se encuentra la población mediante `Population.info(poblacion)`.
+
+## Extraer información
+Una vez completada la evolucion podemos acceder a los atributos y/o metodos de nuestra poblacion para ver si ha cambiado, o que informacion se ha ido recopilando durante la evolucion.
+
+La forma más sencilla de obtener un resumen de los datos es utilizando el método `getDataFrame` que permite obtener una tabla (dataframe) donde se encuentra el resultado de la población.
+
+
+```python
+# obtenemos la evolución de las frecuencias alélicas para el alelo mayor
+poblacion.getDataFrame("alleles")
+```
+
+#### Ejercicio 4: Cambio en las frecuencias
+Observando la última fila de nuestra tabla de datos ¿dirías que las frecuencias alelicas han cambiado?
+
+### Representar gráficamente la evolución
+
+Para saber si la población ha evolucionado en el sentido biológico se puede comprobar el cambio en las frecuencias alélicas. Para nuestro ejemplo se ha especificado una población diploide con 2 locus (o genes) A y B, cada uno con un alelo mayor (A/B) y menor (a/b). 
+
+La mejor forma de visualizar este cambio es utilizando la representación gráfica. Para ello se utilizará el módulo `plots` de la siguiente forma:
+
+
+```python
+Plots.alleles(poblacion)
+```
+
+Si lo que se busca es obtener un resultado conjunto del cambio en los alelos, gametos, sexos y mutaciones se puede utilizar el siguiente método
+
+
+```python
+# obtiene un resumen del cambio en la frecuencia alelica y gametica
+poblacion.plotAll()
+```
+
+#### Ejercicio 5: interpretación
+¿ Cuál dirías que son las fuerzas evolutivas que actúan en esta población?
+
+### Extra
+#### Concatenacion de varias poblaciones
+Al metodo `initIndividuals` visto anteriormente podemos pasarle una población ya iniciada siempre y cuando tenga la misma estructura genética que la población que estamos construyendo (ej: no se puede pasar individuos con un solo locus 'A' cuando queremos que la poblacion tenga dos locus 'A','B')
+
+En el siguiente código se crea una nueva población `newPop` a la cual se le pasará los individuos de la población anterior llamada `poblacion`.
+
+
+```python
+# Creamos la nueva poblacion vacia
+newPop = Population(size=200,fit={'aabb':0})
+
+# Esta vez la llenamos de individuos ya existentes
+newPop.initIndividuals(pop = poblacion)
+
+```
+
+#### Ejercicio 6
+Al igual que se ha hecho anteriormente, llama a los métodos correspondientes para evolucionar y representar la nueva población. 
+
+**Nota1**: haz que la población evolucione durante 120 generaciones. **Nota2**: utiliza el método `.plotAll()` para representar todos los cambios en la población.
+
+
+
+```python
+# escribe aqui el codigo
+```
+
+#### Ejercicio 7: extra
+
+¿Existe alguna analogía en las poblaciones reales que explique este fenómeno observado? 
+
+### Simulación de múltiples poblaciones
+
+Para trabajar con múltiples poblaciones idénticas se debe importar el módulo superpop:
+
+
+```python
+from populy.superpop import Superpop
+
+# permite eliminar el output por terminal
+from IPython.display import clear_output
+```
+
+La forma de funcionar es similar a la vista anteriormente. En este caso para la creación de un conjunto de poblaciones se utilizará `Superpop`. A este objeto se le debe pasar el número de poblaciones y su tamaño.
+
+
+```python
+# creamos el objeto
+varias_poblaciones = Superpop(popsize=100,n=10)
+
+```
+
+En este caso el objeto `varias_poblaciones` contiene un total de 10 poblaciones, cada una con 100 individuos.
+
+El siguiente paso es evolucionar
+
+
+```python
+# evoluciona la poblacion
+varias_poblaciones.evolvePops(gens=100)
+# evita mostrar el output por terminal
+clear_output()
+```
+
+Por último se representa el resultado
+
+
+```python
+varias_poblaciones.plotPops()
+```
+
+#### Ejercicio 8: interpretación de resultados
+
+¿Qué fenómeno o mecanismo evolutivo dirías que está actuando en estas poblaciones?
+
+
+#### Ejercicio avanzado:
+
+Averigua la frecuencia de fijación de A y B.
+
+Solución:
+
+
+```python
+# SOLUCIÓN
+fA = [0,0]
+fB = [0,0]
+for poblacion in varias_poblaciones.sPop:
+    for alelo in poblacion.fixedLoci():
+        if alelo != 0:
+            if alelo == "A":
+                fA[0] += 1
+            if alelo == "B":
+                fB[0] += 1
+            if alelo == 'a':
+                fA[1] += 1
+            if alelo == 'b':
+                fB[1] += 1
+fA = [100*x/len(varias_poblaciones.sPop) for x in fA]
+fB = [100*x/len(varias_poblaciones.sPop) for x in fB]
+
+print(f'Frecuencia de fijación de A: {fA[0]}% \t de a {fA[1]}%',
+      f'Frecuencia de fijación de B: {fB[0]}% \t de b {fB[1]}%',sep='\n')
+```
+
+*******
+
+## Libreta 4: Ejercicios
+### Problema 1
+
+Tenemos una población de 1000 individuos con 3 locus de estudio, A,B y C. Sabemos que cada locus tiene dos alelos y que la frecuencia inicial del alelo A es 0.6 mientras que el resto es 0.5. 
+
+Además, también se sabe que los triple dominantes tienen una tasa de supervivencia muy baja, debido a un efecto epistático **letal** con penetrancia de 0.9.
+
+Por último, esta población está sometida a agentes mutagénicos. La consecuencia es una tasa de mutación de 0.01 para los tres locus.
+
+Se pide:
+
+1. Crea a las variables que definen a la población (p.ej. `tam=1000`)
+2. Crea la poblacion a partir de esas variables
+3. Genera la generación 0 y hazla evolucionar 50 generaciones
+4. Obtén el cambio en las frecuencias alélicas
+5. Documenta/explica cada bloque de código de forma breve
+
+
+### Problema 2
+Debido a la aparición de una barrera física, 20 de estos individuos queda aislado del resto. 
+Como consecuencia, la población ya no se ve expuesta a los agentes mutagénicos y su tasa de mutación se reduce a 0.0001. Sin embargo, el cambio en el ambiente provoca que el fenotipo triple dominante ya no sea letal en la población.
+
+Realiza los pasos necesarios para llevar a cabo la evolución durante 100 generaciones de estos 20 individuos en el nuevo ambiente. ¿Encaja el cambio en las frecuencias alélicas con el resultado esperado?
+
+
+
+
