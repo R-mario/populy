@@ -65,7 +65,7 @@ José Ignacio Lucas Lledó
 \tableofcontents
 \newpage
 
-# 1 Introducción
+# 1 Introducción 
 
 Tanto la genética como la evolución son dos asignaturas fundamentales para cualquier estudiante de ciencias de la vida, estos dos campos de estudio están estrechamente relacionados, normalmente bajo el término de genética de poblaciones. Esta es una rama de la biología que aspira al estudio de la variación de las características genéticas de una población a lo largo de las generaciones [@sep-population-genetics]. Los cambios en los loci, o lugares del genoma, se suelen expresar mediante variaciones en la frecuencia de cada uno de los alelos de estudio.
 
@@ -119,7 +119,7 @@ Más allá de Populus existen otros simuladores de evolución como simuPop [@Pen
 
 La genética de poblaciones es un campo que puede aprovechar bien los avances técnicos para brindar una aprendizaje contextualizado, interdisciplinar y adecuado a las necesidades del alumnado. 
 
-## 1.2 Objetivos
+## 1.2 Objetivos {#obj}
 
 Bajo las premisas de aprender sobre procesos evolutivos para estudiantes de ciencias biológicas y utilizar la programación como herramienta nace Populy, un paquete de código abierto desarrollado en Python de simulación de procesos evolutivos. El paquete, aunque sencillo de utilizar, requiere conceptos de programación básicos. Por eso también se han creado unos materiales adicionales que servirán como complemento al programa, permitiendo una interactividad mayor con el software, un aprendizaje dinámico de los conceptos clave de la programación y de los procesos fundamentales de la evolución de las especies.
 
@@ -135,10 +135,10 @@ Al tratarse de un programa de código abierto el software puede ser utilizado po
 
 Mediante este paquete la usuaria podrá invocar una o múltiples poblaciones, crear a sus individuos, hacerla evolucionar y obtener un *output* gráfico y tabular donde poder estudiar y comprender de forma más visual algunos de los mecanismos que se enseñan en las clases, como son el equilibrio mutación-selección, la eficacia biológica en una población, la recombinación, la deriva genética, entre otros; todo en menos de 10 lineas de código. 
 
-Junto al software, se ha desarrollado algo similar a un laboratorio virtual donde se encuentran unas [Jupyter notebook]. En estas libretas se encuentran una serie de explicaciones sobre el funcionamiento del entorno virtual, de la programación en Python y del funcionamiento del paquete y de sus métodos clave. Además de unos ejercicios o casos problema que podrán ser implementados o modificados en las aulas, permitiendo un aprendizaje activo de los conceptos y una libertad mayor que la brindada por programas como Populus.
+Junto al software, se ha desarrollado algo similar a un laboratorio virtual donde se encuentran unas [Jupyter notebook](#jup). En estas libretas se encuentran una serie de explicaciones sobre el funcionamiento del entorno virtual, de la programación en Python y del funcionamiento del paquete y de sus métodos clave. Además de unos ejercicios o casos problema que podrán ser implementados o modificados en las aulas, permitiendo un aprendizaje activo de los conceptos y una libertad mayor que la brindada por programas como Populus.
 
 
-# 2 Computación como herramienta educativa
+# 2 Computación como herramienta educativa {#comp}
 ## 2.1 Alfabetización computacional 
 
 La tecnología está cada vez más presente en una sociedad digitalizada, es innegable el impacto que estas herramientas están teniendo en la sociedad. La educación también debe adaptarse a estas nuevas tecnologías a un ritmo mayor incluso del que lo hace la sociedad [@Iskrenovic2018]. Al fin y al cabo, parte de la educación consiste en proporcionar al alumnado herramientas para que se desenvuelva correctamente en el futuro, a esto se le conoce como alfabetización digital de la población. 
@@ -166,7 +166,7 @@ No solo eso, sino que la demanda social de un conocimiento de programación est�
 
 Sin embargo, las herramientas basadas en la computación evolucionan a un ritmo acelerado: existen multitud de lenguajes de programación diferentes con propósitos distintos También los recursos para aprender en la web son enormes.
 
-## 2.2 Lenguajes de programación
+## 2.2 Lenguajes de programación {#leng}
 
 Un lenguaje de programación es un un medio de comunicación con una computadora, se constituye de una serie de instrucciones (variables, funciones...) con estructura fuertemente definida que proporciona las herramientas necesarias para llevar a cabo ciertas tareas.
 
@@ -196,7 +196,7 @@ No obstante, a la hora de desarrollar el paquete Populy sí se presentaron algun
 
 - R no es estrictamente multipropósito. Este lenguaje fue creado por y para estadistas [@R]. Su paradigma es principalmente el funcional: creación y uso de funciones de manera similar al comportamiento de las funciones matemáticas. Python sí es multipropósito y soporta de forma adecuada la orientación a objetos, que se explicará más adelante.
 
-- Soporte con libretas *Jupyter*, como se menciona en el capítulo de [Jupyter Notebook]. Estas libretas fueron creadas para Python y, aunque a día de hoy soportan R y otros lenguajes, es mucho más común encontrarlas en Python antes que en R.
+- Soporte con libretas *Jupyter*, como se menciona en el capítulo de [Jupyter Notebook](#jup). Estas libretas fueron creadas para Python y, aunque a día de hoy soportan R y otros lenguajes, es mucho más común encontrarlas en Python antes que en R.
 
 Como se puede observar, las diferencias son muy sutiles y cualquiera de ambos podría haberse empleado. La finalidad al escoger uno u otro lenguaje era emplear un medio que no fuese complejo y que permitiera introducirse en el mundo de la programación.
 
@@ -210,7 +210,7 @@ Populy se desarrolló en Python principalmente debido a su sencillez de uso [@Jo
 
 Los objetos son una herramienta que permiten encapsular el código similar en bloques comunes, haciendo el programa más legible. Esto es lo que se buscaba a la hora de desarrollar Populy debido a que uno de los objetivos es crear una población que contendría unos individuos. Mediante el paradigma de la orientación a objetos se entiende que tanto población como individuo deben ser dos clases de objetos distintas, que tendrán un tipo de relación determinada que les permitirá interactuar.
   
-## 2.3 Jupyter notebook 
+## 2.3 Jupyter notebook {#jup}
 
 El proyecto Jupyter es una colaboración para el desarrollo de herramientas de libre uso (open-source) para realizar análisis exploratorios y computacionales de forma interactiva. El proyecto Jupyter fue creado en 2014 a partir de Ipython, aunque actualmente soporta más de 100 lenguajes de programación diferentes [@Kluyver2016jupyter]. Dentro del ecosistema Jupyter se encuentran las Jupyter *notebooks*, libretas Jupyter de ahora en adelante. Estas libretas son un entorno web que tuvo su origen en la facilidad de realizar y compartir análisis de datos. Sin embargo, desde hace unos años esta herramienta se está empleando en las aulas con propósitos educativos de una gran variedad de formas distintas. 
 
@@ -255,7 +255,7 @@ Dado que el Populy está pensado para el uso interactivo en aulas, se ha creado 
 
 [mybinder.org/v2/gh/R-mario/Populy-notebooks/HEAD](https://mybinder.org/v2/gh/R-mario/Populy-notebooks/HEAD)
 
-Estas cuatro libretas también se han añadido al [Apéndice] como archivos de texto plano.
+Estas cuatro libretas también se han añadido al [Apéndice](#apen) como archivos de texto plano.
 
 En este laboratorio virtual el estudiante puede acceder a un total de 4 libretas, situadas en el menú izquierdo de la web. El contenido de estas libretas es:
 
@@ -356,7 +356,7 @@ Por tanto, para simular el proceso de selección natural se requiere una poblaci
 
 1. individuos variables: para conseguir esto solo es necesario que la población inicial (generación 0) tenga alelos diferentes.
 
-2. variación heredable: la características genéticas de un individuo deben ser heredables, esta transmisión de las características genéticas viene determinada por la [Arquitectura genética].
+2. variación heredable: la características genéticas de un individuo deben ser heredables, esta transmisión de las características genéticas viene determinada por la [Arquitectura genética](#arq).
 
 3. Supervivencia/éxito reproductivo diferencial: es posible simular la aptitud biológica de dos formas: asignando un valor que indique el numero promedio de descendientes según su genotipo o un valor que indique su tasa de supervivencia. Para esta simulación el *fitness* de un individuo será la probabilidad de supervivencia asignada a su genotipo. Es decir, la variación genética resulta en probabiliades diferentes de sobrevivir hasta la edad reproductiva. A modo de ejemplo: aquellos individuos con un genotipo cuyo *fitness* sea `0.2` tendrán un 20% de probabilidades de supervivencia durante el desarrollo.
 
@@ -366,7 +366,7 @@ La migración se puede entender como el intercambio genético (*gene flow*) entr
 
 Para modelar la migración de forma realista se requiere de otra población y romper el aislamiento durante el proceso de evolución. En la simulación no se encuentra implementada la migración.
 
-### 3.2.4 Deriva genética
+### 3.2.4 Deriva genética {#der}
 
 En ausencia de mutación, selección, migración y suponiendo un apareamiento aleatorio se hace evidente un mecanismo llamado deriva genética.
 
@@ -390,7 +390,7 @@ Con todo esto, es más habitual simular las poblaciones sometidas a una o más f
 
 Estas son las características generales de la población, sin embargo existen otros parámetros que corresponden al individuo, de todos ellos el más relevante es su estructura o arquitectura genética.
 
-## 3.4 Arquitectura genética
+## 3.4 Arquitectura genética {#arq}
 
 En una población diploide cada individuo posee dos copias homólogas de cada cromosoma autosómico. En los cromosomas se sitúa todo el conjunto de loci del individuo. Se utiliza la notación de *loci* en lugar de *genes* porque es más correcta, ya que un locus hace referencia a un lugar del cromosoma que no tiene por qué ser un gen. Sin embargo, para los propósitos explicativos, se puede utilizar genes para mayor claridad. 
 
@@ -406,11 +406,11 @@ Durante el proceso evolutivo es la frecuencia de recombinación la que represent
 
 Así pues, el desequilibrio de ligamiento se utiliza para crear una población mientras que la frecuencia de recombinación se usa durante la evolución.
 
-# 4 Populy: uso y estructura
+# 4 Populy: uso y estructura {#uso}
 
 Populy surge con el objetivo de aproximar conceptos de evolución y la programación a alumnos de la rama de la biología debido a las deficiencias observadas en los programas utilizados como Populus, descrito en apartados anteriores. El objetivo es que los alumnos sean partícipes activos en el estudio de los procesos evolutivos mientras aprenden algunos fundamentos básicos de la programación, enfocada en Python.
 
-## 4.1 Método de uso
+## 4.1 Método de uso {#met}
 
 El paquete está pensado para su uso junto a las libretas Jupyter, diseñadas específicamente para usuarios nuevos en este entorno virtual. Mediante estas libretas se muestran cuáles son los métodos esenciales para llevar a cabo la creación, iniciación, evolución y obtención de resultados de una población, así como algunos ejercicios para que el usuario pueda experimentar y crear diferentes poblaciones. 
 Aún con ésto, Populy se puede utilizar de forma local como un paquete cualquiera, siempre y cuando Python esté correctamente instalado. A continuación, se procederá a explicar el proceso que se debe seguir para el uso correcto del paquete desde 0:
@@ -438,7 +438,7 @@ Una vez instalado el paquete es necesario cargarlo en memoria (entorno de ejecuc
 import Populy
 ```
 
-Esta es la forma sencilla de cargar el paquete en el entorno de ejecución, sin embargo será preferible realizarlo de esta manera. Para entender la sintaxis de los *imports* se recomienda consultar el [Estructura].
+Esta es la forma sencilla de cargar el paquete en el entorno de ejecución, sin embargo será preferible realizarlo de esta manera. Para entender la sintaxis de los *imports* se recomienda consultar el [Estructura](#est).
 
 ```{python}
 from populy.population import Population
@@ -482,7 +482,7 @@ Este método inicia a los individuos, que tendrán las características especifi
 Para ver información sobre algunos de estos individuos se puede ejecutar el siguiente código
 
 ```{python}
-poblacion.printIndividuals(show=3)
+poblacion.printIndividuals(show=5)
 ```
 
 Una vez iniciados los individuos en la población se considera que éstos son la generación número 0.
@@ -519,16 +519,16 @@ Como se indica dentro del paréntesis, el código devuelve una tabla donde queda
 Si lo que se busca es obtener una representación gráfica de este proceso es necesario ejecutar el siguiente código:
 
 
-```{python, fig.cap = "Representación gráfica de la variación de las frecuencias alélicas para los alelos mayores", out.height="50%", out.width="75%", fig.env='figure'}
+```{python, fig.cap = "Representación gráfica de la variación de las frecuencias alélicas para los alelos mayores", out.height="50%", out.width="75%", fig.env='figure', fig.align = 'center'}
 from populy.plot import Plot
 Plot.alleles(allelicF)
 
 ```
 
 
-La sintaxis es diferente porque se utiliza `Plots` del paquete Populy ([Estructura interna] ) para representar gráficamente.
+La sintaxis es diferente porque se utiliza `Plots` del paquete Populy ([Estructura interna](#est) ) para representar gráficamente.
 
-Tal y como se observa, la población ha evolucionado ya que las frecuencias alélicas han sufrido cambios durante las generaciones.
+La población ha evolucionado ya que las frecuencias alélicas han sufrido cambios durante las generaciones, tal y como se observa en la siguiente figura.
 
 Para este caso de uso en el que no se ha introducido al principio ningún parámetro de *fitness*,mutación ni recombinación y al no existir migración se puede decir que la fuerza evolutiva que actúa para producir el cambio ha sido la deriva genética. Tal y como se observa, aun con un tamaño de `r py$tam` individuos la influencia de este mecanismo es apreciable y similar a lo que podría observarse en una población sometida a selección natural.
 
@@ -542,7 +542,7 @@ Para una explicación más detallada e interactiva es recomendable acudir al [la
 
 En el siguiente código se llevará a cabo la simulación y visualización del efecto de la deriva genética en el cambio evolutivo.
 
-La [Deriva genetica] es el proceso de cambio debido al error aleatorio del muestreo, al tratarse de una consecuencia de la reproducción aleatoria y muestreo su efecto se ve magnificado en poblaciones de tamaños reducidos, la consecuencia observable de la deriva es la fijación alélica y la pérdida de heterocigosidad promedio. 
+La [Deriva genetica](#der) es el proceso de cambio debido al error aleatorio del muestreo, al tratarse de una consecuencia de la reproducción aleatoria y muestreo su efecto se ve magnificado en poblaciones de tamaños reducidos, la consecuencia observable de la deriva es la fijación alélica y la pérdida de heterocigosidad promedio. 
 
 Para este ejemplo se utilizará un módulo de Populy llamado `superpop`, este módulo permite simular de forma simultánea varias poblaciones con las mismas características, haciendo que los efectos de la deriva genética puedan ser observados con mayor claridad.
 
@@ -602,9 +602,9 @@ Figure 7: Efecto de la deriva genética para dos locus A y B de 6 poblaciones de
 
 Se puede observar el efecto esperado: a mayor tamaño de población menor es el efecto de la deriva genética y menor es la desviación con respecto al valor esperado en ausencia de otra fuerza evolutiva, es decir, la población se acerca más al equilibrio de Hardy-Weinberg.
 
-En el [Apéndice] se muestra otro ejemplo de mayor complejidad que incluye mutación, selección en más de dos alelos.
+En el [Apéndice](#apen) se muestra otro ejemplo de mayor complejidad que incluye mutación, selección en más de dos alelos.
 
-## 4.2 Estructura interna
+## 4.2 Estructura interna {#est}
 
 Al comienzo se definieron los objetivos específicos del paquete, que son:
 
@@ -612,9 +612,9 @@ Al comienzo se definieron los objetivos específicos del paquete, que son:
 2. Que un usuario sin conocimientos programación pueda comprender qué está sucediendo.
 3. Obtener unos resultados, preferiblemente en formato gráfico, que permitan visualizar el fenómeno estudiado.
 
-Más tarde, se comenzó con el desarrollo del software, en esta etapa es necesario establecer un esquema o sistema general. Se pueden establecer tres entidades esenciales a la hora de desarrollar este tipo de simulaciones: la población, el individuo y el genoma/cromosoma. Desde un principio quedó claro que el usuario debía poder interactuar de forma sencilla con la población, ya que es el objeto de estudio, los objetos individuos y genoma serian características las cuales el usuario no debía interactuar directamente pero debían quedar accesibles a través de la población.
+Más tarde, se comenzó con el desarrollo del software, en esta etapa es necesario establecer un esquema o sistema general. Se pueden establecer tres entidades esenciales a la hora de desarrollar este tipo de simulaciones: la población, el individuo y el genoma/cromosoma. Desde un principio quedó claro que el usuario debía poder interactuar de forma sencilla con la población, ya que es el objeto de estudio, los objetos individuos y genoma serian características las cuales el usuario no debía utilizar directamente pero debían quedar accesibles a través de la población.
 
-Con la ventaja de ser un lenguaje multiparadigma, Python permite definir una estructura de programación muy flexible y poco restrictiva. Se eligió el paradigma orientado a objetos (OOP) debido a la idoneidad de modelar una población creando una plantilla para la creación de objetos con unas características y funciones determinadas. A estas plantillas, en el paradigma de orientación a objetos se les conoce como Clases, cada clase representa una entidad, objeto o concepto determinado. Cada clase está compuesta por unas características y unos comportamientos que la definen. A las características se les conoce como atributos y a los comportamientos como métodos (o funciones de clase/instancia), ver [Lenguajes de programación]. 
+Con la ventaja de ser un lenguaje multiparadigma, Python permite definir una estructura de programación muy flexible y poco restrictiva. Se optó por el paradigma orientado a objetos (OOP) debido a la idoneidad de modelar una población creando una plantilla para la creación de objetos con unas características y funciones determinadas. A estas plantillas, en el paradigma de orientación a objetos se les conoce como Clases, cada clase representa una entidad, objeto o concepto determinado. Cada clase está compuesta por unas características y unos comportamientos que la definen. A las características se les conoce como atributos y a los comportamientos como métodos (o funciones de clase/instancia), ver [Lenguajes de programación](#leng). 
 
 En el caso de Populy debían existir, como mínimo, dos clases diferentes: la población y el individuo. A partir de este modelo de clases un usuario debía poder crear un nuevo objeto que pertenezca a una de estas clases, esto es, una población determinada. El proceso de crear un nuevo objeto se le conoce como instanciación. Tras crear el objeto y pasarle los valores que debe tener esa población el usuario debería llamar a los métodos correspondientes para llevar a cabo el proceso de evolución, entre otros.
 
@@ -657,7 +657,7 @@ Además de estos módulos, el paquete también contiene otros archivos necesario
 
 Tras finalizar una versión el paquete se subió a PyPi[@pypi], el repositorio de paquetes de Python, para que pudiese ser instalado en cualquier ordenador con Python mediante el comando `pip`.
 
-Para finalizar el trabajo se creó el laboratorio virtual utilizando *mybinder*. Este laboratorio contiene 3 libretas Jupyter que pretenden introducir al alumnado a los conceptos esenciales del trabajo, que son: el entorno Jupyter, la programación en Python y el paquete Populy. Junto a un ejercicio que requiere la integración de los conocimientos adquiridos, especialmente en lo que respecta al uso de Populy. Para conocer más sobre el entorno Jupyter y las libretas creadas puede consultarlo en la sección de [Jupyter notebook].
+Para finalizar el trabajo se creó el laboratorio virtual utilizando *mybinder*. Este laboratorio contiene 3 libretas Jupyter que pretenden introducir al alumnado a los conceptos esenciales del trabajo, que son: el entorno Jupyter, la programación en Python y el paquete Populy. Junto a un ejercicio que requiere la integración de los conocimientos adquiridos, especialmente en lo que respecta al uso de Populy. Para conocer más sobre el entorno Jupyter y las libretas creadas puede consultarlo en la sección de [Jupyter notebook](#jup).
 
 Por último, el formato de redacción de este trabajo ha sido posible mediante r-markdown, un formato de archivos para hacer documentos dinámicos e integrar código junto a texto de forma orgánica. Aunque internamente sea diferente a las libretas Jupyter, los archivos r-markdown también permiten escribir texto en formato markdown y bloques de código ejecutables, junto a la capacidad de construir archivos pdf o html estilizados.
 
@@ -665,7 +665,7 @@ Puede consultarse todo el código y sus versiones en el siguiente [Repositorio d
 
 ## 4.3 Perspectiva y limitaciones
 
-Populy es un paquete de simulación de procesos evolutivos desarrollado en Python con propósitos educativos. Uno de los objetivos de éste era crear un software acceso libre para que cualquier persona pueda utilizarlo. No solo esto, la idea es que el mismo paquete pueda sufrir modificaciones para incluir mejoras en el rendimiento, estructurales y nuevas simulaciones más avanzadas. 
+Populy es un paquete de simulación de procesos evolutivos desarrollado en Python con propósitos educativos. Uno de los [objetivos](#obj) de éste era crear un software acceso libre para que cualquier persona pueda utilizarlo. No solo esto, la idea es que el mismo paquete pueda sufrir modificaciones para incluir mejoras en el rendimiento, estructurales y nuevas simulaciones más avanzadas. 
 
 En estos momentos Populy tiene limitaciones en el rendimiento al simular grandes poblaciones con varios loci, sería interesante poder revisar la implementación en el código fuente en este aspecto para mejorar su tiempo de simulación. 
 
@@ -695,13 +695,13 @@ Y por último, pretende introducir conceptos sencillos de programación a estudi
 
 <div id="refs"></div>
 \newpage
-# Apéndice
+# Apéndice {#apen}
 
 \addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
 
 ## Ejercicio extra
 
-Se incluye otro ejemplo más avanzado del paquete Populy, donde se combina mutación, selección y se utilizan otros métodos no vistos en el apartado [Método de uso].
+Se incluye otro ejemplo más avanzado del paquete Populy, donde se combina mutación, selección y se utilizan otros métodos no vistos en el apartado [Método de uso](#met).
 
 Población de tamaño 500, diploide, con tres locus (A,B,C) y dos alelos por locus. El alelo mayor domina sobre el otro en la población inicial con una frecuencia de 0.9 vs 0.1 para los tres loci.
 
@@ -794,7 +794,7 @@ Prueba a ejecutarla para ver el resultado.
 
 Si todo ha funcionado correctamente habrá aparecido el texto "Hola mundo!" bajo el bloque de código. Eso es el output de la consola.
 
-En el caso de que no funcione es posible que tengas que reiniciar el [kernel].
+En el caso de que no funcione es posible que tengas que reiniciar el kernel.
 
 **Nota**: ves a *settings*>*Theme*>*Jupyterlab dark* para cambiar a modo oscuro si quieres.
 
