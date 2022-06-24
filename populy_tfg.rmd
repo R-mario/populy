@@ -280,9 +280,9 @@ A modo de norma, una población se observa en un tiempo determinado X, en el cua
 
 Existen numerosas aproximaciones a este tipo de problemas, normalmente tratadas mediante análisis numérico. En los últimos años han cobrado popularidad las simulaciones de población porque permiten, como su nombre indica, simular todo el proceso evolutivo en una u otra dirección, obteniendo tanto el resultado final como la información del proceso [@Carvajal-Rodriguez2008].
 
-A la primera forma de evolucionar una población (`X -> X+n`)se la conoce como *forward simulation* o simulaciones de tiempo hacia adelante [@Peng2010-ie]. En estas simulaciones la población parte de un estado X en un momento 0 y se hace avanzar en el tiempo (generaciones) hasta llegar a otro estado. Durante el proceso se aplica una serie de funciones y/o modelos que permitirán una evolución de la población. Una vez terminada, se obtiene un informe en formato gráfico o tabular donde queda constancia del proceso, del estado inicial y del estado final. Este tipo de simulaciones son más complejas computacionalmente ya que requiere crear diversos individuos durante varias generaciones; sin embargo, tanto el proceso como sus resultados son más similares a la evolución de las especies.
+A la primera forma de evolucionar una población (`X -> X+n`) se la conoce como *forward simulation* o simulaciones de tiempo hacia adelante [@Peng2010-ie]. En estas simulaciones la población parte de un estado X en un momento 0 y se hace avanzar en el tiempo (generaciones) hasta llegar a otro estado. Durante el proceso se aplica una serie de funciones y/o modelos que permitirán una evolución de la población. Una vez terminada, se obtiene un informe en formato gráfico o tabular donde queda constancia del proceso, del estado inicial y del estado final. Este tipo de simulaciones son más complejas computacionalmente ya que requiere crear diversos individuos durante varias generaciones; sin embargo, tanto el proceso como sus resultados son más similares a la evolución de las especies.
 
-Existen otros métodos, como los basados en la teoría de la coalescencia [@Nordborg2000], que parten de una población final y buscan los antepasados más probables para ese estado de forma sucesiva hasta llegar al estado inicial(`X -> 0`). A estas simulaciones se las conoce como *reverse simulation* o simulaciones tiempo hacia atrás ya que su forma de funcionar es inversa. Son computacionalmente más eficientes y útiles cuando el objetivo es obtener un ancestro común para una población, sin embargo son menos realistas y menos intuitivas.
+Existen otros métodos, como los basados en la teoría de la coalescencia [@Nordborg2000], que parten de una población final y buscan los antepasados más probables para ese estado de forma sucesiva hasta llegar al estado inicial (`X -> 0`). A estas simulaciones se las conoce como *reverse simulation* o simulaciones tiempo hacia atrás ya que su forma de funcionar es inversa. Son computacionalmente más eficientes y útiles cuando el objetivo es obtener un ancestro común para una población. Sin embargo, son menos realistas y menos intuitivas para la persona usuaria poco familiarizada con este tipo de simulaciones.
 
 Para este trabajo se ha optado por las simulaciones de tiempo hacia adelante debido a que uno de los objetivos de Populy es permitir a los alumnos el aprendizaje de conceptos de biología evolutiva y genética de poblaciones, este tipo de simulaciones son muy sencillas de comprender porque emulan el comportamiento de una población y también son más útiles para explicar conceptos clave de la evolución.
 
@@ -380,7 +380,7 @@ Este mecanismo está presente en todas las poblaciones, aunque el efecto es desp
 
 Para simular la deriva genética, es conveniente reducir el tamaño de la población a 10-50 individuos, eliminar el resto de fuerzas (selección y mutación) e incluir varios loci en la población para ver la pérdida de alelos que se produce. Tras las suficientes generaciones, todos los loci quedarán fijados para uno u otro alelo.
 
-## 3.3 Equilibrio de Hardy-Weimberg
+## 3.3 Equilibrio de Hardy-Weinberg
 
 Cuando no actúa ninguna de las cuatro fuerzas mencionadas se puede alcanzar una situación de equilibrio llamado Hardy-Weinberg. En este estado se dice que, tras una generación de apareamientos aleatorios, las frecuencias alélicas de la generación parental serán iguales a las de la generación descendiente. Una población en equilibrio se trata de una población sin cambio evolutivo. Aunque esto no ocurre en poblaciones reales, simular una población en equilibrio de Hardy-Weinberg ya permite estudiar diversas características de una población y permite compararlas con otros casos donde actúe una o más fuerzas. Un modelo de Wright-Fisher con un tamaño de población infinito cumplirá las condiciones para que se de el equilibrio de Hardy-Weinberg.
 
@@ -620,7 +620,7 @@ En el caso de Populy debían existir, como mínimo, dos clases diferentes: la po
 
 Tras establecer la estructura se comenzó su creación. Para ello fueron esenciales dos herramientas: un editor de texto, para escribir el código, y un control de versiones para registrar los cambios.
 
-Se empleó Visual Studio Code como un editor de textos avanzado, una de las ventajas de este editor es que permite ejecutar código un gran cantidad de lenguajes, incluido Python, así como leer y modificar libretas Jupyter (archivos `.ipynb`). Dado que el paquete está especialmente pensado para ser utilizado en este tipo de libretas era conveniente tener una forma rápida y accesible de editar estos archivos.
+Se empleó [Visual Studio Code](https://code.visualstudio.com/) como un editor de textos avanzado, una de las ventajas de este editor es que permite ejecutar código un gran cantidad de lenguajes, incluido Python, así como leer y modificar libretas Jupyter (archivos `.ipynb`). Dado que el paquete está especialmente pensado para ser utilizado en este tipo de libretas era conveniente tener una forma rápida y accesible de editar estos archivos.
 
 El sistema de control de versiones empleado fue git y github. Este software permite llevar un registro de todos los cambios realizados en el programa de forma profesional, crear ramas sobre las que tener registros diferentes, recuperar versiones anteriores, entre otros. Github, por otro lado, permite la integración web del programa desarrollado y sus versiones, su funcionamiento consiste en un repositorio online en la página web donde se encuentra tanto los archivos del programa, sus ramas y el historial de versiones. Con estas herramientas (git+github) es posible acceder y descargar el software de forma gratuita. También permite realizar proyectos colaborativos, donde cada usuario contribuye con una parte del proyecto, proponer cambios a una versión y sincronizarlos con otro usuario.
 
@@ -630,11 +630,11 @@ Cuando se desarrolla un software es habitual estructurar las distintas funcional
 
 Así pues, el desarrollo comienza creando 2 módulos dentro del paquete Populy, llamado `population` e `individual`, estos módulos contienen las clases Population e Individual, respectivamente.
 
-La clase `population` debía tener los atributos generales de la población (tamaño, ploidía, frecuencias alélicas iniciales,...) y métodos que permitieran llevar a cabo los diferentes procedimientos para iniciar, evolucionar y obtener información de ella.
+La clase `population` debía tener los atributos generales de la población (tamaño, ploidía, frecuencias alélicas iniciales, ...) y métodos que permitieran llevar a cabo los diferentes procedimientos para iniciar, evolucionar y obtener información de ella.
 
-La clase `individual` debía tener atributos particulares de cada individuo (cromosomas,sexo,padres,..) y también generales, de la población a la cual pertenecen, así como métodos que permitan crear ese individuo desde 0 o a partir de unos padres.
+La clase `individual` debía tener atributos particulares de cada individuo (cromosomas, sexo, padres, ...) y también generales, de la población a la cual pertenecen, así como métodos que permitan crear ese individuo desde 0 o a partir de unos padres.
 
-Más tarde se incluyeron dos nuevos módulos, el primero contendría la clase Superpop, que agrupa la funcionalidad de `population` para llevar a cabo simulaciones de varias poblaciones al mismo tiempo.
+Más tarde se incluyeron dos nuevos módulos, el primero contendría la clase `Superpop`, que agrupa la funcionalidad de `population` para llevar a cabo simulaciones de varias poblaciones al mismo tiempo.
 
 El otro módulo, llamado `plot`, haría posible la representación gráfica de las características de la población.
 
@@ -657,9 +657,9 @@ Además de estos módulos, el paquete también contiene otros archivos necesario
 
 Tras finalizar una versión el paquete se subió a PyPi[@pypi], el repositorio de paquetes de Python, para que pudiese ser instalado en cualquier ordenador con Python mediante el comando `pip`.
 
-Para finalizar el trabajo se creó el laboratorio virtual utilizando *mybinder*. Este laboratorio contiene 3 libretas Jupyter que pretenden introducir al alumnado a los conceptos esenciales del trabajo, que son: el entorno Jupyter, la programación en Python y el paquete Populy. Junto a un ejercicio que requiere la integración de los conocimientos adquiridos, especialmente en lo que respecta al uso de Populy. Para conocer más sobre el entorno Jupyter y las libretas creadas puede consultarlo en la sección de [Jupyter notebook](#jup).
+Para finalizar el trabajo se creó el laboratorio virtual utilizando *mybinder*. Este laboratorio web contiene 3 libretas Jupyter que pretenden introducir al alumnado a los conceptos esenciales del trabajo, que son: el entorno Jupyter, la programación en Python y el paquete Populy. Junto a otra libreta extra con un ejercicio que requiere la integración de los conocimientos adquiridos, especialmente en lo que respecta al uso de Populy. Para conocer más sobre el entorno Jupyter y las libretas creadas puede consultarlo en la sección de [Jupyter notebook](#jup), si quiere leer las libretas éstas se encuentran en el [Apéndice](#apen).
 
-Por último, el formato de redacción de este trabajo ha sido posible mediante r-markdown, un formato de archivos para hacer documentos dinámicos e integrar código junto a texto de forma orgánica. Aunque internamente sea diferente a las libretas Jupyter, los archivos r-markdown también permiten escribir texto en formato markdown y bloques de código ejecutables, junto a la capacidad de construir archivos pdf o html estilizados.
+Por último, el formato de redacción de este trabajo ha sido posible mediante r-markdown [@rmarkdown], un formato de archivos para hacer documentos dinámicos e integrar código junto a texto de forma orgánica. Aunque internamente sea diferente a las libretas Jupyter, los archivos r-markdown también permiten escribir texto en formato *markdown* y bloques de código ejecutables, junto a la capacidad de construir archivos pdf o html estilizados.
 
 Puede consultarse todo el código y sus versiones en el siguiente [Repositorio de Populy](https://github.com/R-mario/populy).
 
@@ -669,7 +669,7 @@ Populy es un paquete de simulación de procesos evolutivos desarrollado en Pytho
 
 En estos momentos Populy tiene limitaciones en el rendimiento al simular grandes poblaciones con varios loci, sería interesante poder revisar la implementación en el código fuente en este aspecto para mejorar su tiempo de simulación. 
 
-Actualmente el genoma se encuentra codificado como una tabla hash o diccionario de pares clave-valor, donde la clave es el locus y el valor el alelo para ese locus. Esta forma, aunque sencilla y eficaz para pocos loci, se convierte en una opción limitada al aumentar el número de genes. Existen alternativas como almacenar los cromosomas en un array de bits, mediante este método más compacto sería posible simular loci enteros según su secuencia genética, haciendo el modelo mucho más realista y permitiendo simulaciones más avanzadas, también haría posible simular más de dos alelos, así como mutaciones de un solo nucleótido e incluso delecciones e inserciones.
+Actualmente el genoma se encuentra codificado como una mapa *hash* o diccionario de pares clave-valor, donde la clave es el locus y el valor el alelo para ese locus. Esta forma, aunque sencilla y eficaz para pocos loci, se convierte en una opción limitada al aumentar el número de genes. Existen alternativas como almacenar los cromosomas en un array de bits, mediante este método más compacto sería posible simular loci enteros según su secuencia genética, haciendo el modelo mucho más realista y permitiendo simulaciones más avanzadas, también haría posible simular más de dos alelos, así como mutaciones de un solo nucleótido e incluso delecciones e inserciones.
 
 Otro obstáculo es el número de autosomas, en la actualidad Populy solamente soporta un único cromosoma. Aunque para simulaciones de pocos genes puede ser adecuado también le resta realismo a la simulación.
 
@@ -691,11 +691,11 @@ En segundo lugar porque explora las nuevas herramientas de computación interact
 
 Y por último, pretende introducir conceptos sencillos de programación a estudiantes con pocas o nulas nociones, una habilidad muy demandada y útil, en especial con los avances que tienen lugar en la biocomputación.
 
-# Referencias
+# 6 Referencias
 
 <div id="refs"></div>
 \newpage
-# Apéndice {#apen}
+# 7 Apéndice {#apen}
 
 \addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
 
@@ -766,6 +766,10 @@ print(obs,roundexp,sep="\n")
 Tal y como era esperado el número de genotipos observados no coinciden con las esperados. A partir de los resultados obtenidos se puede realizar el test chi-cuadrado para rechazar la hipótesis nula.
 
 *****
+
+A continuación se encuentra las libretas (`.ipynb`) transformadas a formato *markdown* (`.md`), esto permite adjuntar y visualizar tanto el texto como el código en este trabajo pero se pierde la interactividad característica del formato *Jupyter notebook*. Para comprender los archivos en su contexto es recomendable acudir al repositorio de *MyBinder* mediante el siguiente enlace:
+
+[mybinder.org/v2/gh/R-mario/Populy-notebooks/HEAD](https://mybinder.org/v2/gh/R-mario/Populy-notebooks/HEAD)
 
 ## Libreta 1: Comienza en Jupyter
 
