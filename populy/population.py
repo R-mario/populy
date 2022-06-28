@@ -222,6 +222,7 @@ class Population:
             
         plt.suptitle(f"Population with {self.size} individuals",fontsize=18)
         plt.subplots_adjust(top=0.85)
+        plt.tight_layout()
         plt.show()
         
     #to be implemented
@@ -513,13 +514,12 @@ class Population:
                 
                 completed = ((veces+1)/gens)*100
                 if completed < 100:
-                    #os.system('cls') error al ejecutar en rmarkdown
-                    #clear_output(wait=True)
-                    # print(f"{round(completed,1)}% completado...")
-                    pass
+                    os.system('cls')
+                    clear_output(wait=True)
+                    print(f"{round(completed,1)}% completado...")
         else:
-            #clear_output(wait=True)
-            #os.system('cls')
+            clear_output(wait=True)
+            os.system('cls')
             # self.getInfo()
             print("¡Evolucion completada!")
                 

@@ -1,7 +1,7 @@
 # Populy
 
-Populy es un paquete de Python que permite llevar a cabo una simulación de tipo *forward time*. 
-El paquete consta varios módulos con sus respectivas clases que permiten llevar a cabo la creación de 0 de una población, la evolucion de ésta y la obtención de unos informes, gráficos y resultados de la evolución.
+Populy es un paquete de Python que permite llevar a cabo una simulación de tipo *forward evolution*. 
+El paquete consta varios módulos con sus respectivas clases que permiten llevar a cabo la creación de 0 de una población, la evolucion de ésta y la obtención de tablas y gráficos del resultado de la evolución.
 
 
 ## Instalación
@@ -13,14 +13,14 @@ pip install Populy
 ```python
 from populy.population import Population
 
-# crea un objeto de la clase Poblacion
+# crea un objeto de la clase Population
 pop = Population(size=1000, 
                 ploidy=2)
 
-# genera individuos en la poblacio'n
+# genera individuos en la población
 pop.generateIndividuals()
 
-# hace evolucionar a la Poblacion
+# hace evolucionar a la Población
 pop.evolvePop(gens=200)
 ```
 Para una explicación más detallada consultar el cuaderno [Guía de uso](Guia de uso.ipynb)
