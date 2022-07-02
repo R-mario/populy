@@ -210,9 +210,9 @@ class Population:
         fig.tight_layout(h_pad=2.1)  
         
         plt.style.context("ggplot")
-        caption=f"""Initial conditions: allelic f.={self.freq}, recombination f.={self.R}
-        mutation f.={self.mu}"""
-        plt.figtext(0.5, 0.01, caption, wrap=True, horizontalalignment='center', fontsize=10)
+        # caption=f"""Initial conditions: allelic f.={self.freq}, recombination f.={self.R}
+        # mutation f.={self.mu}"""
+        # plt.figtext(0.5, 0.01, caption, wrap=True, horizontalalignment='center', fontsize=10)
         
         with plt.style.context("ggplot"):
             Plot.alleles(al_df,show=False,ax=ax[0,0])
@@ -220,12 +220,11 @@ class Population:
             Plot.sex(sex_df,show=False,ax=ax[1,0])
             Plot.mutations(mu_df,show=False,ax=ax[1,1])
             
-        plt.suptitle(f"Population with {self.size} individuals",fontsize=18)
+        plt.suptitle(f"Population with {self.size} individuals",fontsize=18,y=1.05)
         plt.subplots_adjust(top=0.85)
         plt.tight_layout()
         plt.show()
         
-    #to be implemented
     def createdf(data,index=None,columns=None):
         '''Create a dataframe from a dictionary'''
         dataF=pd.DataFrame(data,index=index)
@@ -519,7 +518,6 @@ class Population:
                     print(f"{round(completed,1)}% completado...")
         else:
             clear_output(wait=True)
-            os.system('cls')
             # self.getInfo()
             print("¡Evolucion completada!")
                 
